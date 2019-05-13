@@ -54,10 +54,33 @@ void In_out_handler::login(vector<string> line_parts) {
             username = line_parts[++i];
         else if( line_parts[i] == "password" )
             password = line_parts[++i];
-        else
-            cout << "kir to vorodi" << endl;
     }
     manager->login(username, password);
+    cout << DONE_MASSAGE << endl;
+}
+
+void In_out_handler::post_film(vector<string> line_parts) {
+    string name;
+    string summary;
+    string director;
+    int year;
+    int lenght;
+    int price;
+    for(int i = 0; i < line_parts.size(); i++) {
+        if( line_parts[i] == "name" )
+            name = line_parts[++i];
+        else if( line_parts[i] == "year" )
+            year = stoi(line_parts[++i]);
+        else if( line_parts[i] == "length" )
+            lenght = stoi(line_parts[++i]);
+        else if( line_parts[i] == "price" )
+            price = stoi(line_parts[++i]);
+        else if( line_parts[i] == "summary" )
+            summary = line_parts[++i];
+        else if( line_parts[i] == "director" )
+            director = line_parts[++i];
+    }
+    manager->add_film(name, year, lenght, price, summary, director);
     cout << DONE_MASSAGE << endl;
 }
 
@@ -72,6 +95,8 @@ void In_out_handler::input_reader() {
                 signup(line_parts);
             else if( action == "login" )
                 login(line_parts);
+            else if( action == "films" )
+                post_film(line_parts);
             
         }
         else if( command == "PUT" ) {

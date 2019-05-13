@@ -16,10 +16,10 @@ public:
     void add_publisher(std::string email, std::string username, std::string password, int age);
     void add_customer(std::string email, std::string username, std::string password, int age);
     void login(std::string username, std::string password);
-    void add_film();
+    void add_film(std::string name, int year, int length, int price, std::string summary, std::string director);
 private:
     User* cur_user;
-    std::vector<User> users;
+    std::vector<User*> users;
     std::vector<Film*> films;
     std::vector<Comment*> commnets;
 }; 

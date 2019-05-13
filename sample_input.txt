@@ -2,4 +2,6 @@ POST signup ? email fuck@gmail.com username fuck password 123 age 12 publisher t
 POST signup ? email youu@gmail.com username youu password 456 age 13 publisher false
 POST signup ? email maan@gmail.com username maan password 789 age 14 
 POST login ? username fuck password 123
-POST login ? username sdjf password sjdhf
+POST films ? name sfand year 1983 length 180 price 1800 summary someone|fucks director soltan|pasra
+POST login ? username youu password 456
+POST films ? name sds year 1211 length 23 price 23234 summary wudfyud director dhfldkjhf

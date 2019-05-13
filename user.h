@@ -5,10 +5,14 @@
 #include <string>
 #include <vector>
 
+class Film;
+
 class User {
 public:
     User(int _id, std::string _email, std::string _username, std::string _password, int _age);
     User* vertification(std::string _username, std::string _password);
+    virtual void add_film(Film* film) {}
+    virtual std::string get_type() {}
 private:
     int id;
     int spendable_money;
