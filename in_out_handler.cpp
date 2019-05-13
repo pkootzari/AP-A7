@@ -43,6 +43,22 @@ void In_out_handler::signup(vector<string> line_parts) {
         manager->add_publisher(email, username, password, age);
     else
         manager->add_customer(email, username, password, age);
+    cout << DONE_MASSAGE << endl;
+}
+
+void In_out_handler::login(vector<string> line_parts) {
+    string username;
+    string password;
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "username" )
+            username = line_parts[++i];
+        else if( line_parts[i] == "password" )
+            password = line_parts[++i];
+        else
+            cout << "kir to vorodi" << endl;
+    }
+    manager->login(username, password);
+    cout << DONE_MASSAGE << endl;
 }
 
 void In_out_handler::input_reader() {
@@ -54,6 +70,8 @@ void In_out_handler::input_reader() {
             string action = line_parts[1];
             if( action == "signup" )
                 signup(line_parts);
+            else if( action == "login" )
+                login(line_parts);
             
         }
         else if( command == "PUT" ) {

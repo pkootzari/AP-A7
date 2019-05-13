@@ -15,6 +15,7 @@ public:
     Manager();
     void add_publisher(std::string email, std::string username, std::string password, int age);
     void add_customer(std::string email, std::string username, std::string password, int age);
+    void login(std::string username, std::string password);
     void add_film();
 private:
     User* cur_user;

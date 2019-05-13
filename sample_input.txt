@@ -1,3 +1,5 @@
 POST signup ? email fuck@gmail.com username fuck password 123 age 12 publisher true
 POST signup ? email youu@gmail.com username youu password 456 age 13 publisher false
 POST signup ? email maan@gmail.com username maan password 789 age 14 
+POST login ? username fuck password 123
+POST login ? username sdjf password sjdhf
