@@ -1,6 +1,7 @@
 #ifndef MANAGER_H_
 #define MANAGER_H_
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include "user.h"
@@ -9,13 +10,16 @@
 #include "film.h"
 #include "comment.h"
 
-class Manger {
+class Manager {
 public:
-    Manger();
+    Manager();
+    void add_publisher(std::string email, std::string username, std::string password, int age);
+    void add_customer(std::string email, std::string username, std::string password, int age);
+    void add_film();
 private:
     User* cur_user;
     std::vector<User> users;
-    std::vector<Film> films;
+    std::vector<Film*> films;
     std::vector<Comment*> commnets;
 }; 
 

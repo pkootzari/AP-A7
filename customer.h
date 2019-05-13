@@ -10,7 +10,7 @@ class Publisher;
 
 class Customer : public User {
 public:
-    Customer();
+    Customer(int _id, std::string _email, std::string _username, std::string _password, int _age);
 private:
     std::vector<Film*> purchased;
     std::vector<Publisher*> followings;

@@ -1,6 +1,7 @@
 #ifndef PUBLISHER_H_
 #define PUBLISHER_H_
 
+#include <string>
 #include <vector>
 #include "user.h"
 #include "film.h"
@@ -10,7 +11,7 @@ class Customer;
 
 class Publisher : public User {
 public:
-    Publisher();
+    Publisher(int _id, std::string _email, std::string _username, std::string _password, int _age);
 private:
     int deposible_money;
     std::vector<Film*> published;

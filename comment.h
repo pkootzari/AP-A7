@@ -6,7 +6,7 @@
 
 class Comment {
 public:
-    Comment();
+    Comment(int _id, std::string content);
 private:
     int id;
     std::vector<std::string> comments_replies;
