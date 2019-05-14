@@ -15,6 +15,7 @@ public:
     Publisher(int _id, std::string _email, std::string _username, std::string _password, int _age);
     virtual void add_film(Film* film);
     virtual std::string get_type();
+    virtual bool delete_film(int film_id);
 private:
     int deposible_money;
     std::vector<Film*> published;

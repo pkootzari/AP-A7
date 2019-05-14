@@ -112,6 +112,19 @@ void In_out_handler::edit_film(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::delete_film(vector<string> line_parts) {
+    int film_id;
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "film_id" )
+            film_id = stoi(line_parts[++i]);
+        else
+            cout << "vorodie kiri" << endl;
+    }
+
+    manager->delete_film(film_id);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -134,7 +147,9 @@ void In_out_handler::input_reader() {
 
         }
         else if( command == "DELETE" ) {
-
+            string action = line_parts[1];
+            if( action == "films" )
+                delete_film(line_parts);
         }
         else if( command == "GET" ) {
 

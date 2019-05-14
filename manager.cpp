@@ -52,3 +52,17 @@ void Manager::edit_film(int film_id, string name, int year, int length, int pric
     if(i == films.size())
         cout << "ridi ddsh" << endl;
 }
+
+void Manager::delete_film(int film_id) {
+    int i;
+    for(i = 0; i < films.size(); i++) 
+        if(films[i]->get_id() == film_id) {
+            films.erase(films.begin() + i);
+            break;
+        }
+    
+    if(cur_user->get_type() == "publisher")
+        cur_user->delete_film(film_id);
+    else
+        cout << "nmitoni ddsh" << endl;
+}

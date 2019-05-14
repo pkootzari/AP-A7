@@ -13,6 +13,7 @@ public:
     User* vertification(std::string _username, std::string _password);
     virtual void add_film(Film* film) {}
     virtual std::string get_type() {}
+    virtual bool delete_film(int film_id) {}
 private:
     int id;
     int spendable_money;

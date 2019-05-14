@@ -16,6 +16,7 @@ public:
     void login(std::vector<std::string> line_parts);
     void post_film(std::vector<std::string> line_parts);
     void edit_film(std::vector<std::string> line_parts);
+    void delete_film(std::vector<std::string> line_parts);
     friend std::vector<std::string> get_command(std::string input);
 private:
     Manager* manager;

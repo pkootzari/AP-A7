@@ -18,6 +18,7 @@ public:
     void login(std::string username, std::string password);
     void add_film(std::string name, int year, int length, int price, std::string summary, std::string director);
     void edit_film(int film_id, std::string name, int year, int length, int price, std::string summary, std::string director);
+    void delete_film(int film_id);
 private:
     User* cur_user;
     std::vector<User*> users;

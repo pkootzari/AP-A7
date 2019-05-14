@@ -3,5 +3,5 @@ POST signup ? email youu@gmail.com username youu password 456 age 13 publisher f
 POST signup ? email maan@gmail.com username maan password 789 age 14 
 POST login ? username fuck password 123
 POST films ? name sfand year 1983 length 180 price 1800 summary someone|fucks director soltan|pasra
-POST login ? username youu password 456
 PUT films ? film_id 1 name bahman year 1988 length 181 director dash|parsa
+DELETE films ? film_id 1

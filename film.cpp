@@ -20,7 +20,6 @@ void Film::edit_film(string name, int year, int length, int price, string summar
         this->summary = summary;
     if(director != "")
         this->director = director;
-
 }
 
  

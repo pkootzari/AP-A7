@@ -12,3 +12,12 @@ void Publisher::add_film(Film* film) {
 }
 
 string Publisher::get_type() { return "publisher"; }
+
+bool Publisher::delete_film(int film_id) {
+    for(int i = 0; i < published.size(); i++)
+        if(published[i]->get_id() == film_id) {
+            published.erase(published.begin() + i);
+            return true;
+        }
+    return false;
+}
