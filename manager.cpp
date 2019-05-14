@@ -39,5 +39,16 @@ void Manager::add_film(string name, int year, int length, int price, string summ
         cout << "ridi ddsh" << endl;
     
     films.push_back(new_film);
+}
 
+void Manager::edit_film(int film_id, string name, int year, int length, int price, string summary, string director) {
+    int i;
+    for(i = 0; i < films.size(); i++) {
+        if(films[i]->get_id() == film_id) {
+            films[i]->edit_film(name, year, length, price, summary, director);
+            break;
+        }
+    }
+    if(i == films.size())
+        cout << "ridi ddsh" << endl;
 }

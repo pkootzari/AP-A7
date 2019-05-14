@@ -64,15 +64,15 @@ void In_out_handler::post_film(vector<string> line_parts) {
     string summary;
     string director;
     int year;
-    int lenght;
+    int length;
     int price;
-    for(int i = 0; i < line_parts.size(); i++) {
+    for(int i = 3; i < line_parts.size(); i++) {
         if( line_parts[i] == "name" )
             name = line_parts[++i];
         else if( line_parts[i] == "year" )
             year = stoi(line_parts[++i]);
         else if( line_parts[i] == "length" )
-            lenght = stoi(line_parts[++i]);
+            length = stoi(line_parts[++i]);
         else if( line_parts[i] == "price" )
             price = stoi(line_parts[++i]);
         else if( line_parts[i] == "summary" )
@@ -80,7 +80,35 @@ void In_out_handler::post_film(vector<string> line_parts) {
         else if( line_parts[i] == "director" )
             director = line_parts[++i];
     }
-    manager->add_film(name, year, lenght, price, summary, director);
+    manager->add_film(name, year, length, price, summary, director);
+    cout << DONE_MASSAGE << endl;
+}
+
+void In_out_handler::edit_film(vector<string> line_parts) {
+    int film_id;
+    string name = "";
+    int year = -1;
+    int price = -1;
+    int length = -1;
+    string summary = "";
+    string director = "";
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "film_id" )
+            film_id = stoi(line_parts[++i]);
+        else if( line_parts[i] == "name" )
+            name = line_parts[++i];
+        else if( line_parts[i] == "year" ) 
+            year = stoi(line_parts[++i]);
+        else if( line_parts[i] == "length" )
+            length = stoi(line_parts[++i]);
+        else if( line_parts[i] == "summary" )
+            summary = line_parts[++i];
+        else if( line_parts[i] == "director" ) 
+            director = line_parts[++i];
+        else if( line_parts[i] == "price" )
+            price = stoi(line_parts[++i]);
+    }
+    manager->edit_film(film_id, name, year, length, price, summary, director);
     cout << DONE_MASSAGE << endl;
 }
 
@@ -100,6 +128,9 @@ void In_out_handler::input_reader() {
             
         }
         else if( command == "PUT" ) {
+            string action = line_parts[1];
+            if( action == "films" )
+                edit_film(line_parts);
 
         }
         else if( command == "DELETE" ) {
