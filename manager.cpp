@@ -3,17 +3,22 @@
 using namespace std;
 
 Manager::Manager() {
+    id_comment = 1;
+    id_film = 1;
+    id_user = 1;
     cur_user = NULL;
 }
 
 void Manager::add_publisher(string email, string username, string password, int age) {
-    int id = users.size() + 1;
+    int id = id_user;
+    id_user++;
     users.push_back( new Publisher(id, email, username, password, age) );
     cur_user = users[users.size() - 1];
 }
 
 void Manager::add_customer(string email, string username, string password, int age) {
-    int id = users.size() + 1;
+    int id = id_user;
+    id_user++;
     users.push_back( new Customer(id, email, username, password, age) );
     cur_user = users[users.size() - 1];
 }
@@ -65,4 +70,15 @@ void Manager::delete_film(int film_id) {
         cur_user->delete_film(film_id);
     else
         cout << "nmitoni ddsh" << endl;
+}
+
+void Manager::get_published_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
+    vector<Film*> search_result;
+    if(cur_user->get_type() != "publisher")
+        cout << "nmitoni ddsh" << endl;
+    else
+        search_result = cur_user->get_published_films(name, min_year, max_year, min_rate, price, director);
+    cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
+    for(int  i = 0; i < search_result.size(); i++)
+        cout << search_result[i];
 }

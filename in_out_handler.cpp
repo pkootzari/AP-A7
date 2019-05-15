@@ -125,6 +125,31 @@ void In_out_handler::delete_film(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::get_published_films(vector<string> line_parts) {
+    string name = "";
+    int min_year = -1;
+    int min_rate = -1;
+    int price = -1;
+    int max_year = -1;
+    string director = "";
+    for(int  i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "name" )
+            name = line_parts[++i];
+        else if( line_parts[i] == "min_rate" )
+            min_rate = stoi(line_parts[++i]);
+        else if( line_parts[i] == "min_year" )
+            min_year = stoi(line_parts[++i]);
+        else if( line_parts[i] == "max_year" )
+            max_year = stoi(line_parts[++i]);
+        else if( line_parts[i] == "price" )
+            price = stoi(line_parts[++i]);
+        else if( line_parts[i] == "director" )
+            director = line_parts[++i];
+    }
+    manager->get_published_films(name, min_year, max_year, min_rate, price, director);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -152,6 +177,9 @@ void In_out_handler::input_reader() {
                 delete_film(line_parts);
         }
         else if( command == "GET" ) {
+            string action = line_parts[1];
+            if( action == "published" )
+                get_published_films(line_parts);
 
         }
     }

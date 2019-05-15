@@ -14,6 +14,7 @@ public:
     virtual void add_film(Film* film) {}
     virtual std::string get_type() {}
     virtual bool delete_film(int film_id) {}
+    virtual std::vector<Film*> get_published_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director) {}
 private:
     int id;
     int spendable_money;

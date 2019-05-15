@@ -21,3 +21,8 @@ bool Publisher::delete_film(int film_id) {
         }
     return false;
 }
+
+vector<Film*> Publisher::get_published_films(string name, int min_year, int max_year, int min_rate, int price,  string director) {
+    vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, published);
+    return search_result;
+}
