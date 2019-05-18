@@ -9,4 +9,10 @@ POST films ? name sfand1 year 1981 length 182 price 1802 summary someone|fucks2 
 POST films ? name sfand2 year 1980 length 183 price 1803 summary someone|fucks3 director soltan|pasra3
 GET published ? 
 POST login ? username youu password 456
-GET published ? 
+POST followers ? user_id 1
+POST login ? username maan password 789
+POST followers ? user_id 1
+POST login ? username fuck password 123
+GET followers
+POST followers ? user_id 1
+GET followers

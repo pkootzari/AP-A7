@@ -76,11 +76,12 @@ void Manager::get_published_films(string name, int min_year, int max_year, int m
     vector<Film*> search_result;
     if(cur_user->get_type() != "publisher")
         cout << "nmitoni ddsh" << endl;
-    else
+    else {
         search_result = cur_user->get_published_films(name, min_year, max_year, min_rate, price, director);
-    cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
-    for(int  i = 0; i < search_result.size(); i++)
-        cout << search_result[i];
+        cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
+        for(int  i = 0; i < search_result.size(); i++)
+            cout << i + 1 << ". " << search_result[i];
+    }
 }
 
 void Manager::follow_publisher(int user_id) {
@@ -88,10 +89,20 @@ void Manager::follow_publisher(int user_id) {
         if(users[i]->get_id() == user_id) {
             if(users[i]->get_type() == "publisher") {
                 cur_user->add_to_following(users[i]);
-                users[i]->add_to_followers(users[i]);
+                users[i]->add_to_followers(cur_user);
             }
             else
                 cout << "pointed user is not publisher" << endl;
         }
+    }
+}
+
+void Manager::see_followers() {
+    if(cur_user->get_type() != "publisher")
+        cout << "publisher nisti ddsh" << endl;
+    else {
+        cout << "List of Followers" << endl;
+        cout << "#. User Id | User Username | User Email" << endl;
+        cur_user->see_followers();
     }
 }

@@ -4,6 +4,7 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Film;
 
@@ -18,6 +19,8 @@ public:
     virtual std::vector<Film*> get_published_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director) {}
     virtual void add_to_followers(User* user) {}
     virtual void add_to_following(User* user) {}
+    virtual void see_followers() {}
+    friend std::ostream& operator<<(std::ostream& out, User* user);
 private:
     int id;
     int spendable_money;

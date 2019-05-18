@@ -34,3 +34,8 @@ void Publisher::add_to_followers(User* user) {
 void Publisher::add_to_following(User* user) {
     followings.push_back(user);
 }
+
+void Publisher::see_followers() {
+    for(int i = 0; i < followers.size(); i++)
+        cout << i + 1 << ". " << followers[i];
+}

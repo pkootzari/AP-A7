@@ -19,6 +19,7 @@ public:
     virtual std::vector<Film*> get_published_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
     virtual void add_to_followers(User* user);
     virtual void add_to_following(User* user);
+    virtual void see_followers();
 private:
     int deposible_money;
     std::vector<Film*> published;

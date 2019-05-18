@@ -20,6 +20,7 @@ public:
     void edit_film(int film_id, std::string name, int year, int length, int price, std::string summary, std::string director);
     void delete_film(int film_id);
     void get_published_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
+    void see_followers();
     void follow_publisher(int user_id);
 private:
     int id_film;

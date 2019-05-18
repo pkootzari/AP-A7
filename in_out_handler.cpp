@@ -147,7 +147,7 @@ void In_out_handler::get_published_films(vector<string> line_parts) {
             director = line_parts[++i];
     }
     manager->get_published_films(name, min_year, max_year, min_rate, price, director);
-    cout << DONE_MASSAGE << endl;
+    //cout << DONE_MASSAGE << endl;
 }
 
 void In_out_handler::follow_publisher(vector<string> line_parts) {
@@ -158,7 +158,12 @@ void In_out_handler::follow_publisher(vector<string> line_parts) {
     }
     manager->follow_publisher(user_id);
     cout << DONE_MASSAGE << endl;
-} 
+}
+
+void In_out_handler::see_followers(vector<string> line_parts) {
+    manager->see_followers();
+    //cout << DONE_MASSAGE << endl;
+}
 
 void In_out_handler::input_reader() {
     string line;
@@ -192,6 +197,8 @@ void In_out_handler::input_reader() {
             string action = line_parts[1];
             if( action == "published" )
                 get_published_films(line_parts);
+            if( action == "followers" )
+                see_followers(line_parts);
 
         }
     }

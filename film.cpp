@@ -30,7 +30,7 @@ void Film::edit_film(string name, int year, int length, int price, string summar
 }
 
 ostream& operator<<(ostream& out, Film* film) {
-    out << film->id << ". " << film->id << " | " << film->name << " | " << film->length << " | "
+    out /*<< film->id << ". "*/ << film->id << " | " << film->name << " | " << film->length << " | "
         << film->price << " | " << film->rate << " | " << film->year << " | " << film->director 
         << endl;
     return out;

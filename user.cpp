@@ -14,3 +14,7 @@ User* User::vertification(string _username, string _password) {
 }
 
 int User::get_id() { return id; }
+
+ostream& operator<<(ostream& out, User* user) {
+    out << user->id << " | " << user->username << " | " << user->email << endl;
+}
