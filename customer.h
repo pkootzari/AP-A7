@@ -13,9 +13,10 @@ class Customer : public User {
 public:
     Customer(int _id, std::string _email, std::string _username, std::string _password, int _age);
     virtual std::string get_type();
+    virtual void add_to_following(User* user);
 private:
     std::vector<Film*> purchased;
-    std::vector<Publisher*> followings;
+    std::vector<User*> followings;
 };
 
 #endif

@@ -12,3 +12,5 @@ User* User::vertification(string _username, string _password) {
         return this;
      return NULL;
 }
+
+int User::get_id() { return id; }

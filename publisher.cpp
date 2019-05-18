@@ -26,3 +26,11 @@ vector<Film*> Publisher::get_published_films(string name, int min_year, int max_
     vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, published);
     return search_result;
 }
+
+void Publisher::add_to_followers(User* user) {
+    followers.push_back(user);
+}
+
+void Publisher::add_to_following(User* user) {
+    followings.push_back(user);
+}

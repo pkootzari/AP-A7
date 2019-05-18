@@ -82,3 +82,16 @@ void Manager::get_published_films(string name, int min_year, int max_year, int m
     for(int  i = 0; i < search_result.size(); i++)
         cout << search_result[i];
 }
+
+void Manager::follow_publisher(int user_id) {
+    for(int  i = 0; i < users.size(); i++) {
+        if(users[i]->get_id() == user_id) {
+            if(users[i]->get_type() == "publisher") {
+                cur_user->add_to_following(users[i]);
+                users[i]->add_to_followers(users[i]);
+            }
+            else
+                cout << "pointed user is not publisher" << endl;
+        }
+    }
+}

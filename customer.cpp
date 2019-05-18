@@ -6,3 +6,7 @@ Customer::Customer(int _id, string _email, string _username, string _password, i
     :   User(_id, _email, _username, _password, _age) {}
 
 string Customer::get_type() { return "customer"; }
+
+void Customer::add_to_following(User* user) {
+    followings.push_back(user);
+}

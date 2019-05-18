@@ -150,6 +150,16 @@ void In_out_handler::get_published_films(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::follow_publisher(vector<string> line_parts) {
+    int user_id;
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "user_id" )
+            user_id = stoi(line_parts[++i]);
+    }
+    manager->follow_publisher(user_id);
+    cout << DONE_MASSAGE << endl;
+} 
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -163,6 +173,8 @@ void In_out_handler::input_reader() {
                 login(line_parts);
             else if( action == "films" )
                 post_film(line_parts);
+            else if( action == "followers" )
+                follow_publisher(line_parts);
             
         }
         else if( command == "PUT" ) {
