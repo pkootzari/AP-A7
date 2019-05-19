@@ -24,3 +24,8 @@ void Customer::add_to_purchased(Film* film) {
     if(!is_there_already)
         purchased.push_back(film);
 }
+
+vector<Film*> Customer::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
+    vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, purchased);
+    return search_result;
+}

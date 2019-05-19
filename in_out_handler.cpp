@@ -210,6 +210,30 @@ void In_out_handler::buy_film(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::see_purchased_films(vector<string> line_parts) {
+    string name = "";
+    int min_year = -1;
+    int min_rate = -1;
+    int price = -1;
+    int max_year = -1;
+    string director = "";
+    for(int  i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "name" )
+            name = line_parts[++i];
+        else if( line_parts[i] == "min_rate" )
+            min_rate = stoi(line_parts[++i]);
+        else if( line_parts[i] == "min_year" )
+            min_year = stoi(line_parts[++i]);
+        else if( line_parts[i] == "max_year" )
+            max_year = stoi(line_parts[++i]);
+        else if( line_parts[i] == "price" )
+            price = stoi(line_parts[++i]);
+        else if( line_parts[i] == "director" )
+            director = line_parts[++i];
+    }
+    manager->see_purchased_films(name, min_year, max_year, min_rate, price, director);
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -249,6 +273,8 @@ void In_out_handler::input_reader() {
                 see_followers(line_parts);
             else if( action == "films" )
                 search_films(line_parts);
+            else if( action == "purchased" )
+                see_purchased_films(line_parts);
 
         }
     }

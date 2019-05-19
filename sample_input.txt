@@ -14,3 +14,7 @@ POST login ? username maan password 789
 POST followers ? user_id 1
 POST login ? username youu password 456
 POST buy ? film_id 1
+POST buy ? film_id 2
+POST buy ? film_id 4
+POST buy ? film_id 5
+GET purchased ?

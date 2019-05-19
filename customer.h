@@ -15,6 +15,7 @@ public:
     virtual std::string get_type();
     virtual void add_to_following(User* user);
     virtual void add_to_purchased(Film* film);
+    virtual std::vector<Film*> see_purchased_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
 private:
     std::vector<Film*> purchased;
     std::vector<User*> followings;

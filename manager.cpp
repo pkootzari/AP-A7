@@ -126,12 +126,11 @@ void Manager::search_films(string name, int min_year, int max_year, int min_rate
 
 void Manager::buy_film(int film_id) {
     int i;
-    for(i = 0; i < films.size(); i++) {
+    for(i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
             cur_user->add_to_purchased(films[i]);
             break;
         }
-    }
     if(i == films.size())
         cout << "filmet nist ddsh" << endl;
     else
@@ -139,4 +138,11 @@ void Manager::buy_film(int film_id) {
             if(users[i]->get_type() == "publisher")
                 if(users[i]->film_bought(film_id))
                     break;
+}
+
+void Manager::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
+    vector<Film*> search_result = cur_user->see_purchased_films(name, min_year, max_year, min_rate, price, director);
+    cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
+    for(int  i = 0; i < search_result.size(); i++)
+        cout << i + 1 << ". " << search_result[i];
 }
