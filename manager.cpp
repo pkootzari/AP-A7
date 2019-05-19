@@ -146,3 +146,11 @@ void Manager::see_purchased_films(string name, int min_year, int max_year, int m
     for(int  i = 0; i < search_result.size(); i++)
         cout << i + 1 << ". " << search_result[i];
 }
+
+void Manager::rate_film(int film_id, int score) {
+    Film* rated_film = cur_user->if_film_purchased(film_id);
+    if(rated_film == NULL)
+        cout << "filmo ndri ddsh" << endl;
+    else 
+        rated_film->rate_this(cur_user->get_id(), score);
+}

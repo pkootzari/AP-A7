@@ -18,3 +18,7 @@ POST buy ? film_id 2
 POST buy ? film_id 4
 POST buy ? film_id 5
 GET purchased ?
+POST rate ? film_id 1 score 3
+POST login ? username maan password 789
+POST buy ? film_id 1
+POST rate ? film_id 1 score 6

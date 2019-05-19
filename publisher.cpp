@@ -80,6 +80,13 @@ vector<Film*> Publisher::see_purchased_films(string name, int min_year, int max_
     return search_result;
 }
 
+Film* Publisher::if_film_purchased(int film_id) {
+    for(int  i = 0; i < purchased.size(); i++)
+        if(purchased[i]->get_id() == film_id)
+            return purchased[i];
+    return NULL; 
+}
+
 int calculate_money(Film* film) {
     if(film->get_rate() < 5 && film->get_rate() >= 0)
         return 80*film->get_price()/100;

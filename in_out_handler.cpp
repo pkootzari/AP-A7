@@ -234,6 +234,19 @@ void In_out_handler::see_purchased_films(vector<string> line_parts) {
     manager->see_purchased_films(name, min_year, max_year, min_rate, price, director);
 }
 
+void In_out_handler::rate_film(vector<string> line_parts) {
+    int film_id = -1;
+    int score = -1;
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "film_id" )
+            film_id = stoi(line_parts[++i]);
+        else if ( line_parts[i] == "score" )
+            score = stoi(line_parts[++i]);
+    }
+    manager->rate_film(film_id, score);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -252,7 +265,9 @@ void In_out_handler::input_reader() {
             else if( action == "money" )
                 post_money(line_parts);
             else if( action == "buy" )
-                buy_film(line_parts);            
+                buy_film(line_parts);
+            else if( action == "rate" )
+                rate_film(line_parts);            
         }
         else if( command == "PUT" ) {
             string action = line_parts[1];

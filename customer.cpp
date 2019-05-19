@@ -29,3 +29,11 @@ vector<Film*> Customer::see_purchased_films(string name, int min_year, int max_y
     vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, purchased);
     return search_result;
 }
+
+Film* Customer::if_film_purchased(int film_id) {
+    for(int  i = 0; i < purchased.size(); i++) 
+        if(purchased[i]->get_id() == film_id)
+            return purchased[i];
+    return NULL; 
+}
+

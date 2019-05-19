@@ -36,6 +36,21 @@ ostream& operator<<(ostream& out, Film* film) {
     return out;
 }
 
+void Film::rate_this(int user_id, int score) {
+    bool already_scored = false;
+    for(int i = 0; i < scores_given.size(); i++)
+        if(scores_given[i].first == user_id) {
+            scores_given[i].second = score;
+            already_scored = true;
+        }
+    if(!already_scored)
+        scores_given.push_back( make_pair(user_id, score) );
+    double sum = 0;
+    for(int i = 0; i < scores_given.size(); i++)
+        sum += scores_given[i].second;
+    rate = sum / scores_given.size();
+}
+
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {
     vector<Film*> search_result = input;
     if(name != "")
