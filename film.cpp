@@ -38,30 +38,44 @@ ostream& operator<<(ostream& out, Film* film) {
 
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {
     vector<Film*> search_result = input;
+
+    for(int j = 0; j < search_result.size(); j++)
+        cout << search_result[j];
+
     if(name != "")
         for(int i = 0; i < search_result.size(); i++)
-            if(search_result[i]->get_name() != name)
+            if(search_result[i]->get_name() != name) {
                 search_result.erase(search_result.begin() + i);
+                i--;
+            }
     if(min_year != -1)
         for(int i = 0; i < search_result.size(); i++)
-            if(search_result[i]->get_year() < min_year)
+            if(search_result[i]->get_year() < min_year) {
                 search_result.erase(search_result.begin() + i);
+                i--;
+            }
     if(max_year != -1)
         for(int i = 0; i < search_result.size(); i++)
-            if(search_result[i]->get_year() > max_year)
+            if(search_result[i]->get_year() > max_year) {
                 search_result.erase(search_result.begin() + i);
+            }
     if(min_rate != -1)
         for(int i = 0; i < search_result.size(); i++)
-            if(search_result[i]->get_rate() < min_rate)
+            if(search_result[i]->get_rate() < min_rate) {
                 search_result.erase(search_result.begin() + i);
+                i--;
+            }
     if(director != "")
         for(int i = 0; i < search_result.size(); i++)
-            if(search_result[i]->get_director() != director)
+            if(search_result[i]->get_director() != director) {
                 search_result.erase(search_result.begin() + i);
+                i--;
+            }
     if(price != -1)
         for(int i = 0; i < search_result.size(); i++)
-            if(search_result[i]->get_price() != price)
+            if(search_result[i]->get_price() != price) {
                 search_result.erase(search_result.begin() + i);
+            }
     return search_result;
     
 }

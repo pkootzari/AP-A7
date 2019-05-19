@@ -165,6 +165,16 @@ void In_out_handler::see_followers(vector<string> line_parts) {
     //cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::post_money(vector<string> line_parts) {
+    int amount = -1;
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "amount" )
+            amount = stoi(line_parts[++i]);
+    }
+    manager->post_money(amount);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -180,6 +190,8 @@ void In_out_handler::input_reader() {
                 post_film(line_parts);
             else if( action == "followers" )
                 follow_publisher(line_parts);
+            else if( action == "money" )
+                 post_money(line_parts);
             
         }
         else if( command == "PUT" ) {

@@ -15,6 +15,10 @@ User* User::vertification(string _username, string _password) {
 
 int User::get_id() { return id; }
 
+void User::post_money(int amount) {
+    spendable_money += amount;
+}
+
 ostream& operator<<(ostream& out, User* user) {
     out << user->id << " | " << user->username << " | " << user->email << endl;
 }

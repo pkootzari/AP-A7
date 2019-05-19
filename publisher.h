@@ -21,7 +21,7 @@ public:
     virtual void add_to_following(User* user);
     virtual void see_followers();
 private:
-    int deposible_money;
+    int withdrawable_money;
     std::vector<Film*> published;
     std::vector<Film*> purchased;
     std::vector<User*> followings;

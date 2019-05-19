@@ -20,6 +20,7 @@ public:
     virtual void add_to_followers(User* user) {}
     virtual void add_to_following(User* user) {}
     virtual void see_followers() {}
+    void post_money(int amount);
     friend std::ostream& operator<<(std::ostream& out, User* user);
 private:
     int id;

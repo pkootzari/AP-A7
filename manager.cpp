@@ -106,3 +106,10 @@ void Manager::see_followers() {
         cur_user->see_followers();
     }
 }
+
+void Manager::post_money(int amount) {
+    if(amount != -1)
+        cur_user->post_money(amount);
+    else
+        cout << "polo ydt rft" << endl;
+}

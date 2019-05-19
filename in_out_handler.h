@@ -20,6 +20,7 @@ public:
     void get_published_films(std::vector<std::string> line_parts);
     void follow_publisher(std::vector<std::string> line_parts);
     void see_followers(std::vector<std::string> line_parts);
+    void post_money(std::vector<std::string> line_parts);
     friend std::vector<std::string> get_command(std::string input);
 private:
     Manager* manager;
