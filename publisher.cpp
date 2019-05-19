@@ -41,5 +41,32 @@ void Publisher::see_followers() {
 }
 
 void Publisher::get_money() {
+    //cout << "money withdrawed: " << withdrawable_money << endl; 
     withdrawable_money = 0;
+}
+
+void Publisher::add_to_purchased(Film* film) {
+    purchased.push_back(film);
+}
+
+bool Publisher::film_bought(int film_id) {
+    bool return_value = false;
+    for(int i = 0; i < published.size(); i++)
+        if(published[i]->get_id() == film_id) {
+            return_value = true;
+            withdrawable_money += calculate_money(published[i]);
+            break;
+        }
+    return return_value;
+}
+
+int calculate_money(Film* film) {
+    if(film->get_rate() < 5 && film->get_rate() >= 0)
+        return 80*film->get_price()/100;
+    if(film->get_rate() < 8 && film->get_rate() >= 5)
+        return 90*film->get_price()/100;
+    if(film->get_rate() >= 8 && film->get_rate() <= 10)
+        return 95*film->get_price()/100;
+    else 
+        cout << "rate beyne 0 ta 10 nist" << endl;
 }

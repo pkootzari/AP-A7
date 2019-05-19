@@ -8,7 +8,7 @@
 
 class Film {
 public:
-    Film(int _id, std::string _name, int _year, int _length, std::string _summary, std::string _director);
+    Film(int _id, std::string _name, int _year, int _length, std::string _summary, std::string _director, int _price);
     int get_id();
     std::string get_name();
     double get_rate();

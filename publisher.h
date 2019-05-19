@@ -21,6 +21,8 @@ public:
     virtual void add_to_following(User* user);
     virtual void see_followers();
     virtual void get_money();
+    virtual void add_to_purchased(Film* film);
+    virtual bool film_bought(int film_id);
 private:
     int withdrawable_money;
     std::vector<Film*> published;
@@ -28,5 +30,7 @@ private:
     std::vector<User*> followings;
     std::vector<User*> followers;
 };
+
+int calculate_money(Film* film);
 
 #endif

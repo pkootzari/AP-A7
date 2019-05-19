@@ -21,9 +21,11 @@ public:
     virtual void add_to_following(User* user) {}
     virtual void see_followers() {}
     virtual void get_money() {}
+    virtual void add_to_purchased(Film* film) {}
+    virtual bool film_bought(int film_id) {}
     void post_money(int amount);
     friend std::ostream& operator<<(std::ostream& out, User* user);
-private:
+protected:
     int id;
     int spendable_money;
     std::string email;

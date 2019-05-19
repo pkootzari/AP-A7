@@ -200,6 +200,16 @@ void In_out_handler::search_films(vector<string> line_parts) {
     //cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::buy_film(vector<string> line_parts) {
+    int film_id = -1;
+    for(int i = 3; i < line_parts.size(); i++) {
+        if( line_parts[i] == "film_id" )
+            film_id = stoi(line_parts[++i]);
+    }
+    manager->buy_film(film_id);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -216,8 +226,9 @@ void In_out_handler::input_reader() {
             else if( action == "followers" )
                 follow_publisher(line_parts);
             else if( action == "money" )
-                 post_money(line_parts);
-            
+                post_money(line_parts);
+            else if( action == "buy" )
+                buy_film(line_parts);            
         }
         else if( command == "PUT" ) {
             string action = line_parts[1];

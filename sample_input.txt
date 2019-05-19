@@ -2,18 +2,15 @@ POST signup ? email fuck@gmail.com username fuck password 123 age 12 publisher t
 POST signup ? email youu@gmail.com username youu password 456 age 13 publisher false
 POST signup ? email maan@gmail.com username maan password 789 age 14 
 POST login ? username fuck password 123
-POST films ? name sfand year 1983 length 180 price 1800 summary someone|fucks director soltan|pasra
+POST films ? name sfand year 1983 length 180 price 12000 summary someone|fucks director soltan|pasra
 PUT films ? film_id 1 name bahman year 1988 length 181 director dash|parsa
-POST films ? name bahman year 1982 length 181 price 1801 summary someone|fucks1 director soltan|pasra1
-POST films ? name sfand1 year 1981 length 182 price 1802 summary someone|fucks2 director soltan|pasra2
-POST films ? name sfand2 year 1980 length 183 price 1803 summary someone|fucks3 director soltan|pasra3
+POST films ? name bahman year 1982 length 181 price 13000 summary someone|fucks1 director soltan|pasra1
+POST films ? name sfand1 year 1981 length 182 price 14000 summary someone|fucks2 director soltan|pasra2
+POST films ? name sfand2 year 1980 length 183 price 15000 summary someone|fucks3 director soltan|pasra3
 GET published ?
 POST login ? username youu password 456
 POST followers ? user_id 1
 POST login ? username maan password 789
 POST followers ? user_id 1
-POST login ? username fuck password 123
-GET followers
-POST followers ? user_id 1
-GET followers
-GET films ? name bahman
+POST login ? username youu password 456
+POST buy ? film_id 1

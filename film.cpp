@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Film::Film(int _id, string _name, int _year, int _length, string _summary, string _director) 
-    :   id(_id) , name(_name) , year(_year) , length(_length) , summary(_summary) , director(_director) {}
+Film::Film(int _id, string _name, int _year, int _length, string _summary, string _director, int _price) 
+    :   id(_id) , name(_name) , year(_year) , length(_length) , summary(_summary) , director(_director) , price(_price) {}
 
 int Film::get_id() { return id; }
 int Film::get_length() { return length; }
@@ -38,10 +38,6 @@ ostream& operator<<(ostream& out, Film* film) {
 
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {
     vector<Film*> search_result = input;
-
-    for(int j = 0; j < search_result.size(); j++)
-        cout << search_result[j];
-
     if(name != "")
         for(int i = 0; i < search_result.size(); i++)
             if(search_result[i]->get_name() != name) {

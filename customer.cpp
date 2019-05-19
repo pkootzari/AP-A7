@@ -10,3 +10,7 @@ string Customer::get_type() { return "customer"; }
 void Customer::add_to_following(User* user) {
     followings.push_back(user);
 }
+
+void Customer::add_to_purchased(Film* film) {
+    purchased.push_back(film);
+}

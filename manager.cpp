@@ -36,7 +36,7 @@ void Manager::login(string username, string password) {
 
 void Manager::add_film(string name, int year, int length, int price, string summary, string director) {
     int id = films.size() + 1;
-    Film* new_film = new Film(id, name, year, length, summary, director); 
+    Film* new_film = new Film(id, name, year, length, summary, director, price); 
     
     if(cur_user->get_type() == "publisher")
         cur_user->add_film(new_film);
@@ -122,4 +122,21 @@ void Manager::search_films(string name, int min_year, int max_year, int min_rate
     cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
         for(int  i = 0; i < search_result.size(); i++)
             cout << i + 1 << ". " << search_result[i];
+}
+
+void Manager::buy_film(int film_id) {
+    int i;
+    for(i = 0; i < films.size(); i++) {
+        if(films[i]->get_id() == film_id) {
+            cur_user->add_to_purchased(films[i]);
+            break;
+        }
+    }
+    if(i == films.size())
+        cout << "filmet nist ddsh" << endl;
+    else
+        for(i = 0; i < users.size(); i++)
+            if(users[i]->get_type() == "publisher")
+                if(users[i]->film_bought(film_id))
+                    break;
 }
