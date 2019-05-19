@@ -28,11 +28,21 @@ vector<Film*> Publisher::get_published_films(string name, int min_year, int max_
 }
 
 void Publisher::add_to_followers(User* user) {
-    followers.push_back(user);
+    bool is_there_already = false;
+    for(int i = 0; i < followers.size(); i++)
+        if(user->get_id() == followers[i]->get_id())
+            is_there_already = true;
+    if(!is_there_already)
+        followers.push_back(user);
 }
 
 void Publisher::add_to_following(User* user) {
-    followings.push_back(user);
+    bool is_there_already = false;
+    for(int i = 0; i < followings.size(); i++)
+        if(user->get_id() == followings[i]->get_id())
+            is_there_already = true;
+    if(!is_there_already)
+        followings.push_back(user);
 }
 
 void Publisher::see_followers() {
@@ -46,7 +56,12 @@ void Publisher::get_money() {
 }
 
 void Publisher::add_to_purchased(Film* film) {
-    purchased.push_back(film);
+    bool is_there_already = false;
+    for(int i = 0; i < purchased.size(); i++)
+        if(film->get_id() == purchased[i]->get_id())
+            is_there_already = true;
+    if(!is_there_already)
+        purchased.push_back(film);
 }
 
 bool Publisher::film_bought(int film_id) {
