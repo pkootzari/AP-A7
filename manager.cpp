@@ -73,11 +73,10 @@ void Manager::delete_film(int film_id) {
 }
 
 void Manager::get_published_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
-    vector<Film*> search_result;
     if(cur_user->get_type() != "publisher")
         cout << "nmitoni ddsh" << endl;
     else {
-        search_result = cur_user->get_published_films(name, min_year, max_year, min_rate, price, director);
+        vector<Film*> search_result = cur_user->get_published_films(name, min_year, max_year, min_rate, price, director);
         cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
         for(int  i = 0; i < search_result.size(); i++)
             cout << i + 1 << ". " << search_result[i];
@@ -110,6 +109,17 @@ void Manager::see_followers() {
 void Manager::post_money(int amount) {
     if(amount != -1)
         cur_user->post_money(amount);
-    else
-        cout << "polo ydt rft" << endl;
+    else {
+        if(cur_user->get_type() == "publisher")
+            cur_user->get_money();
+        else
+            cout << "publisher nisti ddsh" << endl;
+    }
+}
+
+void Manager::search_films(string name, int min_year, int max_year, int min_rate, int price,  string director) {
+    vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, films);
+    cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
+        for(int  i = 0; i < search_result.size(); i++)
+            cout << i + 1 << ". " << search_result[i];
 }

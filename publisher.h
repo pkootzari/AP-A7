@@ -20,6 +20,7 @@ public:
     virtual void add_to_followers(User* user);
     virtual void add_to_following(User* user);
     virtual void see_followers();
+    virtual void get_money();
 private:
     int withdrawable_money;
     std::vector<Film*> published;

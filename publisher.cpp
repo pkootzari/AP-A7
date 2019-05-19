@@ -39,3 +39,7 @@ void Publisher::see_followers() {
     for(int i = 0; i < followers.size(); i++)
         cout << i + 1 << ". " << followers[i];
 }
+
+void Publisher::get_money() {
+    withdrawable_money = 0;
+}

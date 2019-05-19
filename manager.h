@@ -23,6 +23,7 @@ public:
     void follow_publisher(int user_id);
     void see_followers();
     void post_money(int amount);
+    void search_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
 private:
     int id_film;
     int id_user;

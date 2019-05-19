@@ -16,4 +16,4 @@ POST login ? username fuck password 123
 GET followers
 POST followers ? user_id 1
 GET followers
-POST money ? amount 123 
+GET films ? name bahman
