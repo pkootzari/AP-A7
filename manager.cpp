@@ -162,3 +162,12 @@ void Manager::send_comment(int film_id, string content) {
     else
         commented_film->add_comment(content);
 }
+
+void Manager::reply_comment(int film_id, int comment_id, string content) {
+    Film* commneted_film = cur_user->if_film_published(film_id);
+    if(commneted_film == NULL)
+        cout << "filmo publish nkrdi ddsh" << endl;
+    else
+        commneted_film->add_reply(content, comment_id);
+}
+

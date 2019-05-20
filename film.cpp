@@ -56,6 +56,18 @@ void Film::add_comment(string content) {
     commnets.push_back( new Comment(initial_comment_id, content) );
 }
 
+void Film::add_reply(string content, int comment_id) {
+    bool comment_found = false;
+    for(int i = 0; i < commnets.size(); i++)
+        if(commnets[i]->get_id() == comment_id) {
+            commnets[i]->add_reply(content);
+            comment_found = true;
+            break;
+        }
+    if(!comment_found)
+        cout << "no such comment" << endl;
+}
+
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {
     vector<Film*> search_result = input;
     if(name != "")

@@ -28,6 +28,7 @@ public:
     void see_purchased_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
     void rate_film(int film_id, int score);
     void send_comment(int film_id, std::string content);
+    void reply_comment(int film_id, int comment_id, std::string content);
 private:
     int id_film;
     int id_user;

@@ -81,10 +81,17 @@ vector<Film*> Publisher::see_purchased_films(string name, int min_year, int max_
 }
 
 Film* Publisher::if_film_purchased(int film_id) {
-    for(int  i = 0; i < purchased.size(); i++)
+    for(int i = 0; i < purchased.size(); i++)
         if(purchased[i]->get_id() == film_id)
             return purchased[i];
     return NULL; 
+}
+
+Film* Publisher::if_film_published(int film_id) {
+    for(int i = 0; i < published.size(); i++)
+        if(published[i]->get_id() == film_id)
+            return published[i];
+    return NULL;
 }
 
 int calculate_money(Film* film) {

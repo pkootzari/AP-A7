@@ -180,7 +180,6 @@ void In_out_handler::get_published_films(vector<string> line_parts) {
             director = line_parts[++i];
     }
     manager->get_published_films(name, min_year, max_year, min_rate, price, director);
-    //cout << DONE_MASSAGE << endl;
 }
 
 void In_out_handler::follow_publisher(vector<string> line_parts) {
@@ -195,7 +194,6 @@ void In_out_handler::follow_publisher(vector<string> line_parts) {
 
 void In_out_handler::see_followers(vector<string> line_parts) {
     manager->see_followers();
-    //cout << DONE_MASSAGE << endl;
 }
 
 void In_out_handler::post_money(vector<string> line_parts) {
@@ -230,7 +228,6 @@ void In_out_handler::search_films(vector<string> line_parts) {
             director = line_parts[++i];
     }
     manager->search_films(name, min_year, max_year, min_rate, price, director);
-    //cout << DONE_MASSAGE << endl;
 }
 
 void In_out_handler::buy_film(vector<string> line_parts) {
@@ -288,6 +285,15 @@ void In_out_handler::send_comment(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::reply_comment(vector<string> line_parts) {
+    map<string, string> input = process_command(line_parts);
+    int film_id = stoi(input["film_id"]);
+    int comment_id = stoi(input["comment_id"]);
+    string content = input["content"];
+    manager->reply_comment(film_id, comment_id, content);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -310,7 +316,9 @@ void In_out_handler::input_reader() {
             else if( action == "rate" )
                 rate_film(line_parts); 
             else if( action == "comments" )
-                send_comment(line_parts);           
+                send_comment(line_parts);
+            else if( action == "replies" )
+                reply_comment(line_parts);         
         }
         else if( command == "PUT" ) {
             string action = line_parts[1];

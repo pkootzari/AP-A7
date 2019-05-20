@@ -21,6 +21,7 @@ public:
     void rate_this(int user_id, int score);
     void edit_film(std::string name, int year, int length, int price, std::string summary, std::string director);
     void add_comment(std::string content);
+    void add_reply(std::string content, int comment_id);
     friend std::ostream& operator<<(std::ostream& out, Film* film);
 private:
     int id;
