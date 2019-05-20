@@ -16,6 +16,39 @@ vector<string> get_command(string input) {
     return output;
 }
 
+map<string, string> process_command(vector<string> line_parts) {
+    map<string, string> result;
+    result["username"] = "";
+    result["password"] = "";
+    result["email"] = "";
+    result["age"] = "";
+    result["publisher"] = "";
+    result["year"] = "";
+    result["length"] = "";
+    result["price"] = "";
+    result["summary"] = "";
+    result["director"] = "";
+    result["min_rate"] = "";
+    result["min_year"] = "";
+    result["max_year"] = "";
+    result["film_id"] = "";
+    result["user_id"] = "";
+    result["amount"] = "";
+    result["content"] = "";
+    result["score"] = "";
+
+    for(int i = 3; i < line_parts.size(); i++)
+        for(auto itr = result.begin(); itr != result.end(); itr++)
+            if(line_parts[i] == itr->first) {
+                if(itr->second == "")
+                    itr->second = line_parts[++i];
+                else
+                    cout << "ridi ddsh" << endl;
+            }
+    
+    return result;
+}
+
 void In_out_handler::signup(vector<string> line_parts) {
     string username;
     string password;

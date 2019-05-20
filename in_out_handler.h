@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <map>
 #include "manager.h"
 
 #define DONE_MASSAGE "OK"
@@ -11,6 +12,7 @@
 class In_out_handler {
 public:
     In_out_handler();
+    std::map<std::string, std::string> process_command(std::vector<std::string> line_parts);
     void input_reader();
     void signup(std::vector<std::string> line_parts);
     void login(std::vector<std::string> line_parts);
