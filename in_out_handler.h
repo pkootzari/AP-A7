@@ -27,6 +27,7 @@ public:
     void buy_film(std::vector<std::string> line_parts);
     void see_purchased_films(std::vector<std::string> line_parts);
     void rate_film(std::vector<std::string> line_parts);
+    void send_comment(std::vector<std::string> line_parts);
     friend std::vector<std::string> get_command(std::string input);
 private:
     Manager* manager;

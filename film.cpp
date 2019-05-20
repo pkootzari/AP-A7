@@ -3,7 +3,8 @@
 using namespace std;
 
 Film::Film(int _id, string _name, int _year, int _length, string _summary, string _director, int _price) 
-    :   id(_id) , name(_name) , year(_year) , length(_length) , summary(_summary) , director(_director) , price(_price) {}
+    :   id(_id) , name(_name) , year(_year) , length(_length) , summary(_summary) , director(_director) , price(_price) 
+{ initial_comment_id = 1; }
 
 int Film::get_id() { return id; }
 int Film::get_length() { return length; }
@@ -49,6 +50,10 @@ void Film::rate_this(int user_id, int score) {
     for(int i = 0; i < scores_given.size(); i++)
         sum += scores_given[i].second;
     rate = sum / scores_given.size();
+}
+
+void Film::add_comment(string content) {
+    commnets.push_back( new Comment(initial_comment_id, content) );
 }
 
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {

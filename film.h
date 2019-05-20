@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include "comment.h"
 
 class Film {
 public:
@@ -19,6 +20,7 @@ public:
     std::string get_director();
     void rate_this(int user_id, int score);
     void edit_film(std::string name, int year, int length, int price, std::string summary, std::string director);
+    void add_comment(std::string content);
     friend std::ostream& operator<<(std::ostream& out, Film* film);
 private:
     int id;
@@ -30,6 +32,8 @@ private:
     std::string director;
     std::string summary;
     std::vector< std::pair<int, int> > scores_given;
+    int initial_comment_id;
+    std::vector<Comment*> commnets;
 };
 
 std::vector<Film*> search(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director, std::vector<Film*> input);

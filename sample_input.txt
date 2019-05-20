@@ -22,3 +22,4 @@ POST rate ? film_id 1 score 3
 POST login ? username maan password 789
 POST buy ? film_id 1
 POST rate ? film_id 1 score 6
+POST comments ? film_id 1 content kososher

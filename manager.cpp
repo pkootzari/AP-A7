@@ -154,3 +154,11 @@ void Manager::rate_film(int film_id, int score) {
     else 
         rated_film->rate_this(cur_user->get_id(), score);
 }
+
+void Manager::send_comment(int film_id, string content) {
+    Film* commented_film = cur_user->if_film_purchased(film_id);
+    if(commented_film == NULL)
+        cout << "filmo ndri ddsh" << endl;
+    else
+        commented_film->add_comment(content);
+}

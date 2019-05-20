@@ -16,7 +16,7 @@ vector<string> get_command(string input) {
     return output;
 }
 
-map<string, string> process_command(vector<string> line_parts) {
+map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     map<string, string> result;
     result["username"] = "";
     result["password"] = "";
@@ -36,6 +36,7 @@ map<string, string> process_command(vector<string> line_parts) {
     result["amount"] = "";
     result["content"] = "";
     result["score"] = "";
+    result["comment_id"] = "";
 
     for(int i = 3; i < line_parts.size(); i++)
         for(auto itr = result.begin(); itr != result.end(); itr++)
@@ -45,7 +46,6 @@ map<string, string> process_command(vector<string> line_parts) {
                 else
                     cout << "ridi ddsh" << endl;
             }
-    
     return result;
 }
 
@@ -280,6 +280,14 @@ void In_out_handler::rate_film(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::send_comment(vector<string> line_parts) {
+    map<string, string> input = process_command(line_parts);
+    int film_id = stoi(input["film_id"]);
+    string content = input["content"];
+    manager->send_comment(film_id, content);
+    cout << DONE_MASSAGE << endl;
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -300,7 +308,9 @@ void In_out_handler::input_reader() {
             else if( action == "buy" )
                 buy_film(line_parts);
             else if( action == "rate" )
-                rate_film(line_parts);            
+                rate_film(line_parts); 
+            else if( action == "comments" )
+                send_comment(line_parts);           
         }
         else if( command == "PUT" ) {
             string action = line_parts[1];
