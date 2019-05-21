@@ -55,15 +55,18 @@ void Manager::login(string username, string password) {
 }
 
 void Manager::add_film(string name, int year, int length, int price, string summary, string director) {
-    int id = films.size() + 1;
-    Film* new_film = new Film(id, name, year, length, summary, director, price); 
-    
-    if(cur_user->get_type() == "publisher")
-        cur_user->add_film(new_film);
-    else if(cur_user->get_type() == "customer")
-        cout << "ridi ddsh" << endl;
-    
-    films.push_back(new_film);
+    if(cur_user != NULL) {
+        if(cur_user->get_type() == "publisher") {
+            int id = films.size() + 1;
+            Film* new_film = new Film(id, name, year, length, summary, director, price); 
+            cur_user->add_film(new_film);
+            films.push_back(new_film);
+        }
+        else 
+            throw PermissionDenied();
+    }
+    else
+        throw PermissionDenied();
 }
 
 void Manager::edit_film(int film_id, string name, int year, int length, int price, string summary, string director) {

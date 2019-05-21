@@ -92,14 +92,6 @@ void In_out_handler::signup(vector<string> line_parts) {
 }
 
 void In_out_handler::login(vector<string> line_parts) {
-    // string username;
-    // string password;
-    // for(int i = 3; i < line_parts.size(); i++) {
-    //     if( line_parts[i] == "username" )
-    //         username = line_parts[++i];
-    //     else if( line_parts[i] == "password" )
-    //         password = line_parts[++i];
-    // }
     try {
         map<string, string> input = process_command(line_parts);
         string username;
@@ -115,7 +107,7 @@ void In_out_handler::login(vector<string> line_parts) {
 }
 
 void In_out_handler::post_film(vector<string> line_parts) {
-    string name;
+    /*string name;
     string summary;
     string director;
     int year;
@@ -134,9 +126,27 @@ void In_out_handler::post_film(vector<string> line_parts) {
             summary = line_parts[++i];
         else if( line_parts[i] == "director" )
             director = line_parts[++i];
+    }*/
+    try{
+        map<string, string> input = process_command(line_parts);
+        string name;
+        string summary;
+        string director;
+        int year;
+        int length;
+        int price;
+        input["name"] != "" ? name = input["name"] : throw BadRequest();
+        input["summary"] != "" ? summary = input["summary"] : throw BadRequest();
+        input["director"] != "" ? director = input["director"] : throw BadRequest();
+        input["year"] != "" && is_number(input["year"]) ? year = stoi(input["year"]) : throw BadRequest();
+        input["length"] != "" && is_number(input["length"]) ? length = stoi(input["length"]) : throw BadRequest();
+        input["price"] != "" && is_number(input["price"]) ? price = stoi(input["price"]) : throw BadRequest();
+        manager->add_film(name, year, length, price, summary, director);
+        cout << DONE_MASSAGE << endl;
     }
-    manager->add_film(name, year, length, price, summary, director);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::edit_film(vector<string> line_parts) {
