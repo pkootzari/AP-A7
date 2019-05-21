@@ -16,6 +16,22 @@ vector<string> get_command(string input) {
     return output;
 }
 
+bool is_number(string input) {
+    for(int i = 0; i < input.size(); i++)
+        if(input[i]<48 || input[i]>57)
+            throw BadRequest();
+    return true;
+}
+
+bool if_publisher(string input) {
+    if(input != "true" && input != "false")
+        throw BadRequest();
+    else if(input == "true")
+        return true;
+    else 
+        return false;
+}
+
 map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     map<string, string> result;
     result["username"] = "";
@@ -46,13 +62,13 @@ map<string, string> In_out_handler::process_command(vector<string> line_parts) {
                 if(itr->second == "")
                     itr->second = line_parts[++i];
                 else
-                    cout << "ridi ddsh" << endl;
+                    throw BadRequest();
             }
     return result;
 }
 
 void In_out_handler::signup(vector<string> line_parts) {
-    string username;
+    /*string username;
     string password;
     string email;
     int age;
@@ -72,15 +88,28 @@ void In_out_handler::signup(vector<string> line_parts) {
             else if( line_parts[i + 1] == "false" )
                 if_is_publisher = false;
         }
+    }*/
+    try {
+        map<string, string> input = process_command(line_parts);
+        string username;
+        string password;
+        string email;
+        bool if_is_publisher = false;
+        int age;
+        input["username"] != "" ? username = input["username"] : throw BadRequest();
+        input["password"] != "" ? password = input["password"] : throw BadRequest();
+        input["email"] != "" ? email = input["email"] : throw BadRequest();
+        input["age"] != "" && is_number(input["age"]) ? age = stoi(input["age"]) : throw BadRequest();
+        input["publisher"] != "" ? if_is_publisher = if_publisher(input["publisher"]) : if_is_publisher = false;
+        if(if_is_publisher == true)
+            manager->add_publisher(email, username, password, age);
+        else
+            manager->add_customer(email, username, password, age);
+        cout << DONE_MASSAGE << endl;
     }
-
-
-
-    if(if_is_publisher == true)
-        manager->add_publisher(email, username, password, age);
-    else
-        manager->add_customer(email, username, password, age);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::login(vector<string> line_parts) {
@@ -353,17 +382,19 @@ void In_out_handler::input_reader() {
             else if( action == "buy" ) buy_film(line_parts);
             else if( action == "rate" ) rate_film(line_parts); 
             else if( action == "comments" ) send_comment(line_parts);
-            else if( action == "replies" ) reply_comment(line_parts);         
+            else if( action == "replies" ) reply_comment(line_parts);
+            else cout << "Not Found" << endl;        
         }
         else if( command == "PUT" ) {
             string action = line_parts[1];
             if( action == "films" ) edit_film(line_parts);
-
+            else cout << "Not Found" << endl;        
         }
         else if( command == "DELETE" ) {
             string action = line_parts[1];
             if( action == "films" ) delete_film(line_parts);
             else if( action == "comments" ) delete_comment(line_parts);
+            else cout << "Not Found" << endl;        
         }
         else if( command == "GET" ) {
             string action = line_parts[1];
@@ -372,7 +403,8 @@ void In_out_handler::input_reader() {
             else if( action == "films" ) search_films(line_parts);
             else if( action == "purchased" ) see_purchased_films(line_parts);
             else if( action == "notifications" ) see_notifs(line_parts);
-
+            else cout << "Not Found" << endl;        
         }
+        else cout << "Bad Request" << endl;
     }
 }
