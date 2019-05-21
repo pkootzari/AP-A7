@@ -38,3 +38,9 @@ Film* Customer::if_film_purchased(int film_id) {
     return NULL; 
 }
 
+void Customer::reduce_money(int amount) {
+    if(spendable_money - amount < 0)
+        throw PermissionDenied();
+    else
+        spendable_money -= amount;
+}

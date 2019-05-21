@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "exeptions.h"
 
 class Film;
 
@@ -27,6 +28,7 @@ public:
     virtual std::vector<Film*> see_purchased_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director) {}
     virtual Film* if_film_purchased(int film_id) {}
     virtual Film* if_film_published(int film_id) {}
+    virtual void reduce_money(int amount) {}
     void post_money(int amount);
     void add_notif(std::string content);
     void see_notifs();

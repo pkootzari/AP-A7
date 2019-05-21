@@ -213,11 +213,6 @@ void In_out_handler::see_followers(vector<string> line_parts) {
 }
 
 void In_out_handler::post_money(vector<string> line_parts) {
-    /*int amount = -1;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "amount" )
-            amount = stoi(line_parts[++i]);
-    }*/
     try{
         map<string, string> input = process_command(line_parts);
         int amount;
@@ -250,13 +245,21 @@ void In_out_handler::search_films(vector<string> line_parts) {
 }
 
 void In_out_handler::buy_film(vector<string> line_parts) {
-    int film_id = -1;
+    /*int film_id = -1;
     for(int i = 3; i < line_parts.size(); i++) {
         if( line_parts[i] == "film_id" )
             film_id = stoi(line_parts[++i]);
+    }*/
+    try{
+        map<string, string> input = process_command(line_parts);
+        int film_id;
+        input["film_id"] != "" && is_number(input["film_id"]) ? film_id = stoi(input["film_id"]) : throw BadRequest();
+        manager->buy_film(film_id);
+        cout << DONE_MASSAGE << endl;
     }
-    manager->buy_film(film_id);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::see_purchased_films(vector<string> line_parts) {

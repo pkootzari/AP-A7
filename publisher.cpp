@@ -110,3 +110,10 @@ int calculate_money(Film* film) {
     else 
         cout << "rate beyne 0 ta 10 nist" << endl;
 }
+
+void Publisher::reduce_money(int amount) {
+    if(spendable_money - amount < 0)
+        throw PermissionDenied();
+    else
+        spendable_money -= amount; 
+}

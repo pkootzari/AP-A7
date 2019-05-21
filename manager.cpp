@@ -180,6 +180,9 @@ void Manager::post_money(int amount) {
 }
 
 void Manager::search_films(string name, int min_year, int max_year, int min_rate, int price,  string director) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    
     vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, films);
     cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
         for(int  i = 0; i < search_result.size(); i++)
@@ -198,17 +201,20 @@ void Manager::buy_film(int film_id) {
             break;
         }
     if(!if_found)
-        cout << "filmet nist ddsh" << endl;
+        throw NotFound();
     else {
-        content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
-        content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
-        content += ".";
-        for(int i = 0; i < users.size(); i++)
-            if(users[i]->get_type() == "publisher")
-                if(users[i]->film_bought(film_id)) {
-                    users[i]->add_notif(content);
-                    break;
-                }
+        if(cur_user->if_film_purchased(film_id) == NULL) {
+            cur_user->reduce_money(bought_film->get_price());
+            content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
+            content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
+            content += ".";
+            for(int i = 0; i < users.size(); i++)
+                if(users[i]->get_type() == "publisher")
+                    if(users[i]->film_bought(film_id)) {
+                        users[i]->add_notif(content);
+                        break;
+                    }
+        }
     }
 }
 

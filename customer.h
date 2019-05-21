@@ -17,6 +17,7 @@ public:
     virtual void add_to_purchased(Film* film);
     virtual std::vector<Film*> see_purchased_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
     virtual Film* if_film_purchased(int film_id);
+    virtual void reduce_money(int amount);
 private:
     std::vector<Film*> purchased;
     std::vector<User*> followings;
