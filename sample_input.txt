@@ -27,4 +27,9 @@ POST login ? username fuck password 123
 POST replies ? film_id 1 comment_id 1 content khodeti
 GET films ? film_id 1
 GET films ? min_rate 4
+GET notifications
+GET notifications
+GET notifications read ? limit 3
+POST login ? username maan password 789
+GET notifications
 

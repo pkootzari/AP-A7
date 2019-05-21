@@ -31,6 +31,7 @@ public:
     void reply_comment(std::vector<std::string> line_parts);
     void delete_comment(std::vector<std::string> line_parts);
     void see_details(std::vector<std::string> line_parts);
+    void see_notifs(std::vector<std::string> line_parts);
     friend std::vector<std::string> get_command(std::string input);
 private:
     Manager* manager;

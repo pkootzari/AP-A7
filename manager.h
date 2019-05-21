@@ -33,6 +33,8 @@ public:
     void delete_comment(int film_id, int comment_id);
     void see_details(int film_id);
     void print_recommandations(Film* except_this);
+    void see_notifs();
+    void read_notifs(int limit);
 private:
     int id_film;
     int id_user;

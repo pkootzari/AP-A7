@@ -154,6 +154,7 @@ void Manager::buy_film(int film_id) {
     else {
         content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
         content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
+        content += ".";
         for(int i = 0; i < users.size(); i++)
             if(users[i]->get_type() == "publisher")
                 if(users[i]->film_bought(film_id)) {
@@ -178,6 +179,7 @@ void Manager::rate_film(int film_id, int score) {
         string content = "";
         content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
         content += " rate your film "; content += rated_film->get_name(); content += " with id "; content += to_string(rated_film->get_id());
+        content += ".";
         rated_film->rate_this(cur_user->get_id(), score);
         for(int i = 0; i < users.size(); i++)
             if(users[i]->get_type() == "publisher")
@@ -196,6 +198,7 @@ void Manager::send_comment(int film_id, string content) {
         string content = "";
         content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
         content += " comment on your film "; content += commented_film->get_name(); content += " with id "; content += to_string(commented_film->get_id());
+        content += ".";
         for(int i = 0; i < users.size(); i++)
             if(users[i]->get_type() == "publisher")
                 if(users[i]->if_film_published(film_id) != NULL) {
@@ -264,4 +267,18 @@ void Manager::print_recommandations(Film* except_this) {
             count ++;
         }
     }
+}
+
+void Manager::see_notifs() {
+    if(cur_user == NULL)
+        cout << "permision denide" << endl;
+    else 
+        cur_user->see_notifs();
+}
+
+void Manager::read_notifs(int limit) {
+    if(cur_user == NULL)
+        cout << "permision denide" << endl;
+    else
+        cur_user->read_notifs(limit);
 }

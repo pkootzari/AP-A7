@@ -38,6 +38,7 @@ map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     result["score"] = "";
     result["comment_id"] = "";
     result["name"] = "";
+    result["limit"] = "";
 
     for(int i = 3; i < line_parts.size(); i++)
         for(auto itr = result.begin(); itr != result.end(); itr++)
@@ -324,6 +325,16 @@ void In_out_handler::see_details(vector<string> line_parts) {
     manager->see_details(film_id);
 }
 
+void In_out_handler::see_notifs(vector<string> line_parts) {
+    if(line_parts.size() == 2)
+        manager->see_notifs();
+    else {
+        map<string, string> input = process_command(line_parts);
+        int limit = stoi(input["limit"]);
+        manager->read_notifs(limit);
+    }
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -358,6 +369,8 @@ void In_out_handler::input_reader() {
             else if( action == "followers" ) see_followers(line_parts);
             else if( action == "films" ) search_films(line_parts);
             else if( action == "purchased" ) see_purchased_films(line_parts);
+            else if( action == "notifications" ) see_notifs(line_parts);
+
         }
     }
 }

@@ -24,6 +24,27 @@ void User::add_notif(string conetnt) {
     notifs.push_back( make_pair(conetnt, false) );
 }
 
+void User::see_notifs() {
+    cout << "#. Notification Message" << endl;
+    for(int i = notifs.size() - 1, j = 1; i >= 0; i--) {
+        if(notifs[i].second == false) {
+            notifs[i].second = true;
+            cout << j << ". " << notifs[i].first << endl;
+            j++;
+        }
+        else 
+            break;
+    }
+}
+
+void User::read_notifs(int limit) {
+    int j = 1;
+    for(int i = notifs.size() - 1; i >= 0 && limit > 0; i--, limit--) {
+        cout << j << ". " << notifs[i].first << endl;
+        j++;
+    }
+}
+
 ostream& operator<<(ostream& out, User* user) {
     out << user->id << " | " << user->username << " | " << user->email << endl;
 }

@@ -29,6 +29,8 @@ public:
     virtual Film* if_film_published(int film_id) {}
     void post_money(int amount);
     void add_notif(std::string content);
+    void see_notifs();
+    void read_notifs(int limit);
     friend std::ostream& operator<<(std::ostream& out, User* user);
 protected:
     int id;
