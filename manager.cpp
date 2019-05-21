@@ -2,6 +2,20 @@
 
 using namespace std;
 
+#define A 54059 /* a prime */
+#define B 76963 /* another prime */
+#define C 86969 /* yet another prime */
+#define FIRSTH 37 /* also prime */
+unsigned hash_str(const char* s)
+{
+   unsigned h = FIRSTH;
+   while (*s) {
+     h = (h * A) ^ (s[0] * B);
+     s++;
+   }
+   return h; // or return h % C;
+}
+
 Manager::Manager() {
     id_comment = 1;
     id_film = 1;
@@ -33,7 +47,8 @@ void Manager::add_publisher(string email, string username, string password, int 
     
     int id = id_user;
     id_user++;
-    users.push_back( new Publisher(id, email, username, password, age) );
+    int pass = hash_str(password.c_str());
+    users.push_back( new Publisher(id, email, username, pass, age) );
     cur_user = users[users.size() - 1];
 }
 
@@ -44,14 +59,16 @@ void Manager::add_customer(string email, string username, string password, int a
     
     int id = id_user;
     id_user++;
-    users.push_back( new Customer(id, email, username, password, age) );
+    int pass = hash_str(password.c_str());
+    users.push_back( new Customer(id, email, username, pass, age) );
     cur_user = users[users.size() - 1];
 }
 
 void Manager::login(string username, string password) {
     User* temp;
      for(int i = 0; i < users.size(); i++) {
-        temp = users[i]->vertification(username, password);
+        int pass = hash_str(password.c_str()); 
+        temp = users[i]->vertification(username, pass);
         if(temp != NULL)
             break;
     }
@@ -190,6 +207,9 @@ void Manager::search_films(string name, int min_year, int max_year, int min_rate
 }
 
 void Manager::buy_film(int film_id) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    
     bool if_found = false;
     Film* bought_film;
     string content = "";
@@ -219,6 +239,8 @@ void Manager::buy_film(int film_id) {
 }
 
 void Manager::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
     vector<Film*> search_result = cur_user->see_purchased_films(name, min_year, max_year, min_rate, price, director);
     cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
     for(int  i = 0; i < search_result.size(); i++)
@@ -335,6 +357,36 @@ void Manager::read_notifs(int limit) {
         cout << "permision denide" << endl;
     else
         cur_user->read_notifs(limit);
+}
+
+void Manager::sort_film_by_id(vector<Film*>& input) {
+    for(int i = 0; i < input.size(); i++) {
+        Film* cur = input[i];
+        int pos = i;
+        for(int j = i; j < input.size(); j++) 
+            if(input[j]->get_id() < input[i]->get_id()) {
+                pos = j;
+                cur = input[j];
+            }
+        Film* temp = input[i];
+        input[i] = cur;
+        input[pos] = temp;
+    }
+}
+
+void Manager::sort_user_by_id(vector<User*>& input) {
+    for(int i = 0; i < input.size(); i++) {
+        User* cur = input[i];
+        int pos = i;
+        for(int j = i; j < input.size(); j++) 
+            if(input[j]->get_id() < input[i]->get_id()) {
+                pos = j;
+                cur = input[j];
+            }
+        User* temp = input[i];
+        input[i] = cur;
+        input[pos] = temp;
+    }
 }
 
 void Manager::free() {

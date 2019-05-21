@@ -32,6 +32,13 @@ bool if_publisher(string input) {
         return false;
 }
 
+bool isemailvalid(const string& email)
+{
+   const std::regex pattern ("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+   return std::regex_match(email, pattern);
+}
+
+
 map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     map<string, string> result;
     result["username"] = "";
@@ -79,7 +86,7 @@ void In_out_handler::signup(vector<string> line_parts) {
         int age;
         input["username"] != "" ? username = input["username"] : throw BadRequest();
         input["password"] != "" ? password = input["password"] : throw BadRequest();
-        input["email"] != "" ? email = input["email"] : throw BadRequest();
+        input["email"] != "" && isemailvalid(input["email"]) ? email = input["email"] : throw BadRequest();
         input["age"] != "" && is_number(input["age"]) ? age = stoi(input["age"]) : throw BadRequest();
         input["publisher"] != "" ? if_is_publisher = if_publisher(input["publisher"]) : if_is_publisher = false;
         if(if_is_publisher == true)
@@ -245,11 +252,6 @@ void In_out_handler::search_films(vector<string> line_parts) {
 }
 
 void In_out_handler::buy_film(vector<string> line_parts) {
-    /*int film_id = -1;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "film_id" )
-            film_id = stoi(line_parts[++i]);
-    }*/
     try{
         map<string, string> input = process_command(line_parts);
         int film_id;
@@ -263,7 +265,7 @@ void In_out_handler::buy_film(vector<string> line_parts) {
 }
 
 void In_out_handler::see_purchased_films(vector<string> line_parts) {
-    string name = "";
+    /*string name = "";
     int min_year = -1;
     int min_rate = -1;
     int price = -1;
@@ -282,8 +284,24 @@ void In_out_handler::see_purchased_films(vector<string> line_parts) {
             price = stoi(line_parts[++i]);
         else if( line_parts[i] == "director" )
             director = line_parts[++i];
+    }*/
+    try{
+        map<string, string> input = process_command(line_parts);
+        string name = input["name"];
+        string director = input["director"];
+        int min_year;
+        int max_year;
+        int min_rate;
+        int price;
+        input["min_year"] != "" ? min_year = stoi(input["min_year"]) : min_year = -1;
+        input["max_year"] != "" ? max_year = stoi(input["max_year"]) : max_year = -1;
+        input["min_rate"] != "" ? min_rate = stoi(input["min_rate"]) : min_rate = -1;
+        input["price"] != "" ? price = stoi(input["price"]) : price = -1;
+        manager->see_purchased_films(name, min_year, max_year, min_rate, price, director);
     }
-    manager->see_purchased_films(name, min_year, max_year, min_rate, price, director);
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::rate_film(vector<string> line_parts) {

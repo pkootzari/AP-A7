@@ -6,6 +6,7 @@
 #include <sstream>
 #include <map>
 #include <string>
+#include <regex>
 #include <unordered_map>
 #include "exeptions.h"
 #include "manager.h"

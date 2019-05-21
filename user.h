@@ -11,10 +11,10 @@ class Film;
 
 class User {
 public:
-    User(int _id, std::string _email, std::string _username, std::string _password, int _age);
+    User(int _id, std::string _email, std::string _username, unsigned _password, int _age);
     int get_id();
     std::string get_username();
-    User* vertification(std::string _username, std::string _password);
+    User* vertification(std::string _username, unsigned _password);
     virtual void add_film(Film* film) {}
     virtual std::string get_type() {}
     virtual bool delete_film(int film_id) {}
@@ -29,6 +29,8 @@ public:
     virtual Film* if_film_purchased(int film_id) {}
     virtual Film* if_film_published(int film_id) {}
     virtual void reduce_money(int amount) {}
+    virtual void sort_film_by_id(std::vector<Film*>& input) {}
+    virtual void sort_user_by_id(std::vector<User*>& input) {}
     void post_money(int amount);
     void add_notif(std::string content);
     void see_notifs();
@@ -39,7 +41,7 @@ protected:
     int spendable_money;
     std::string email;
     std::string username;
-    std::string password;
+    unsigned password;
     std::vector< std::pair <std::string, bool> > notifs;
     int age;
 };

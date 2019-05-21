@@ -12,7 +12,7 @@ class Customer;
 
 class Publisher : public User {
 public:
-    Publisher(int _id, std::string _email, std::string _username, std::string _password, int _age);
+    Publisher(int _id, std::string _email, std::string _username, unsigned _password, int _age);
     virtual void add_film(Film* film);
     virtual std::string get_type();
     virtual bool delete_film(int film_id);
@@ -27,6 +27,8 @@ public:
     virtual Film* if_film_purchased(int film_id);
     virtual Film* if_film_published(int film_id);
     virtual void reduce_money(int amount);
+    virtual void sort_film_by_id(std::vector<Film*>& input);
+    virtual void sort_user_by_id(std::vector<User*>& input);
 private:
     int withdrawable_money;
     std::vector<Film*> published;

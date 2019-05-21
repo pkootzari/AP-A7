@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Publisher::Publisher(int _id, std::string _email, std::string _username, std::string _password, int _age) 
+Publisher::Publisher(int _id, std::string _email, std::string _username, unsigned _password, int _age) 
     :   User(_id, _email, _username, _password, _age) {
             withdrawable_money = 0;
     }
@@ -52,6 +52,7 @@ bool Publisher::add_to_following(User* user) {
 }
 
 void Publisher::see_followers() {
+    sort_user_by_id(followers);
     for(int i = 0; i < followers.size(); i++)
         cout << i + 1 << ". " << followers[i];
 }
@@ -83,6 +84,7 @@ bool Publisher::film_bought(int film_id) {
 
 vector<Film*> Publisher::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
     vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, purchased);
+    sort_film_by_id(search_result);
     return search_result;
 }
 
@@ -116,4 +118,34 @@ void Publisher::reduce_money(int amount) {
         throw PermissionDenied();
     else
         spendable_money -= amount; 
+}
+
+void Publisher::sort_film_by_id(vector<Film*>& input) {
+    for(int i = 0; i < input.size(); i++) {
+        Film* cur = input[i];
+        int pos = i;
+        for(int j = i; j < input.size(); j++) 
+            if(input[j]->get_id() < input[i]->get_id()) {
+                pos = j;
+                cur = input[j];
+            }
+        Film* temp = input[i];
+        input[i] = cur;
+        input[pos] = temp;
+    }
+}
+
+void Publisher::sort_user_by_id(vector<User*>& input) {
+    for(int i = 0; i < input.size(); i++) {
+        User* cur = input[i];
+        int pos = i;
+        for(int j = i; j < input.size(); j++) 
+            if(input[j]->get_id() < input[i]->get_id()) {
+                pos = j;
+                cur = input[j];
+            }
+        User* temp = input[i];
+        input[i] = cur;
+        input[pos] = temp;
+    }
 }

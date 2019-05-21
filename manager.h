@@ -38,6 +38,8 @@ public:
     void read_notifs(int limit);
     bool if_id_exist(int id);
     void free();
+    virtual void sort_film_by_id(std::vector<Film*>& input);
+    virtual void sort_user_by_id(std::vector<User*>& input);
 private:
     int id_film;
     int id_user;
