@@ -2,13 +2,16 @@ CC = g++ --std=c++11
 
 all: a.out
 
-a.out: main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o
-			${CC} main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o
+a.out: main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o
+			${CC} main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o
 
 main.o: main.cpp in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o
 			${CC} -c main.cpp
 
-in_out_handler.o: in_out_handler.cpp in_out_handler.h manager.h manager.cpp
+exeptions.o: exeptions.h exeptions.cpp
+			${CC} -c exeptions.cpp
+
+in_out_handler.o: in_out_handler.cpp in_out_handler.h manager.h manager.cpp exeptions.cpp exeptions.h
 			${CC} -c in_out_handler.cpp
 
 film.o: film.cpp film.h
@@ -28,6 +31,7 @@ publisher.o: publisher.cpp publisher.h user.h user.cpp film.h film.cpp customer.
 
 customer.o: customer.cpp customer.h user.h user.cpp film.h film.cpp
 			${CC} -c customer.cpp
+
 clean:
 			rm *.o
 			rm a.out

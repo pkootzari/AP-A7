@@ -5,6 +5,9 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <string>
+#include <unordered_map>
+#include "exeptions.h"
 #include "manager.h"
 
 #define DONE_MASSAGE "OK"

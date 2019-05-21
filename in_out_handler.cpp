@@ -74,6 +74,8 @@ void In_out_handler::signup(vector<string> line_parts) {
         }
     }
 
+
+
     if(if_is_publisher == true)
         manager->add_publisher(email, username, password, age);
     else
