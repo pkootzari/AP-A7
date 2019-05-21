@@ -55,6 +55,8 @@ map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     result["comment_id"] = "";
     result["name"] = "";
     result["limit"] = "";
+    result["year"] = "";
+    result["rate"] = "";
 
     for(int i = 3; i < line_parts.size(); i++)
         for(auto itr = result.begin(); itr != result.end(); itr++)
@@ -155,13 +157,6 @@ void In_out_handler::edit_film(vector<string> line_parts) {
 }
 
 void In_out_handler::delete_film(vector<string> line_parts) {
-    /*int film_id;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "film_id" )
-            film_id = stoi(line_parts[++i]);
-        else
-            cout << "vorodie kiri" << endl;
-    }*/
     try {
         map<string, string> input = process_command(line_parts);
         int film_id;
@@ -175,7 +170,7 @@ void In_out_handler::delete_film(vector<string> line_parts) {
 }
 
 void In_out_handler::get_published_films(vector<string> line_parts) {
-    string name = "";
+    /*string name = "";
     int min_year = -1;
     int min_rate = -1;
     int price = -1;
@@ -194,8 +189,30 @@ void In_out_handler::get_published_films(vector<string> line_parts) {
             price = stoi(line_parts[++i]);
         else if( line_parts[i] == "director" )
             director = line_parts[++i];
+    }*/
+    try {
+        map<string, string> input = process_command(line_parts);
+        string name = "";
+        int min_year = -1;
+        int max_year = -1;
+        int min_rate = -1;
+        int price = -1;
+        int length = -1;
+        string summary = "";
+        string director = "";
+        input["name"] != "" ? name = input["name"] : name = "";
+        input["summary"] != "" ? summary = input["summary"] : summary = "";
+        input["director"] != "" ? director = input["director"] : director = "";
+        input["min_year"] != "" && is_number(input["min_year"]) ? min_year = stoi(input["min_year"]) : min_year = -1;
+        input["max_year"] != "" && is_number(input["max_year"]) ? max_year = stoi(input["max_year"]) : max_year = -1;
+        input["min_rate"] != "" && is_number(input["min_rate"]) ? min_rate = stoi(input["min_rate"]) : min_rate = -1;
+        input["price"] != "" && is_number(input["price"]) ? price = stoi(input["price"]) : price = -1;
+        input["length"] != "" && is_number(input["length"]) ? length = stoi(input["length"]) : length = -1;
+        manager->get_published_films(name, min_year, max_year, min_rate, price, director);
     }
-    manager->get_published_films(name, min_year, max_year, min_rate, price, director);
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::follow_publisher(vector<string> line_parts) {

@@ -119,8 +119,10 @@ void Manager::delete_film(int film_id) {
 }
 
 void Manager::get_published_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
-        cout << "nmitoni ddsh" << endl;
+        throw PermissionDenied();
     else {
         vector<Film*> search_result = cur_user->get_published_films(name, min_year, max_year, min_rate, price, director);
         cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
