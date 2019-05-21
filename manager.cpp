@@ -9,6 +9,13 @@ Manager::Manager() {
     cur_user = NULL;
 }
 
+bool Manager::if_id_exist(int id) {
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == id)
+            return true;
+    return false;
+}
+
 void print_film_details(Film* film) {
     cout << "Id = " << film->get_id() << endl;
     cout << "Director = " << film->get_director() << endl;
@@ -70,15 +77,24 @@ void Manager::add_film(string name, int year, int length, int price, string summ
 }
 
 void Manager::edit_film(int film_id, string name, int year, int length, int price, string summary, string director) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    if(cur_user->get_type() != "publisher")
+        throw PermissionDenied();
+    if(cur_user->if_film_published(film_id))
+        throw PermissionDenied();
+    
     int i;
+    bool is_found = false;
     for(i = 0; i < films.size(); i++) {
         if(films[i]->get_id() == film_id) {
             films[i]->edit_film(name, year, length, price, summary, director);
+            is_found = true;
             break;
         }
     }
-    if(i == films.size())
-        cout << "ridi ddsh" << endl;
+    if(!is_found)
+        throw BadRequest();
 }
 
 void Manager::delete_film(int film_id) {
@@ -294,4 +310,13 @@ void Manager::read_notifs(int limit) {
         cout << "permision denide" << endl;
     else
         cur_user->read_notifs(limit);
+}
+
+void Manager::free() {
+    for(int i = 0; i < films.size(); i++)
+        delete films[i];
+    for(int i = 0; i < users.size(); i++)
+        delete users[i];
+    for(int i = 0; i < commnets.size(); i++)
+        delete commnets[i];
 }

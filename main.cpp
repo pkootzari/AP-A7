@@ -8,5 +8,6 @@ using namespace std;
 int main() {
     In_out_handler handler = In_out_handler();
     handler.input_reader();
+    handler.free();
     return 0;
 }

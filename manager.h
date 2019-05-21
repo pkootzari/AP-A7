@@ -36,6 +36,8 @@ public:
     void print_recommandations(Film* except_this);
     void see_notifs();
     void read_notifs(int limit);
+    bool if_id_exist(int id);
+    void free();
 private:
     int id_film;
     int id_user;

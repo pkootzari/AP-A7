@@ -107,26 +107,6 @@ void In_out_handler::login(vector<string> line_parts) {
 }
 
 void In_out_handler::post_film(vector<string> line_parts) {
-    /*string name;
-    string summary;
-    string director;
-    int year;
-    int length;
-    int price;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "name" )
-            name = line_parts[++i];
-        else if( line_parts[i] == "year" )
-            year = stoi(line_parts[++i]);
-        else if( line_parts[i] == "length" )
-            length = stoi(line_parts[++i]);
-        else if( line_parts[i] == "price" )
-            price = stoi(line_parts[++i]);
-        else if( line_parts[i] == "summary" )
-            summary = line_parts[++i];
-        else if( line_parts[i] == "director" )
-            director = line_parts[++i];
-    }*/
     try{
         map<string, string> input = process_command(line_parts);
         string name;
@@ -150,7 +130,7 @@ void In_out_handler::post_film(vector<string> line_parts) {
 }
 
 void In_out_handler::edit_film(vector<string> line_parts) {
-    int film_id;
+    /*int film_id;
     string name = "";
     int year = -1;
     int price = -1;
@@ -172,9 +152,29 @@ void In_out_handler::edit_film(vector<string> line_parts) {
             director = line_parts[++i];
         else if( line_parts[i] == "price" )
             price = stoi(line_parts[++i]);
+    }*/
+    try {
+        map<string, string> input = process_command(line_parts);
+        int film_id;
+        string name = "";
+        int year = -1;
+        int price = -1;
+        int length = -1;
+        string summary = "";
+        string director = "";
+        input["film_id"] != "" && is_number(input["film_id"]) ? film_id = stoi(input["film_id"]) : throw BadRequest();
+        input["name"] != "" ? name = input["name"] : name = "";
+        input["summary"] != "" ? summary = input["summary"] : summary = "";
+        input["director"] != "" ? director = input["director"] : director = "";
+        input["year"] != "" && is_number(input["year"]) ? year = stoi(input["year"]) : year = -1;
+        input["price"] != "" && is_number(input["price"]) ? price = stoi(input["price"]) : price = -1;
+        input["length"] != "" && is_number(input["length"]) ? length = stoi(input["length"]) : length = -1;
+        manager->edit_film(film_id, name, year, length, price, summary, director);
+        cout << DONE_MASSAGE << endl;
     }
-    manager->edit_film(film_id, name, year, length, price, summary, director);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::delete_film(vector<string> line_parts) {
@@ -239,26 +239,6 @@ void In_out_handler::post_money(vector<string> line_parts) {
 }
 
 void In_out_handler::search_films(vector<string> line_parts) {
-    /*string name = "";
-    int min_year = -1;
-    int min_rate = -1;
-    int price = -1;
-    int max_year = -1;
-    string director = "";
-    for(int  i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "name" )
-            name = line_parts[++i];
-        else if( line_parts[i] == "min_rate" ) 
-            min_rate = stoi(line_parts[++i]);
-        else if( line_parts[i] == "min_year" )
-            min_year = stoi(line_parts[++i]);
-        else if( line_parts[i] == "max_year" )
-            max_year = stoi(line_parts[++i]);
-        else if( line_parts[i] == "price" )
-            price = stoi(line_parts[++i]);
-        else if( line_parts[i] == "director" )
-            director = line_parts[++i];
-    }*/
     map<string, string> input = process_command(line_parts);
     if(input["film_id"] != "") 
         see_details(line_parts);
@@ -363,6 +343,10 @@ void In_out_handler::see_notifs(vector<string> line_parts) {
         int limit = stoi(input["limit"]);
         manager->read_notifs(limit);
     }
+}
+
+void In_out_handler::free() {
+    manager->free();
 }
 
 void In_out_handler::input_reader() {
