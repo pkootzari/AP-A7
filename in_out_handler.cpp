@@ -364,12 +364,18 @@ void In_out_handler::see_details(vector<string> line_parts) {
 }
 
 void In_out_handler::see_notifs(vector<string> line_parts) {
-    if(line_parts.size() == 2)
+    if(line_parts.size() == 2 || line_parts.size() == 3)
         manager->see_notifs();
     else {
-        map<string, string> input = process_command(line_parts);
-        int limit = stoi(input["limit"]);
-        manager->read_notifs(limit);
+        try{
+            map<string, string> input = process_command(line_parts);
+            int limit;
+            input["limit"] != "" && is_number(input["limit"]) ? limit = stoi(input["limit"]) : throw BadRequest();
+            manager->read_notifs(limit);
+        }
+        catch(exception& ex) {
+            cout << ex.what() << endl;
+        }
     }
 }
 

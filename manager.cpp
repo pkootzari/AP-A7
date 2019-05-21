@@ -400,14 +400,14 @@ void Manager::print_recommandations(Film* except_this) {
 
 void Manager::see_notifs() {
     if(cur_user == NULL)
-        cout << "permision denide" << endl;
+        throw PermissionDenied();
     else 
         cur_user->see_notifs();
 }
 
 void Manager::read_notifs(int limit) {
     if(cur_user == NULL)
-        cout << "permision denide" << endl;
+        throw PermissionDenied();
     else
         cur_user->read_notifs(limit);
 }
