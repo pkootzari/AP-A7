@@ -68,27 +68,6 @@ map<string, string> In_out_handler::process_command(vector<string> line_parts) {
 }
 
 void In_out_handler::signup(vector<string> line_parts) {
-    /*string username;
-    string password;
-    string email;
-    int age;
-    bool if_is_publisher = false;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "username" ) 
-            username = line_parts[++i];
-        else if( line_parts[i] == "password" )
-            password = line_parts[++i];
-        else if( line_parts[i] == "email" )
-            email = line_parts[++i];
-        else if( line_parts[i] == "age" )
-            age = stoi(line_parts[++i]);
-        else if( line_parts[i] == "publisher" ) {
-            if( line_parts[i + 1] == "true")
-                if_is_publisher = true;
-            else if( line_parts[i + 1] == "false" )
-                if_is_publisher = false;
-        }
-    }*/
     try {
         map<string, string> input = process_command(line_parts);
         string username;
@@ -113,16 +92,26 @@ void In_out_handler::signup(vector<string> line_parts) {
 }
 
 void In_out_handler::login(vector<string> line_parts) {
-    string username;
-    string password;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "username" )
-            username = line_parts[++i];
-        else if( line_parts[i] == "password" )
-            password = line_parts[++i];
+    // string username;
+    // string password;
+    // for(int i = 3; i < line_parts.size(); i++) {
+    //     if( line_parts[i] == "username" )
+    //         username = line_parts[++i];
+    //     else if( line_parts[i] == "password" )
+    //         password = line_parts[++i];
+    // }
+    try {
+        map<string, string> input = process_command(line_parts);
+        string username;
+        string password;
+        input["username"] != "" ? username = input["username"] : throw BadRequest();
+        input["password"] != "" ? password = input["password"] : throw BadRequest();
+        manager->login(username, password);
+        cout << DONE_MASSAGE << endl;
     }
-    manager->login(username, password);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::post_film(vector<string> line_parts) {

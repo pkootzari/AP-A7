@@ -10,6 +10,7 @@
 #include "customer.h"
 #include "film.h"
 #include "comment.h"
+#include "exeptions.h"
 
 class Manager {
 public:

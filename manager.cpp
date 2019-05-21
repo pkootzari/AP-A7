@@ -20,6 +20,10 @@ void print_film_details(Film* film) {
 }
 
 void Manager::add_publisher(string email, string username, string password, int age) {
+    for (int i = 0; i < users.size(); i++)
+        if(users[i]->get_username() == username)
+            throw BadRequest();
+    
     int id = id_user;
     id_user++;
     users.push_back( new Publisher(id, email, username, password, age) );
@@ -27,6 +31,10 @@ void Manager::add_publisher(string email, string username, string password, int 
 }
 
 void Manager::add_customer(string email, string username, string password, int age) {
+    for (int i = 0; i < users.size(); i++)
+        if(users[i]->get_username() == username)
+            throw BadRequest();
+    
     int id = id_user;
     id_user++;
     users.push_back( new Customer(id, email, username, password, age) );
@@ -42,6 +50,8 @@ void Manager::login(string username, string password) {
     }
     if(temp != NULL) 
         cur_user = temp;
+    else 
+        throw BadRequest();
 }
 
 void Manager::add_film(string name, int year, int length, int price, string summary, string director) {
