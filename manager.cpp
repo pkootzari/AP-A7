@@ -312,14 +312,26 @@ void Manager::send_comment(int film_id, string content) {
 }
 
 void Manager::reply_comment(int film_id, int comment_id, string content) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    
+    bool if_exist = false;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id) {
+            if_exist = true;
+            break;
+        }
+    if(!if_exist)
+        throw NotFound();
+    
     Film* commneted_film = cur_user->if_film_published(film_id);
     if(commneted_film == NULL)
-        cout << "filmo publish nkrdi ddsh" << endl;
+        throw PermissionDenied();
     else {
         commneted_film->add_reply(content, comment_id);
         User* comment_owner = commneted_film->get_comment_sender(comment_id);
         if(comment_owner == NULL)
-            cout << "no such comment" << endl;
+            throw NotFound();
         else {
             string content = "";
             content += "Publisher ";  content += cur_user->get_username();  content += " with id ";  content += to_string(cur_user->get_id());
