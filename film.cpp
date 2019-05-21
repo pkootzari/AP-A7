@@ -32,7 +32,7 @@ void Film::edit_film(string name, int year, int length, int price, string summar
 
 ostream& operator<<(ostream& out, Film* film) {
     out /*<< film->id << ". "*/ << film->id << " | " << film->name << " | " << film->length << " | "
-        << film->price << " | " << film->rate << " | " << film->year << " | " << film->director 
+        << film->price << " | " << setprecision(2) << film->rate << " | " << film->year << " | " << film->director 
         << endl;
     return out;
 }
@@ -52,16 +52,16 @@ void Film::rate_this(int user_id, int score) {
     rate = sum / scores_given.size();
 }
 
-void Film::add_comment(string content) {
-    commnets.push_back( new Comment(initial_comment_id, content) );
+void Film::add_comment(string content, User* user) {
+    commnets.push_back( make_pair(new Comment(initial_comment_id, content), user) );
     initial_comment_id++;
 }
 
 void Film::add_reply(string content, int comment_id) {
     bool comment_found = false;
     for(int i = 0; i < commnets.size(); i++)
-        if(commnets[i]->get_id() == comment_id) {
-            commnets[i]->add_reply(content);
+        if(commnets[i].first->get_id() == comment_id) {
+            commnets[i].first->add_reply(content);
             comment_found = true;
             break;
         }
@@ -72,7 +72,7 @@ void Film::add_reply(string content, int comment_id) {
 void Film::delete_comment(int comment_id) {
     bool comment_found = false;
     for(int i = 0; i < commnets.size(); i++)
-        if(commnets[i]->get_id() == comment_id) {
+        if(commnets[i].first->get_id() == comment_id) {
             commnets.erase(commnets.begin() + i);
             comment_found = true;
             break;
@@ -83,7 +83,14 @@ void Film::delete_comment(int comment_id) {
 
 void Film::print_comments() {
     for(int i = 0; i < commnets.size(); i++)
-        cout << commnets[i];
+        cout << commnets[i].first;
+}
+
+User* Film::get_comment_sender(int comment_id) {
+    for(int i = 0; i < commnets.size(); i++)
+        if(commnets[i].first->get_id() == comment_id)
+            return commnets[i].second;
+    return NULL;
 }
 
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {

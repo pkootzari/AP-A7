@@ -94,11 +94,15 @@ void Manager::get_published_films(string name, int min_year, int max_year, int m
 }
 
 void Manager::follow_publisher(int user_id) {
+    string content = "";
+    content += "User ";  content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
+    content += " follow you.";
     for(int  i = 0; i < users.size(); i++) {
         if(users[i]->get_id() == user_id) {
             if(users[i]->get_type() == "publisher") {
                 cur_user->add_to_following(users[i]);
                 users[i]->add_to_followers(cur_user);
+                users[i]->add_notif(content);
             }
             else
                 cout << "pointed user is not publisher" << endl;
@@ -135,19 +139,28 @@ void Manager::search_films(string name, int min_year, int max_year, int min_rate
 }
 
 void Manager::buy_film(int film_id) {
-    int i;
-    for(i = 0; i < films.size(); i++)
+    bool if_found = false;
+    Film* bought_film;
+    string content = "";
+    for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
             cur_user->add_to_purchased(films[i]);
+            bought_film = films[i];
+            if_found = true;
             break;
         }
-    if(i == films.size())
+    if(!if_found)
         cout << "filmet nist ddsh" << endl;
-    else
-        for(i = 0; i < users.size(); i++)
+    else {
+        content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
+        content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
+        for(int i = 0; i < users.size(); i++)
             if(users[i]->get_type() == "publisher")
-                if(users[i]->film_bought(film_id))
+                if(users[i]->film_bought(film_id)) {
+                    users[i]->add_notif(content);
                     break;
+                }
+    }
 }
 
 void Manager::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
@@ -161,24 +174,54 @@ void Manager::rate_film(int film_id, int score) {
     Film* rated_film = cur_user->if_film_purchased(film_id);
     if(rated_film == NULL)
         cout << "filmo ndri ddsh" << endl;
-    else 
+    else {
+        string content = "";
+        content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
+        content += " rate your film "; content += rated_film->get_name(); content += " with id "; content += to_string(rated_film->get_id());
         rated_film->rate_this(cur_user->get_id(), score);
+        for(int i = 0; i < users.size(); i++)
+            if(users[i]->get_type() == "publisher")
+                if(users[i]->if_film_published(film_id) != NULL) {
+                    users[i]->add_notif(content);
+                    break;
+                }
+    }
 }
 
 void Manager::send_comment(int film_id, string content) {
     Film* commented_film = cur_user->if_film_purchased(film_id);
     if(commented_film == NULL)
         cout << "filmo ndri ddsh" << endl;
-    else
-        commented_film->add_comment(content);
+    else {
+        string content = "";
+        content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
+        content += " comment on your film "; content += commented_film->get_name(); content += " with id "; content += to_string(commented_film->get_id());
+        for(int i = 0; i < users.size(); i++)
+            if(users[i]->get_type() == "publisher")
+                if(users[i]->if_film_published(film_id) != NULL) {
+                    users[i]->add_notif(content);
+                    break;
+                }
+        commented_film->add_comment(content, cur_user);
+    }
 }
 
 void Manager::reply_comment(int film_id, int comment_id, string content) {
     Film* commneted_film = cur_user->if_film_published(film_id);
     if(commneted_film == NULL)
         cout << "filmo publish nkrdi ddsh" << endl;
-    else
+    else {
         commneted_film->add_reply(content, comment_id);
+        User* comment_owner = commneted_film->get_comment_sender(comment_id);
+        if(comment_owner == NULL)
+            cout << "no such comment" << endl;
+        else {
+            string content = "";
+            content += "Publisher ";  content += cur_user->get_username();  content += " with id ";  content += to_string(cur_user->get_id());
+            content += " reply to your comment.";
+            comment_owner->add_notif(content);
+        }
+    }
 }
 
 void Manager::delete_comment(int film_id, int comment_id) {

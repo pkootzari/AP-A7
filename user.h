@@ -12,6 +12,7 @@ class User {
 public:
     User(int _id, std::string _email, std::string _username, std::string _password, int _age);
     int get_id();
+    std::string get_username();
     User* vertification(std::string _username, std::string _password);
     virtual void add_film(Film* film) {}
     virtual std::string get_type() {}
@@ -27,6 +28,7 @@ public:
     virtual Film* if_film_purchased(int film_id) {}
     virtual Film* if_film_published(int film_id) {}
     void post_money(int amount);
+    void add_notif(std::string content);
     friend std::ostream& operator<<(std::ostream& out, User* user);
 protected:
     int id;

@@ -14,9 +14,14 @@ User* User::vertification(string _username, string _password) {
 }
 
 int User::get_id() { return id; }
+string User::get_username() { return username; }
 
 void User::post_money(int amount) {
     spendable_money += amount;
+}
+
+void User::add_notif(string conetnt) {
+    notifs.push_back( make_pair(conetnt, false) );
 }
 
 ostream& operator<<(ostream& out, User* user) {

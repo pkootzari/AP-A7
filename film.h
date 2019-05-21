@@ -6,7 +6,10 @@
 #include <utility>
 #include <iostream>
 #include <algorithm>
+#include <iomanip>
 #include "comment.h"
+
+class User;
 
 class Film {
 public:
@@ -21,10 +24,11 @@ public:
     std::string get_director();
     void rate_this(int user_id, int score);
     void edit_film(std::string name, int year, int length, int price, std::string summary, std::string director);
-    void add_comment(std::string content);
+    void add_comment(std::string content, User* user);
     void add_reply(std::string content, int comment_id);
     void delete_comment(int comment_id);
     void print_comments();
+    User* get_comment_sender(int comment_id);
     friend std::ostream& operator<<(std::ostream& out, Film* film);
     friend void sort_by_rate(std::vector<Film*>& input);
 private:
@@ -38,7 +42,7 @@ private:
     std::string summary;
     std::vector< std::pair<int, int> > scores_given;
     int initial_comment_id;
-    std::vector<Comment*> commnets;
+    std::vector< std::pair<Comment*, User*> > commnets;
 };
 
 std::vector<Film*> search(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director, std::vector<Film*> input);

@@ -8,7 +8,12 @@ Publisher::Publisher(int _id, std::string _email, std::string _username, std::st
     }
 
 void Publisher::add_film(Film* film) {
-     published.push_back(film);
+    published.push_back(film);
+    string content = "";
+    content += "Publisher ";  content += this->username;  content += " with id ";  content += to_string(this->id);
+    content += " register new film.";
+    for(int i = 0; i < followings.size(); i++)
+        followings[i]->add_notif(content);
 }
 
 string Publisher::get_type() { return "publisher"; }

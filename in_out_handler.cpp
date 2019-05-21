@@ -37,6 +37,7 @@ map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     result["content"] = "";
     result["score"] = "";
     result["comment_id"] = "";
+    result["name"] = "";
 
     for(int i = 3; i < line_parts.size(); i++)
         for(auto itr = result.begin(); itr != result.end(); itr++)
@@ -327,51 +328,36 @@ void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
         vector<string> line_parts = get_command(line);
+        if(line_parts.empty()) continue;
         string command = line_parts[0];
         if( command == "POST" ) {
             string action = line_parts[1];
-            if( action == "signup" )
-                signup(line_parts);
-            else if( action == "login" )
-                login(line_parts);
-            else if( action == "films" )
-                post_film(line_parts);
-            else if( action == "followers" )
-                follow_publisher(line_parts);
-            else if( action == "money" )
-                post_money(line_parts);
-            else if( action == "buy" )
-                buy_film(line_parts);
-            else if( action == "rate" )
-                rate_film(line_parts); 
-            else if( action == "comments" )
-                send_comment(line_parts);
-            else if( action == "replies" )
-                reply_comment(line_parts);         
+            if( action == "signup" ) signup(line_parts);
+            else if( action == "login" ) login(line_parts);
+            else if( action == "films" ) post_film(line_parts);
+            else if( action == "followers" ) follow_publisher(line_parts);
+            else if( action == "money" ) post_money(line_parts);
+            else if( action == "buy" ) buy_film(line_parts);
+            else if( action == "rate" ) rate_film(line_parts); 
+            else if( action == "comments" ) send_comment(line_parts);
+            else if( action == "replies" ) reply_comment(line_parts);         
         }
         else if( command == "PUT" ) {
             string action = line_parts[1];
-            if( action == "films" )
-                edit_film(line_parts);
+            if( action == "films" ) edit_film(line_parts);
 
         }
         else if( command == "DELETE" ) {
             string action = line_parts[1];
-            if( action == "films" )
-                delete_film(line_parts);
-            else if( action == "comments" )
-                delete_comment(line_parts);
+            if( action == "films" ) delete_film(line_parts);
+            else if( action == "comments" ) delete_comment(line_parts);
         }
         else if( command == "GET" ) {
             string action = line_parts[1];
-            if( action == "published" )
-                get_published_films(line_parts);
-            else if( action == "followers" )
-                see_followers(line_parts);
-            else if( action == "films" )
-                search_films(line_parts);
-            else if( action == "purchased" )
-                see_purchased_films(line_parts);
+            if( action == "published" ) get_published_films(line_parts);
+            else if( action == "followers" ) see_followers(line_parts);
+            else if( action == "films" ) search_films(line_parts);
+            else if( action == "purchased" ) see_purchased_films(line_parts);
         }
     }
 }

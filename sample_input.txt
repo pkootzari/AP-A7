@@ -26,3 +26,5 @@ POST comments ? film_id 1 content kososher
 POST login ? username fuck password 123
 POST replies ? film_id 1 comment_id 1 content khodeti
 GET films ? film_id 1
+GET films ? min_rate 4
+
