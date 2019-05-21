@@ -248,9 +248,23 @@ void Manager::see_purchased_films(string name, int min_year, int max_year, int m
 }
 
 void Manager::rate_film(int film_id, int score) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+
+    bool if_exist = false;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id) {
+            if_exist = true;
+            break;
+        }
+    if(!if_exist)
+        throw NotFound();
+
     Film* rated_film = cur_user->if_film_purchased(film_id);
     if(rated_film == NULL)
-        cout << "filmo ndri ddsh" << endl;
+        throw PermissionDenied();
+    if(score < 0 || score > 10) 
+        throw BadRequest();
     else {
         string content = "";
         content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
