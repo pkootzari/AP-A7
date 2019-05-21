@@ -290,14 +290,6 @@ void In_out_handler::see_purchased_films(vector<string> line_parts) {
 }
 
 void In_out_handler::rate_film(vector<string> line_parts) {
-    /*int film_id = -1;
-    int score = -1;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "film_id" )
-            film_id = stoi(line_parts[++i]);
-        else if ( line_parts[i] == "score" )
-            score = stoi(line_parts[++i]);
-    }*/
     try {
         map<string, string> input = process_command(line_parts);
         int film_id;
@@ -313,11 +305,20 @@ void In_out_handler::rate_film(vector<string> line_parts) {
 }
 
 void In_out_handler::send_comment(vector<string> line_parts) {
-    map<string, string> input = process_command(line_parts);
-    int film_id = stoi(input["film_id"]);
-    string content = input["content"];
-    manager->send_comment(film_id, content);
-    cout << DONE_MASSAGE << endl;
+    try {
+        map<string, string> input = process_command(line_parts);
+        // int film_id = stoi(input["film_id"]);
+        // string content = input["content"];
+        int film_id;
+        string content;
+        input["film_id"] != "" && is_number(input["film_id"]) ? film_id = stoi(input["film_id"]) : throw BadRequest();
+        input["content"] != "" ? content = input["content"] : throw BadRequest();
+        manager->send_comment(film_id, content);
+        cout << DONE_MASSAGE << endl;
+    }
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::reply_comment(vector<string> line_parts) {

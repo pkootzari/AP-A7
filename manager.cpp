@@ -281,9 +281,21 @@ void Manager::rate_film(int film_id, int score) {
 }
 
 void Manager::send_comment(int film_id, string content) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    
+    bool if_exist = false;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id) {
+            if_exist = true;
+            break;
+        }
+    if(!if_exist)
+        throw NotFound();
+
     Film* commented_film = cur_user->if_film_purchased(film_id);
     if(commented_film == NULL)
-        cout << "filmo ndri ddsh" << endl;
+        throw PermissionDenied();
     else {
         string content = "";
         content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
