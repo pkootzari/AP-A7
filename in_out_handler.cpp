@@ -207,7 +207,7 @@ void In_out_handler::post_money(vector<string> line_parts) {
 }
 
 void In_out_handler::search_films(vector<string> line_parts) {
-    string name = "";
+    /*string name = "";
     int min_year = -1;
     int min_rate = -1;
     int price = -1;
@@ -216,7 +216,7 @@ void In_out_handler::search_films(vector<string> line_parts) {
     for(int  i = 3; i < line_parts.size(); i++) {
         if( line_parts[i] == "name" )
             name = line_parts[++i];
-        else if( line_parts[i] == "min_rate" )
+        else if( line_parts[i] == "min_rate" ) 
             min_rate = stoi(line_parts[++i]);
         else if( line_parts[i] == "min_year" )
             min_year = stoi(line_parts[++i]);
@@ -226,8 +226,23 @@ void In_out_handler::search_films(vector<string> line_parts) {
             price = stoi(line_parts[++i]);
         else if( line_parts[i] == "director" )
             director = line_parts[++i];
+    }*/
+    map<string, string> input = process_command(line_parts);
+    if(input["film_id"] != "") 
+        see_details(line_parts);
+    else {
+        string name = input["name"];
+        string director = input["director"];
+        int min_year;
+        int max_year;
+        int min_rate;
+        int price;
+        input["min_year"] != "" ? min_year = stoi(input["min_year"]) : min_year = -1;
+        input["max_year"] != "" ? max_year = stoi(input["max_year"]) : max_year = -1;
+        input["min_rate"] != "" ? min_rate = stoi(input["min_rate"]) : min_rate = -1;
+        input["price"] != "" ? price = stoi(input["price"]) : price = -1;
+        manager->search_films(name, min_year, max_year, min_rate, price, director);
     }
-    manager->search_films(name, min_year, max_year, min_rate, price, director);
 }
 
 void In_out_handler::buy_film(vector<string> line_parts) {
@@ -294,6 +309,20 @@ void In_out_handler::reply_comment(vector<string> line_parts) {
     cout << DONE_MASSAGE << endl;
 }
 
+void In_out_handler::delete_comment(vector<string> line_parts) {
+    map<string, string> input = process_command(line_parts);
+    int film_id = stoi(input["film_id"]);
+    int comment_id = stoi(input["comment_id"]);
+    manager->delete_comment(film_id, comment_id);
+    cout << DONE_MASSAGE << endl;
+}
+
+void In_out_handler::see_details(vector<string> line_parts) {
+    map<string, string> input = process_command(line_parts);
+    int film_id = stoi(input["film_id"]);
+    manager->see_details(film_id);
+}
+
 void In_out_handler::input_reader() {
     string line;
     while( getline(cin, line) ) {
@@ -330,6 +359,8 @@ void In_out_handler::input_reader() {
             string action = line_parts[1];
             if( action == "films" )
                 delete_film(line_parts);
+            else if( action == "comments" )
+                delete_comment(line_parts);
         }
         else if( command == "GET" ) {
             string action = line_parts[1];
@@ -341,7 +372,6 @@ void In_out_handler::input_reader() {
                 search_films(line_parts);
             else if( action == "purchased" )
                 see_purchased_films(line_parts);
-
         }
     }
 }

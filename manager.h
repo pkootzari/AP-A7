@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "user.h"
 #include "publisher.h"
 #include "customer.h"
@@ -29,6 +30,9 @@ public:
     void rate_film(int film_id, int score);
     void send_comment(int film_id, std::string content);
     void reply_comment(int film_id, int comment_id, std::string content);
+    void delete_comment(int film_id, int comment_id);
+    void see_details(int film_id);
+    void print_recommandations(Film* except_this);
 private:
     int id_film;
     int id_user;
@@ -37,6 +41,8 @@ private:
     std::vector<User*> users;
     std::vector<Film*> films;
     std::vector<Comment*> commnets;
-}; 
+};
+
+void print_film_details(Film* film);
 
 #endif

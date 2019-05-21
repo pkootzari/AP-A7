@@ -9,6 +9,16 @@ Manager::Manager() {
     cur_user = NULL;
 }
 
+void print_film_details(Film* film) {
+    cout << "Id = " << film->get_id() << endl;
+    cout << "Director = " << film->get_director() << endl;
+    cout << "Length = " << film->get_length() << endl;
+    cout << "Year = " << film->get_year() << endl;
+    cout << "Summary = " << film->get_summary() << endl;
+    cout << "Rate = " << film->get_rate() << endl;
+    cout << "Price = " << film->get_price() << endl; 
+}
+
 void Manager::add_publisher(string email, string username, string password, int age) {
     int id = id_user;
     id_user++;
@@ -171,3 +181,44 @@ void Manager::reply_comment(int film_id, int comment_id, string content) {
         commneted_film->add_reply(content, comment_id);
 }
 
+void Manager::delete_comment(int film_id, int comment_id) {
+    Film* commented_film = cur_user->if_film_published(film_id);
+    if(commented_film == NULL)
+        cout << "filmo publish nkrdi ddsh" << endl;
+    else
+        commented_film->delete_comment(comment_id);
+}
+
+void Manager::see_details(int film_id) {
+    Film* desired_film = NULL;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id) {
+            desired_film = films[i];
+            break;
+        }
+    if(desired_film == NULL)
+        cout << "no such film" << endl;
+    else {
+        cout << "Details of Film " << desired_film->get_name() << endl;
+        print_film_details(desired_film);
+        cout << endl;
+        cout << "Comments" << endl;
+        desired_film->print_comments();
+        cout << endl;
+        cout << "Recommendation Film" << endl;
+        cout << "#. Film Id | Film Name | Film Length | Film Director" << endl;
+        print_recommandations(desired_film);
+    }
+}
+
+void Manager::print_recommandations(Film* except_this) {
+    vector<Film*> input = films;
+    sort_by_rate(input);
+    for(int i = 0, count = 1; i < input.size() && count <= 4; i++) {
+        if(input[i] != except_this && cur_user->if_film_purchased(input[i]->get_id()) == NULL) {
+            cout << count << ". " << input[i]->get_id() << " | " << input[i]->get_name() << " | "
+                 << input[i]->get_length() << " | " << input[i]->get_director() << endl;;
+            count ++;
+        }
+    }
+}

@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include <algorithm>
 #include "comment.h"
 
 class Film {
@@ -22,7 +23,10 @@ public:
     void edit_film(std::string name, int year, int length, int price, std::string summary, std::string director);
     void add_comment(std::string content);
     void add_reply(std::string content, int comment_id);
+    void delete_comment(int comment_id);
+    void print_comments();
     friend std::ostream& operator<<(std::ostream& out, Film* film);
+    friend void sort_by_rate(std::vector<Film*>& input);
 private:
     int id;
     std::string name;

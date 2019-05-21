@@ -54,6 +54,7 @@ void Film::rate_this(int user_id, int score) {
 
 void Film::add_comment(string content) {
     commnets.push_back( new Comment(initial_comment_id, content) );
+    initial_comment_id++;
 }
 
 void Film::add_reply(string content, int comment_id) {
@@ -66,6 +67,23 @@ void Film::add_reply(string content, int comment_id) {
         }
     if(!comment_found)
         cout << "no such comment" << endl;
+}
+
+void Film::delete_comment(int comment_id) {
+    bool comment_found = false;
+    for(int i = 0; i < commnets.size(); i++)
+        if(commnets[i]->get_id() == comment_id) {
+            commnets.erase(commnets.begin() + i);
+            comment_found = true;
+            break;
+        }
+    if(!comment_found)
+        cout << "no such comment" << endl;
+}
+
+void Film::print_comments() {
+    for(int i = 0; i < commnets.size(); i++)
+        cout << commnets[i];
 }
 
 vector<Film*> search(string name, int min_year, int max_year, int min_rate, int price, string director, vector<Film*> input) {
@@ -106,6 +124,27 @@ vector<Film*> search(string name, int min_year, int max_year, int min_rate, int 
             }
     return search_result;
     
+}
+
+void sort_by_rate(vector<Film*>& input) {
+    for(int i = 0; i < input.size(); i++) {
+        int pos = i;
+        Film* max_rate = input[i];
+        for(int j = i; j < input.size(); j++) {
+            if(input[j]->get_rate() > max_rate->get_rate()) {
+                pos = j;
+                max_rate = input[j];
+            }
+            else if(input[j]->get_rate() == max_rate->get_rate())
+                if(input[j]->get_id() < max_rate->get_rate()) {
+                    pos = j;
+                    max_rate = input[j];
+                }
+        }
+        Film* temp = input[i];
+        input[i] = max_rate;
+        input[pos] = temp;
+    }
 }
 
 
