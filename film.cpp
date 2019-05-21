@@ -66,7 +66,7 @@ void Film::add_reply(string content, int comment_id) {
             break;
         }
     if(!comment_found)
-        cout << "no such comment" << endl;
+        throw NotFound();
 }
 
 void Film::delete_comment(int comment_id) {
@@ -78,7 +78,7 @@ void Film::delete_comment(int comment_id) {
             break;
         }
     if(!comment_found)
-        cout << "no such comment" << endl;
+        throw NotFound();
 }
 
 void Film::print_comments() {

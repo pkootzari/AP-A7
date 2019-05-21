@@ -7,6 +7,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iomanip>
+#include "exeptions.h"
 #include "comment.h"
 
 class User;

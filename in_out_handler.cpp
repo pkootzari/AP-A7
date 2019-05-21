@@ -337,11 +337,18 @@ void In_out_handler::reply_comment(vector<string> line_parts) {
 }
 
 void In_out_handler::delete_comment(vector<string> line_parts) {
-    map<string, string> input = process_command(line_parts);
-    int film_id = stoi(input["film_id"]);
-    int comment_id = stoi(input["comment_id"]);
-    manager->delete_comment(film_id, comment_id);
-    cout << DONE_MASSAGE << endl;
+    try { 
+        map<string, string> input = process_command(line_parts);
+        int film_id;
+        int comment_id;
+        input["film_id"] != "" && is_number(input["film_id"]) ? film_id = stoi(input["film_id"]) : throw BadRequest();
+        input["comment_id"] != "" && is_number(input["comment_id"]) ? comment_id = stoi(input["comment_id"]) : throw BadRequest();
+        manager->delete_comment(film_id, comment_id);
+        cout << DONE_MASSAGE << endl;
+    }
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::see_details(vector<string> line_parts) {

@@ -342,9 +342,21 @@ void Manager::reply_comment(int film_id, int comment_id, string content) {
 }
 
 void Manager::delete_comment(int film_id, int comment_id) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+
+    bool if_exist = false;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id) {
+            if_exist = true;
+            break;
+        }
+    if(!if_exist)
+        throw NotFound();
+    
     Film* commented_film = cur_user->if_film_published(film_id);
     if(commented_film == NULL)
-        cout << "filmo publish nkrdi ddsh" << endl;
+        throw PermissionDenied();
     else
         commented_film->delete_comment(comment_id);
 }
