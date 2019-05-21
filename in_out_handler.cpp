@@ -352,9 +352,15 @@ void In_out_handler::delete_comment(vector<string> line_parts) {
 }
 
 void In_out_handler::see_details(vector<string> line_parts) {
-    map<string, string> input = process_command(line_parts);
-    int film_id = stoi(input["film_id"]);
-    manager->see_details(film_id);
+    try {
+        map<string, string> input = process_command(line_parts);
+        int film_id;
+        input["film_id"] != "" && is_number(input["film_id"]) ? film_id = stoi(input["film_id"]) : throw BadRequest();
+        manager->see_details(film_id);
+    }
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::see_notifs(vector<string> line_parts) {

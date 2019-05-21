@@ -362,6 +362,9 @@ void Manager::delete_comment(int film_id, int comment_id) {
 }
 
 void Manager::see_details(int film_id) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    
     Film* desired_film = NULL;
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
@@ -369,7 +372,7 @@ void Manager::see_details(int film_id) {
             break;
         }
     if(desired_film == NULL)
-        cout << "no such film" << endl;
+        throw NotFound();
     else {
         cout << "Details of Film " << desired_film->get_name() << endl;
         print_film_details(desired_film);
