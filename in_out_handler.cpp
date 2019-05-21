@@ -196,11 +196,6 @@ void In_out_handler::get_published_films(vector<string> line_parts) {
 }
 
 void In_out_handler::follow_publisher(vector<string> line_parts) {
-    /*int user_id;
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "user_id" )
-            user_id = stoi(line_parts[++i]);
-    }*/
     try{
         map<string, string> input = process_command(line_parts);
         int user_id;

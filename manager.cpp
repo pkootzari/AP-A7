@@ -154,8 +154,10 @@ void Manager::follow_publisher(int user_id) {
 }
 
 void Manager::see_followers() {
+    if(cur_user == NULL)
+        throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
-        cout << "publisher nisti ddsh" << endl;
+        throw PermissionDenied();
     else {
         cout << "List of Followers" << endl;
         cout << "#. User Id | User Username | User Email" << endl;
