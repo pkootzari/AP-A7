@@ -170,26 +170,6 @@ void In_out_handler::delete_film(vector<string> line_parts) {
 }
 
 void In_out_handler::get_published_films(vector<string> line_parts) {
-    /*string name = "";
-    int min_year = -1;
-    int min_rate = -1;
-    int price = -1;
-    int max_year = -1;
-    string director = "";
-    for(int  i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "name" )
-            name = line_parts[++i];
-        else if( line_parts[i] == "min_rate" )
-            min_rate = stoi(line_parts[++i]);
-        else if( line_parts[i] == "min_year" )
-            min_year = stoi(line_parts[++i]);
-        else if( line_parts[i] == "max_year" )
-            max_year = stoi(line_parts[++i]);
-        else if( line_parts[i] == "price" )
-            price = stoi(line_parts[++i]);
-        else if( line_parts[i] == "director" )
-            director = line_parts[++i];
-    }*/
     try {
         map<string, string> input = process_command(line_parts);
         string name = "";
@@ -216,13 +196,21 @@ void In_out_handler::get_published_films(vector<string> line_parts) {
 }
 
 void In_out_handler::follow_publisher(vector<string> line_parts) {
-    int user_id;
+    /*int user_id;
     for(int i = 3; i < line_parts.size(); i++) {
         if( line_parts[i] == "user_id" )
             user_id = stoi(line_parts[++i]);
+    }*/
+    try{
+        map<string, string> input = process_command(line_parts);
+        int user_id;
+        input["user_id"] != "" && is_number(input["user_id"]) ? user_id = stoi(input["user_id"]) : throw BadRequest();
+        manager->follow_publisher(user_id);
+        cout << DONE_MASSAGE << endl;
     }
-    manager->follow_publisher(user_id);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::see_followers(vector<string> line_parts) {

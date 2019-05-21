@@ -7,13 +7,14 @@ Customer::Customer(int _id, string _email, string _username, string _password, i
 
 string Customer::get_type() { return "customer"; }
 
-void Customer::add_to_following(User* user) {
+bool Customer::add_to_following(User* user) {
     bool is_there_already = false;
     for(int i = 0; i < followings.size(); i++)
         if(user->get_id() == followings[i]->get_id())
             is_there_already = true;
     if(!is_there_already)
         followings.push_back(user);
+    return is_there_already;
 }
 
 void Customer::add_to_purchased(Film* film) {

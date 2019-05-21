@@ -41,13 +41,14 @@ void Publisher::add_to_followers(User* user) {
         followers.push_back(user);
 }
 
-void Publisher::add_to_following(User* user) {
+bool Publisher::add_to_following(User* user) {
     bool is_there_already = false;
     for(int i = 0; i < followings.size(); i++)
         if(user->get_id() == followings[i]->get_id())
             is_there_already = true;
     if(!is_there_already)
         followings.push_back(user);
+    return is_there_already;
 }
 
 void Publisher::see_followers() {

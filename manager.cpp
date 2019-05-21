@@ -132,18 +132,23 @@ void Manager::get_published_films(string name, int min_year, int max_year, int m
 }
 
 void Manager::follow_publisher(int user_id) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    for(int i = 0; i < users.size(); i++)
+        if(users[i]->get_id() == user_id)
+            if(users[i]->get_type() != "publisher")
+                throw BadRequest();
+    
     string content = "";
     content += "User ";  content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
     content += " follow you.";
     for(int  i = 0; i < users.size(); i++) {
         if(users[i]->get_id() == user_id) {
             if(users[i]->get_type() == "publisher") {
-                cur_user->add_to_following(users[i]);
-                users[i]->add_to_followers(cur_user);
-                users[i]->add_notif(content);
+                if(!cur_user->add_to_following(users[i]))
+                    users[i]->add_to_followers(cur_user);
+                    users[i]->add_notif(content);
             }
-            else
-                cout << "pointed user is not publisher" << endl;
         }
     }
 }
