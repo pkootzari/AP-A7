@@ -130,29 +130,6 @@ void In_out_handler::post_film(vector<string> line_parts) {
 }
 
 void In_out_handler::edit_film(vector<string> line_parts) {
-    /*int film_id;
-    string name = "";
-    int year = -1;
-    int price = -1;
-    int length = -1;
-    string summary = "";
-    string director = "";
-    for(int i = 3; i < line_parts.size(); i++) {
-        if( line_parts[i] == "film_id" )
-            film_id = stoi(line_parts[++i]);
-        else if( line_parts[i] == "name" )
-            name = line_parts[++i];
-        else if( line_parts[i] == "year" ) 
-            year = stoi(line_parts[++i]);
-        else if( line_parts[i] == "length" )
-            length = stoi(line_parts[++i]);
-        else if( line_parts[i] == "summary" )
-            summary = line_parts[++i];
-        else if( line_parts[i] == "director" ) 
-            director = line_parts[++i];
-        else if( line_parts[i] == "price" )
-            price = stoi(line_parts[++i]);
-    }*/
     try {
         map<string, string> input = process_command(line_parts);
         int film_id;
@@ -178,16 +155,23 @@ void In_out_handler::edit_film(vector<string> line_parts) {
 }
 
 void In_out_handler::delete_film(vector<string> line_parts) {
-    int film_id;
+    /*int film_id;
     for(int i = 3; i < line_parts.size(); i++) {
         if( line_parts[i] == "film_id" )
             film_id = stoi(line_parts[++i]);
         else
             cout << "vorodie kiri" << endl;
+    }*/
+    try {
+        map<string, string> input = process_command(line_parts);
+        int film_id;
+        input["film_id"] != "" && is_number(input["film_id"]) ? film_id = stoi(input["film_id"]) : throw BadRequest();
+        manager->delete_film(film_id);
+        cout << DONE_MASSAGE << endl;
     }
-
-    manager->delete_film(film_id);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::get_published_films(vector<string> line_parts) {

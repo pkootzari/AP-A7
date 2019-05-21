@@ -81,7 +81,7 @@ void Manager::edit_film(int film_id, string name, int year, int length, int pric
         throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
         throw PermissionDenied();
-    if(cur_user->if_film_published(film_id))
+    if(cur_user->if_film_published(film_id) == NULL)
         throw PermissionDenied();
     
     int i;
@@ -94,21 +94,28 @@ void Manager::edit_film(int film_id, string name, int year, int length, int pric
         }
     }
     if(!is_found)
-        throw BadRequest();
+        throw NotFound();
 }
 
 void Manager::delete_film(int film_id) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    if(cur_user->get_type() != "publisher")
+        throw PermissionDenied();
+    if(cur_user->if_film_published(film_id) == NULL)
+        throw PermissionDenied();
+    
     int i;
+    bool is_found = false;
     for(i = 0; i < films.size(); i++) 
         if(films[i]->get_id() == film_id) {
             films.erase(films.begin() + i);
+            cur_user->delete_film(film_id);
+            is_found = true;
             break;
         }
-    
-    if(cur_user->get_type() == "publisher")
-        cur_user->delete_film(film_id);
-    else
-        cout << "nmitoni ddsh" << endl;
+    if(!is_found)
+        throw NotFound();
 }
 
 void Manager::get_published_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
