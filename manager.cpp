@@ -166,13 +166,16 @@ void Manager::see_followers() {
 }
 
 void Manager::post_money(int amount) {
+    if(cur_user == NULL)
+        throw PermissionDenied();
+    
     if(amount != -1)
         cur_user->post_money(amount);
     else {
         if(cur_user->get_type() == "publisher")
             cur_user->get_money();
         else
-            cout << "publisher nisti ddsh" << endl;
+            throw PermissionDenied();
     }
 }
 

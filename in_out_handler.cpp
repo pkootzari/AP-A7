@@ -213,13 +213,21 @@ void In_out_handler::see_followers(vector<string> line_parts) {
 }
 
 void In_out_handler::post_money(vector<string> line_parts) {
-    int amount = -1;
+    /*int amount = -1;
     for(int i = 3; i < line_parts.size(); i++) {
         if( line_parts[i] == "amount" )
             amount = stoi(line_parts[++i]);
+    }*/
+    try{
+        map<string, string> input = process_command(line_parts);
+        int amount;
+        input["amount"] != "" && is_number(input["amount"]) ? amount = stoi(input["amount"]) : throw BadRequest();
+        manager->post_money(amount);
+        cout << DONE_MASSAGE << endl;
     }
-    manager->post_money(amount);
-    cout << DONE_MASSAGE << endl;
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
 }
 
 void In_out_handler::search_films(vector<string> line_parts) {
