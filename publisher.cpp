@@ -17,6 +17,7 @@ void Publisher::add_film(Film* film) {
 }
 
 string Publisher::get_type() { return "publisher"; }
+vector<Film*> Publisher::get_purchased() { return purchased; }
 
 bool Publisher::delete_film(int film_id) {
     for(int i = 0; i < published.size(); i++)

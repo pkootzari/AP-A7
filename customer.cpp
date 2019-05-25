@@ -6,6 +6,7 @@ Customer::Customer(int _id, string _email, string _username, unsigned _password,
     :   User(_id, _email, _username, _password, _age) {}
 
 string Customer::get_type() { return "customer"; }
+vector<Film*> Customer::get_purchased() { return purchased; }
 
 bool Customer::add_to_following(User* user) {
     bool is_there_already = false;
@@ -75,4 +76,6 @@ void Customer::sort_user_by_id(vector<User*>& input) {
         input[pos] = temp;
     }
 }
+
+
 

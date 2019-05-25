@@ -31,6 +31,7 @@ public:
     virtual void reduce_money(int amount) {}
     virtual void sort_film_by_id(std::vector<Film*>& input) {}
     virtual void sort_user_by_id(std::vector<User*>& input) {}
+    virtual std::vector<Film*> get_purchased() {}
     void post_money(int amount);
     void add_notif(std::string content);
     void see_notifs();

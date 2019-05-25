@@ -26,7 +26,7 @@ void Recommandator::delete_film(Film* film) {
     }
 }
 
-vector<Film*> Recommandator::get_recommandations(Film* film, vector<Film*> also_purchased) {
+vector<Film*> Recommandator::get_recommandations(Film* film) {
     vector<Film*> return_value;
     vector< vector< pair<bool, int> > > temp = films_adj_matrix;
     int film_id = film->get_id(); 

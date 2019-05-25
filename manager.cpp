@@ -106,6 +106,7 @@ void Manager::add_film(string name, int year, int length, int price, string summ
             Film* new_film = new Film(id, name, year, length, summary, director, price); 
             cur_user->add_film(new_film);
             films.push_back(new_film);
+            recommandator->add_film(new_film);
         }
         else 
             throw PermissionDenied();
@@ -151,6 +152,7 @@ void Manager::delete_film(int film_id) {
     bool is_found = false;
     for(i = 0; i < films.size(); i++) 
         if(films[i]->get_id() == film_id) {
+            recommandator->delete_film(films[i]);
             films.erase(films.begin() + i);
             cur_user->delete_film(film_id);
             is_found = true;
@@ -250,6 +252,7 @@ void Manager::buy_film(int film_id) {
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
             cur_user->add_to_purchased(films[i]);
+            recommandator->buy_film(films[i], cur_user->get_purchased());
             bought_film = films[i];
             if_found = true;
             break;
@@ -428,9 +431,20 @@ void Manager::see_details(int film_id) {
     }
 }
 
+// void Manager::print_recommandations(Film* except_this) {
+//     vector<Film*> input = films;
+//     sort_by_rate(input);
+//     for(int i = 0, count = 1; i < input.size() && count <= 4; i++) {
+//         if(input[i] != except_this && cur_user->if_film_purchased(input[i]->get_id()) == NULL) {
+//             cout << count << ". " << input[i]->get_id() << " | " << input[i]->get_name() << " | "
+//                  << input[i]->get_length() << " | " << input[i]->get_director() << endl;;
+//             count ++;
+//         }
+//     }
+// }
+
 void Manager::print_recommandations(Film* except_this) {
-    vector<Film*> input = films;
-    sort_by_rate(input);
+    vector<Film*> input = recommandator->get_recommandations(except_this);
     for(int i = 0, count = 1; i < input.size() && count <= 4; i++) {
         if(input[i] != except_this && cur_user->if_film_purchased(input[i]->get_id()) == NULL) {
             cout << count << ". " << input[i]->get_id() << " | " << input[i]->get_name() << " | "
@@ -439,6 +453,7 @@ void Manager::print_recommandations(Film* except_this) {
         }
     }
 }
+
 
 void Manager::see_notifs() {
     if(cur_user == NULL)
