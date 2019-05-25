@@ -97,6 +97,9 @@ void Manager::login(string username, string password) {
 
 void Manager::add_film(string name, int year, int length, int price, string summary, string director) {
     if(cur_user != NULL) {
+        if(cur_user->get_id() == 1)
+            throw PermissionDenied();
+
         if(cur_user->get_type() == "publisher") {
             int id = films.size() + 1;
             Film* new_film = new Film(id, name, year, length, summary, director, price); 
@@ -112,6 +115,8 @@ void Manager::add_film(string name, int year, int length, int price, string summ
 
 void Manager::edit_film(int film_id, string name, int year, int length, int price, string summary, string director) {
     if(cur_user == NULL)
+        throw PermissionDenied();
+    if(cur_user->get_id() == 1)
         throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
         throw PermissionDenied();
@@ -134,6 +139,8 @@ void Manager::edit_film(int film_id, string name, int year, int length, int pric
 void Manager::delete_film(int film_id) {
     if(cur_user == NULL)
         throw PermissionDenied();
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
         throw PermissionDenied();
     if(cur_user->if_film_published(film_id) == NULL)
@@ -155,6 +162,8 @@ void Manager::delete_film(int film_id) {
 void Manager::get_published_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
     if(cur_user == NULL)
         throw PermissionDenied();
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
         throw PermissionDenied();
     else {
@@ -167,6 +176,8 @@ void Manager::get_published_films(string name, int min_year, int max_year, int m
 
 void Manager::follow_publisher(int user_id) {
     if(cur_user == NULL)
+        throw PermissionDenied();
+    if(cur_user->get_id() == 1)
         throw PermissionDenied();
     for(int i = 0; i < users.size(); i++)
         if(users[i]->get_id() == user_id)
@@ -190,6 +201,8 @@ void Manager::follow_publisher(int user_id) {
 void Manager::see_followers() {
     if(cur_user == NULL)
         throw PermissionDenied();
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     if(cur_user->get_type() != "publisher")
         throw PermissionDenied();
     else {
@@ -202,7 +215,8 @@ void Manager::see_followers() {
 void Manager::post_money(int amount) {
     if(cur_user == NULL)
         throw PermissionDenied();
-    
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     if(amount != -1)
         cur_user->post_money(amount);
     else {
@@ -216,7 +230,8 @@ void Manager::post_money(int amount) {
 void Manager::search_films(string name, int min_year, int max_year, int min_rate, int price,  string director) {
     if(cur_user == NULL)
         throw PermissionDenied();
-    
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     vector<Film*> search_result = search(name, min_year, max_year, min_rate, price, director, films);
     cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
         for(int  i = 0; i < search_result.size(); i++)
@@ -226,7 +241,8 @@ void Manager::search_films(string name, int min_year, int max_year, int min_rate
 void Manager::buy_film(int film_id) {
     if(cur_user == NULL)
         throw PermissionDenied();
-    
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     bool if_found = false;
     Film* bought_film;
     string content = "";
@@ -259,6 +275,8 @@ void Manager::buy_film(int film_id) {
 void Manager::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
     if(cur_user == NULL)
         throw PermissionDenied();
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     vector<Film*> search_result = cur_user->see_purchased_films(name, min_year, max_year, min_rate, price, director);
     cout << "#. Film Id | Film Name | Film Length | Film price | Rate | Production Year | Film Director" << endl;
     for(int  i = 0; i < search_result.size(); i++)
@@ -268,7 +286,8 @@ void Manager::see_purchased_films(string name, int min_year, int max_year, int m
 void Manager::rate_film(int film_id, int score) {
     if(cur_user == NULL)
         throw PermissionDenied();
-
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     bool if_exist = false;
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
@@ -301,7 +320,8 @@ void Manager::rate_film(int film_id, int score) {
 void Manager::send_comment(int film_id, string content) {
     if(cur_user == NULL)
         throw PermissionDenied();
-    
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     bool if_exist = false;
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
@@ -332,7 +352,8 @@ void Manager::send_comment(int film_id, string content) {
 void Manager::reply_comment(int film_id, int comment_id, string content) {
     if(cur_user == NULL)
         throw PermissionDenied();
-    
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     bool if_exist = false;
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
@@ -362,7 +383,8 @@ void Manager::reply_comment(int film_id, int comment_id, string content) {
 void Manager::delete_comment(int film_id, int comment_id) {
     if(cur_user == NULL)
         throw PermissionDenied();
-
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     bool if_exist = false;
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
@@ -382,7 +404,8 @@ void Manager::delete_comment(int film_id, int comment_id) {
 void Manager::see_details(int film_id) {
     if(cur_user == NULL)
         throw PermissionDenied();
-    
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     Film* desired_film = NULL;
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
@@ -419,12 +442,16 @@ void Manager::print_recommandations(Film* except_this) {
 void Manager::see_notifs() {
     if(cur_user == NULL)
         throw PermissionDenied();
+    if(cur_user->get_id() == 1)
+        throw PermissionDenied();
     else 
         cur_user->see_notifs();
 }
 
 void Manager::read_notifs(int limit) {
     if(cur_user == NULL)
+        throw PermissionDenied();
+    if(cur_user->get_id() == 1)
         throw PermissionDenied();
     else
         cur_user->read_notifs(limit);
