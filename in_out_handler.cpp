@@ -379,6 +379,15 @@ void In_out_handler::see_notifs(vector<string> line_parts) {
     }
 }
 
+void In_out_handler::logout() {
+    try {
+        manager->logout();
+    }
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
+}
+
 void In_out_handler::free() {
     manager->free();
 }
@@ -400,19 +409,23 @@ void In_out_handler::input_reader() {
             else if( action == "rate" ) rate_film(line_parts); 
             else if( action == "comments" ) send_comment(line_parts);
             else if( action == "replies" ) reply_comment(line_parts);
+            else if( action == "put_films" ) edit_film(line_parts);
+            else if( action == "delete_films" ) delete_film(line_parts);
+            else if( action == "dlete_comments" ) delete_comment(line_parts);
+            else if( action == "logout") logout();
             else cout << "Not Found" << endl;        
         }
-        else if( command == "PUT" ) {
-            string action = line_parts[1];
-            if( action == "films" ) edit_film(line_parts);
-            else cout << "Not Found" << endl;        
-        }
-        else if( command == "DELETE" ) {
-            string action = line_parts[1];
-            if( action == "films" ) delete_film(line_parts);
-            else if( action == "comments" ) delete_comment(line_parts);
-            else cout << "Not Found" << endl;        
-        }
+        // else if( command == "PUT" ) {
+        //     string action = line_parts[1];
+        //     //if( action == "films" ) edit_film(line_parts);
+        //     else cout << "Not Found" << endl;        
+        // }
+        // else if( command == "DELETE" ) {
+        //     string action = line_parts[1];
+        //     //if( action == "films" ) delete_film(line_parts);
+        //     //if( action == "comments" ) delete_comment(line_parts);
+        //     else cout << "Not Found" << endl;        
+        // }
         else if( command == "GET" ) {
             string action = line_parts[1];
             if( action == "published" ) get_published_films(line_parts);

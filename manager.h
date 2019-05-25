@@ -37,9 +37,10 @@ public:
     void see_notifs();
     void read_notifs(int limit);
     bool if_id_exist(int id);
+    void logout();
     void free();
-    virtual void sort_film_by_id(std::vector<Film*>& input);
-    virtual void sort_user_by_id(std::vector<User*>& input);
+    void sort_film_by_id(std::vector<Film*>& input);
+    void sort_user_by_id(std::vector<User*>& input);
 private:
     int id_film;
     int id_user;
