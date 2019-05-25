@@ -11,6 +11,7 @@
 #include "film.h"
 #include "comment.h"
 #include "exeptions.h"
+#include "recommandator.h"
 
 class Manager {
 public:
@@ -50,6 +51,7 @@ private:
     std::vector<User*> users;
     std::vector<Film*> films;
     std::vector<Comment*> commnets;
+    Recommandator* recommandator;
 };
 
 void print_film_details(Film* film);

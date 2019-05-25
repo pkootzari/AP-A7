@@ -2,8 +2,8 @@ CC = g++ --std=c++11
 
 all: a.out
 
-a.out: main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o
-			${CC} main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o
+a.out: main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o recommandator.o
+			${CC} main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o recommandator.o
 
 main.o: main.cpp in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o
 			${CC} -c main.cpp
@@ -31,6 +31,9 @@ publisher.o: publisher.cpp publisher.h user.h user.cpp film.h film.cpp customer.
 
 customer.o: customer.cpp customer.h user.h user.cpp film.h film.cpp
 			${CC} -c customer.cpp
+
+recommandator.o: recommandator.cpp recommandator.h film.cpp film.h
+			${CC} -c recommandator.cpp
 
 clean:
 			rm *.o

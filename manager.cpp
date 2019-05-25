@@ -25,6 +25,7 @@ Manager::Manager() {
     id_film = 1;
     id_user = 1;
     cur_user = NULL;
+    recommandator = new Recommandator();
 
     users.push_back( new User(id_user, "@", "admin", hash_str("admin"), 0) );
     id_user++;
