@@ -2,6 +2,8 @@
 
 using namespace std;
 
+// hashing function
+
 #define A 54059 /* a prime */
 #define B 76963 /* another prime */
 #define C 86969 /* yet another prime */
@@ -16,11 +18,16 @@ unsigned hash_str(const char* s)
    return h; // or return h % C;
 }
 
+//////////////////
+
 Manager::Manager() {
     id_comment = 1;
     id_film = 1;
     id_user = 1;
     cur_user = NULL;
+
+    users.push_back( new User(id_user, "@", "admin", hash_str("admin"), 0) );
+    id_user++;
 }
 
 bool Manager::if_id_exist(int id) {
@@ -241,6 +248,7 @@ void Manager::buy_film(int film_id) {
             for(int i = 0; i < users.size(); i++)
                 if(users[i]->get_type() == "publisher")
                     if(users[i]->film_bought(film_id)) {
+                        users[0]->post_money(users[i]->film_bought(film_id));
                         users[i]->add_notif(content);
                         break;
                     }
@@ -457,6 +465,13 @@ void Manager::logout() {
         throw BadRequest();
     else
         cur_user = NULL;
+}
+
+void Manager::see_money() {
+    if(cur_user == NULL)
+        throw BadRequest();
+
+    cout << cur_user->see_money() << endl;
 }
 
 void Manager::free() {

@@ -388,6 +388,15 @@ void In_out_handler::logout() {
     }
 }
 
+void In_out_handler::see_money() {
+    try {
+        manager->see_money();
+    }
+    catch(exception& ex) {
+        cout << ex.what() << endl;
+    }
+}
+
 void In_out_handler::free() {
     manager->free();
 }
@@ -433,6 +442,7 @@ void In_out_handler::input_reader() {
             else if( action == "films" ) search_films(line_parts);
             else if( action == "purchased" ) see_purchased_films(line_parts);
             else if( action == "notifications" ) see_notifs(line_parts);
+            else if( action == "get money" ) see_money();
             else cout << "Not Found" << endl;        
         }
         else cout << "Bad Request" << endl;
