@@ -2,8 +2,6 @@
 
 using namespace std;
 
-// hashing function
-
 #define A 54059 /* a prime */
 #define B 76963 /* another prime */
 #define C 86969 /* yet another prime */
@@ -18,8 +16,6 @@ unsigned hash_str(const char* s)
    return h; // or return h % C;
 }
 
-//////////////////
-
 Manager::Manager() {
     id_comment = 1;
     id_film = 1;
@@ -27,7 +23,7 @@ Manager::Manager() {
     cur_user = NULL;
     recommandator = new Recommandator();
 
-    users.push_back( new User(id_user, "@", "admin", hash_str("admin"), 0) );
+    users.push_back( new Customer(id_user, "@", "admin", hash_str("admin"), 0) );
     id_user++;
 }
 
@@ -47,6 +43,13 @@ void print_film_details(Film* film) {
     cout << "Rate = " << film->get_rate() << endl;
     cout << "Price = " << film->get_price() << endl; 
 }
+
+void Print_films(vector<Film*> input) {
+    for(int i = 0; i < input.size(); i++)
+        cout << i + 1 << ". " << input[i]->get_id() << " | " << input[i]->get_name() << " | "
+             << input[i]->get_length() << " | " << input[i]->get_director() << endl;
+}
+
 
 void Manager::add_publisher(string email, string username, string password, int age) {
     if(cur_user != NULL)
@@ -81,32 +84,31 @@ void Manager::add_customer(string email, string username, string password, int a
 void Manager::login(string username, string password) {
     if(cur_user != NULL)
         throw BadRequest();
-    
-    
+
     User* temp;
      for(int i = 0; i < users.size(); i++) {
-        int pass = hash_str(password.c_str()); 
+        unsigned pass = hash_str(password.c_str()); 
         temp = users[i]->vertification(username, pass);
         if(temp != NULL)
             break;
     }
-    if(temp != NULL) 
+    if(temp != NULL) {
         cur_user = temp;
+    }
     else 
         throw BadRequest();
 }
 
-void Manager::add_film(string name, int year, int length, int price, string summary, string director) {
+void Manager::add_film(string name, int year, int length, int price, string summary, string director) {   
     if(cur_user != NULL) {
         if(cur_user->get_id() == 1)
             throw PermissionDenied();
-
         if(cur_user->get_type() == "publisher") {
             int id = films.size() + 1;
             Film* new_film = new Film(id, name, year, length, summary, director, price); 
             cur_user->add_film(new_film);
             films.push_back(new_film);
-            recommandator->add_film(new_film);
+            recommandator->add_film();
         }
         else 
             throw PermissionDenied();
@@ -152,11 +154,11 @@ void Manager::delete_film(int film_id) {
     bool is_found = false;
     for(i = 0; i < films.size(); i++) 
         if(films[i]->get_id() == film_id) {
-            recommandator->delete_film(films[i]);
-            films.erase(films.begin() + i);
-            cur_user->delete_film(film_id);
-            is_found = true;
-            break;
+            if(cur_user->delete_film(film_id)) {
+                films.erase(films.begin() + i);
+                is_found = true;
+                break;
+            }
         }
     if(!is_found)
         throw NotFound();
@@ -246,32 +248,32 @@ void Manager::buy_film(int film_id) {
         throw PermissionDenied();
     if(cur_user->get_id() == 1)
         throw PermissionDenied();
+    string content = "";
     bool if_found = false;
     Film* bought_film;
-    string content = "";
     for(int i = 0; i < films.size(); i++)
         if(films[i]->get_id() == film_id) {
-            cur_user->add_to_purchased(films[i]);
-            recommandator->buy_film(films[i], cur_user->get_purchased());
             bought_film = films[i];
             if_found = true;
             break;
         }
     if(!if_found)
         throw NotFound();
-    else {
-        if(cur_user->if_film_purchased(film_id) == NULL) {
-            cur_user->reduce_money(bought_film->get_price());
-            content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
-            content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
-            content += ".";
-            for(int i = 0; i < users.size(); i++)
-                if(users[i]->get_type() == "publisher")
-                    if(users[i]->film_bought(film_id)) {
-                        users[0]->post_money(users[i]->film_bought(film_id));
-                        users[i]->add_notif(content);
-                        break;
-                    }
+    if(cur_user->if_film_purchased(film_id) == NULL) {
+        cur_user->add_to_purchased(bought_film, recommandator);
+        cur_user->reduce_money(bought_film->get_price());
+        content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
+        content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
+        content += ".";
+        for(int i = 0; i < users.size(); i++) { 
+            if(users[i]->get_type() == "publisher") {
+                int result = users[i]->film_bought(film_id); 
+                if(result) {
+                    users[0]->post_money(result);
+                    users[i]->add_notif(content);
+                    break;
+                }
+            }
         }
     }
 }
@@ -390,14 +392,15 @@ void Manager::delete_comment(int film_id, int comment_id) {
     if(cur_user->get_id() == 1)
         throw PermissionDenied();
     bool if_exist = false;
-    for(int i = 0; i < films.size(); i++)
+    for(int i = 0; i < films.size(); i++) {
         if(films[i]->get_id() == film_id) {
             if_exist = true;
             break;
         }
+    }
     if(!if_exist)
         throw NotFound();
-    
+        
     Film* commented_film = cur_user->if_film_published(film_id);
     if(commented_film == NULL)
         throw PermissionDenied();
@@ -431,29 +434,24 @@ void Manager::see_details(int film_id) {
     }
 }
 
-// void Manager::print_recommandations(Film* except_this) {
-//     vector<Film*> input = films;
-//     sort_by_rate(input);
-//     for(int i = 0, count = 1; i < input.size() && count <= 4; i++) {
-//         if(input[i] != except_this && cur_user->if_film_purchased(input[i]->get_id()) == NULL) {
-//             cout << count << ". " << input[i]->get_id() << " | " << input[i]->get_name() << " | "
-//                  << input[i]->get_length() << " | " << input[i]->get_director() << endl;;
-//             count ++;
-//         }
-//     }
-// }
-
 void Manager::print_recommandations(Film* except_this) {
-    vector<Film*> input = recommandator->get_recommandations(except_this);
-    for(int i = 0, count = 1; i < input.size() && count <= 4; i++) {
-        if(input[i] != except_this && cur_user->if_film_purchased(input[i]->get_id()) == NULL) {
-            cout << count << ". " << input[i]->get_id() << " | " << input[i]->get_name() << " | "
-                 << input[i]->get_length() << " | " << input[i]->get_director() << endl;;
-            count ++;
-        }
+    vector<int> film_ids = recommandator->recommand_list(except_this->get_id());
+    vector<Film*> output;
+    for(int i = 0, count = 1; i < film_ids.size() && count <= 4; i++) {
+        Film* cur = NULL;
+        for(int j = 0; j < films.size(); j++)
+            if(films[j]->get_id() == film_ids[i])
+                cur = films[j];
+        if(cur == NULL)
+            continue;
+        else
+            if(cur != except_this && cur_user->if_film_purchased(cur->get_id()) == NULL) {
+                output.push_back(cur);
+                count++;
+            }
     }
+    Print_films(output);
 }
-
 
 void Manager::see_notifs() {
     if(cur_user == NULL)
@@ -506,7 +504,7 @@ void Manager::sort_user_by_id(vector<User*>& input) {
 void Manager::logout() {
     if(cur_user == NULL)
         throw BadRequest();
-    else
+    else 
         cur_user = NULL;
 }
 

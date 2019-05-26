@@ -68,7 +68,7 @@ map<string, string> In_out_handler::process_command(vector<string> line_parts) {
     for(int i = 3; i < line_parts.size(); i++)
         for(auto itr = result.begin(); itr != result.end(); itr++)
             if(line_parts[i] == itr->first) {
-                if(itr->second == "")
+                if(itr->second == "") 
                     itr->second = line_parts[++i];
                 else
                     throw BadRequest();
@@ -223,7 +223,7 @@ void In_out_handler::post_money(vector<string> line_parts) {
     try{
         map<string, string> input = process_command(line_parts);
         int amount;
-        input["amount"] != "" && is_number(input["amount"]) ? amount = stoi(input["amount"]) : throw BadRequest();
+        input["amount"] != "" && is_number(input["amount"]) ? amount = stoi(input["amount"]) : amount = -1;
         manager->post_money(amount);
         cout << DONE_MASSAGE << endl;
     }
@@ -382,6 +382,7 @@ void In_out_handler::see_notifs(vector<string> line_parts) {
 void In_out_handler::logout() {
     try {
         manager->logout();
+        cout << DONE_MASSAGE << endl;
     }
     catch(exception& ex) {
         cout << ex.what() << endl;
@@ -420,21 +421,10 @@ void In_out_handler::input_reader() {
             else if( action == "replies" ) reply_comment(line_parts);
             else if( action == "put_films" ) edit_film(line_parts);
             else if( action == "delete_films" ) delete_film(line_parts);
-            else if( action == "dlete_comments" ) delete_comment(line_parts);
-            else if( action == "logout") logout();
+            else if( action == "delete_comments" ) delete_comment(line_parts);
+            else if( action == "logout" ) logout();
             else cout << "Not Found" << endl;        
         }
-        // else if( command == "PUT" ) {
-        //     string action = line_parts[1];
-        //     //if( action == "films" ) edit_film(line_parts);
-        //     else cout << "Not Found" << endl;        
-        // }
-        // else if( command == "DELETE" ) {
-        //     string action = line_parts[1];
-        //     //if( action == "films" ) delete_film(line_parts);
-        //     //if( action == "comments" ) delete_comment(line_parts);
-        //     else cout << "Not Found" << endl;        
-        // }
         else if( command == "GET" ) {
             string action = line_parts[1];
             if( action == "published" ) get_published_films(line_parts);
@@ -442,7 +432,7 @@ void In_out_handler::input_reader() {
             else if( action == "films" ) search_films(line_parts);
             else if( action == "purchased" ) see_purchased_films(line_parts);
             else if( action == "notifications" ) see_notifs(line_parts);
-            else if( action == "get money" ) see_money();
+            else if( action == "money" ) see_money();
             else cout << "Not Found" << endl;        
         }
         else cout << "Bad Request" << endl;

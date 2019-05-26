@@ -4,7 +4,7 @@ using namespace std;
 
 Film::Film(int _id, string _name, int _year, int _length, string _summary, string _director, int _price) 
     :   id(_id) , name(_name) , year(_year) , length(_length) , summary(_summary) , director(_director) , price(_price) 
-{ initial_comment_id = 1; }
+{ initial_comment_id = 1; rate = 0; }
 
 int Film::get_id() { return id; }
 int Film::get_length() { return length; }

@@ -17,7 +17,6 @@ void Publisher::add_film(Film* film) {
 }
 
 string Publisher::get_type() { return "publisher"; }
-vector<Film*> Publisher::get_purchased() { return purchased; }
 
 bool Publisher::delete_film(int film_id) {
     for(int i = 0; i < published.size(); i++)
@@ -59,17 +58,21 @@ void Publisher::see_followers() {
 }
 
 void Publisher::get_money() {
-    //cout << "money withdrawed: " << withdrawable_money << endl; 
     withdrawable_money = 0;
 }
 
-void Publisher::add_to_purchased(Film* film) {
+void Publisher::add_to_purchased(Film* film, Recommandator* rec) {
     bool is_there_already = false;
     for(int i = 0; i < purchased.size(); i++)
         if(film->get_id() == purchased[i]->get_id())
             is_there_already = true;
-    if(!is_there_already)
+    if(!is_there_already) {
+        vector<int> film_ids;
+        for(int j = 0; j < purchased.size(); j++)
+            film_ids.push_back(purchased[j]->get_id());
+        rec->buy_film(film->get_id(), film_ids);
         purchased.push_back(film);
+    }
 }
 
 int Publisher::film_bought(int film_id) {
@@ -111,15 +114,21 @@ int calculate_money(Film* film) {
     if(film->get_rate() >= 8 && film->get_rate() <= 10)
         return 95*film->get_price()/100;
     else 
-        cout << "rate beyne 0 ta 10 nist" << endl;
+        throw BadRequest();
 }
 
 void Publisher::reduce_money(int amount) {
-    if(spendable_money - amount < 0)
+    if(spendable_money + withdrawable_money - amount < 0)
         throw PermissionDenied();
-    else
-        spendable_money -= amount; 
+    else {
+        if(spendable_money >= amount)
+            spendable_money -= amount;
+        else 
+            withdrawable_money -= (amount - spendable_money);
+    }
 }
+
+int Publisher::see_money() { return (spendable_money + withdrawable_money); }
 
 void Publisher::sort_film_by_id(vector<Film*>& input) {
     for(int i = 0; i < input.size(); i++) {

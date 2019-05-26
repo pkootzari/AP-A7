@@ -38,11 +38,11 @@ public:
     void see_notifs();
     void read_notifs(int limit);
     bool if_id_exist(int id);
-    void see_money();
     void logout();
+    void see_money();
     void free();
-    void sort_film_by_id(std::vector<Film*>& input);
-    void sort_user_by_id(std::vector<User*>& input);
+    virtual void sort_film_by_id(std::vector<Film*>& input);
+    virtual void sort_user_by_id(std::vector<User*>& input);
 private:
     int id_film;
     int id_user;
@@ -55,5 +55,6 @@ private:
 };
 
 void print_film_details(Film* film);
+void Print_films(std::vector<Film*> input);
 
 #endif

@@ -3,18 +3,19 @@
 
 #include <vector>
 #include <utility>
-#include <map>
-#include "film.h"
+#include <iostream>
+#include <algorithm>
 
 class Recommandator {
 public:
-    void add_film(Film* film);
-    void delete_film(Film* film);
-    void buy_film(Film* purchased, std::vector<Film*> also_purchased);
-    std::vector<Film*> get_recommandations(Film* film); 
+    void add_film();
+    void buy_film(int film_id, std::vector<int> also_purchased);
+    void print_matirx();
+    std::vector<int> recommand_list(int film_id);
 private:
-    std::vector< std::vector< std::pair<bool, int> > > films_adj_matrix;
-    std::map<int, Film*> films;
+    std::vector< std::vector<int> > adj_matrix;
 };
+
+void sort(std::vector< std::pair<int , int> >& unsorted_list);
 
 #endif

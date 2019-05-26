@@ -32,7 +32,7 @@ publisher.o: publisher.cpp publisher.h user.h user.cpp film.h film.cpp customer.
 customer.o: customer.cpp customer.h user.h user.cpp film.h film.cpp
 			${CC} -c customer.cpp
 
-recommandator.o: recommandator.cpp recommandator.h film.cpp film.h
+recommandator.o: recommandator.cpp recommandator.h
 			${CC} -c recommandator.cpp
 
 clean:

@@ -6,7 +6,6 @@ Customer::Customer(int _id, string _email, string _username, unsigned _password,
     :   User(_id, _email, _username, _password, _age) {}
 
 string Customer::get_type() { return "customer"; }
-vector<Film*> Customer::get_purchased() { return purchased; }
 
 bool Customer::add_to_following(User* user) {
     bool is_there_already = false;
@@ -18,13 +17,18 @@ bool Customer::add_to_following(User* user) {
     return is_there_already;
 }
 
-void Customer::add_to_purchased(Film* film) {
+void Customer::add_to_purchased(Film* film, Recommandator* rec) {
     bool is_there_already = false;
     for(int i = 0; i < purchased.size(); i++)
         if(film->get_id() == purchased[i]->get_id())
             is_there_already = true;
-    if(!is_there_already)
+    if(!is_there_already) {
+        vector<int> film_ids;
+        for(int j = 0; j < purchased.size(); j++)
+            film_ids.push_back(purchased[j]->get_id());
+        rec->buy_film(film->get_id(), film_ids);
         purchased.push_back(film);
+    }
 }
 
 vector<Film*> Customer::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
@@ -46,6 +50,8 @@ void Customer::reduce_money(int amount) {
     else
         spendable_money -= amount;
 }
+
+int Customer::see_money() { return spendable_money; }
 
 void Customer::sort_film_by_id(vector<Film*>& input) {
     for(int i = 0; i < input.size(); i++) {
@@ -76,6 +82,4 @@ void Customer::sort_user_by_id(vector<User*>& input) {
         input[pos] = temp;
     }
 }
-
-
 

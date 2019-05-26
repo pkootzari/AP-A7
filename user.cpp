@@ -45,10 +45,6 @@ void User::read_notifs(int limit) {
     }
 }
 
-int User::see_money() {
-    return spendable_money;
-}
-
 ostream& operator<<(ostream& out, User* user) {
     out << user->id << " | " << user->username << " | " << user->email << endl;
 }
