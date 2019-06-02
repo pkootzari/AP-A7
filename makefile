@@ -1,40 +1,44 @@
-CC = g++ --std=c++11
+CC=g++
+STD=-std=c++11 -Wall -pedantic
+CF=$(STD)
+BUILD_DIR=build
+TEMPLATE_DIR=.template
 
-all: a.out
+all: $(BUILD_DIR) myserver.out
 
-a.out: main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o recommandator.o
-			${CC} main.o in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o exeptions.o recommandator.o
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
-main.o: main.cpp in_out_handler.o film.o manager.o user.o comment.o publisher.o customer.o
-			${CC} -c main.cpp
+$(BUILD_DIR)/template_parser.o: utils/template_parser.cpp utils/template_parser.hpp utils/request.cpp utils/request.hpp utils/utilities.hpp utils/utilities.cpp
+	$(CC) $(CF) -c utils/template_parser.cpp -o $(BUILD_DIR)/template_parser.o
 
-exeptions.o: exeptions.h exeptions.cpp
-			${CC} -c exeptions.cpp
+$(BUILD_DIR)/response.o: utils/response.cpp utils/response.hpp utils/include.hpp
+	$(CC) $(CF) -c utils/response.cpp -o $(BUILD_DIR)/response.o
 
-in_out_handler.o: in_out_handler.cpp in_out_handler.h manager.h manager.cpp exeptions.cpp exeptions.h
-			${CC} -c in_out_handler.cpp
+$(BUILD_DIR)/request.o: utils/request.cpp utils/request.hpp utils/include.hpp utils/utilities.hpp
+	$(CC) $(CF) -c utils/request.cpp -o $(BUILD_DIR)/request.o
 
-film.o: film.cpp film.h
-			${CC} -c film.cpp
+$(BUILD_DIR)/utilities.o: utils/utilities.cpp utils/utilities.hpp
+	$(CC) $(CF) -c utils/utilities.cpp -o $(BUILD_DIR)/utilities.o
 
-manager.o: manager.cpp manager.h user.h user.cpp publisher.h publisher.cpp customer.h customer.cpp film.h film.cpp comment.h comment.cpp
-			${CC} -c manager.cpp
+$(BUILD_DIR)/server.o: server/server.cpp server/server.hpp server/route.hpp utils/utilities.hpp utils/response.hpp utils/request.hpp utils/include.hpp utils/template_parser.hpp utils/template_parser.cpp
+	$(CC) $(CF) -c server/server.cpp -o $(BUILD_DIR)/server.o
 
-user.o: user.cpp user.h
-			${CC} -c user.cpp
+$(BUILD_DIR)/route.o: server/route.cpp server/route.hpp utils/utilities.hpp utils/response.hpp utils/request.hpp utils/include.hpp
+	$(CC) $(CF) -c server/route.cpp -o $(BUILD_DIR)/route.o
 
-comment.o: comment.cpp comment.h
-			${CC} -c comment.cpp
+$(BUILD_DIR)/handlers.o: examples/handlers.cpp server/server.hpp utils/utilities.hpp utils/response.hpp utils/request.hpp utils/include.hpp
+	$(CC) $(CF) -c examples/handlers.cpp -o $(BUILD_DIR)/handlers.o
 
-publisher.o: publisher.cpp publisher.h user.h user.cpp film.h film.cpp customer.h customer.cpp 
-			${CC} -c publisher.cpp
+$(BUILD_DIR)/my_server.o: examples/my_server.cpp server/server.hpp utils/utilities.hpp utils/response.hpp utils/request.hpp utils/include.hpp
+	$(CC) $(CF) -c examples/my_server.cpp -o $(BUILD_DIR)/my_server.o
 
-customer.o: customer.cpp customer.h user.h user.cpp film.h film.cpp
-			${CC} -c customer.cpp
+$(BUILD_DIR)/main.o: examples/main.cpp server/server.hpp utils/utilities.hpp utils/response.hpp utils/request.hpp utils/include.hpp
+	$(CC) $(CF) -c examples/main.cpp -o $(BUILD_DIR)/main.o
 
-recommandator.o: recommandator.cpp recommandator.h
-			${CC} -c recommandator.cpp
+myserver.out: $(BUILD_DIR)/my_server.o $(BUILD_DIR)/main.o $(BUILD_DIR)/handlers.o $(BUILD_DIR)/response.o $(BUILD_DIR)/request.o $(BUILD_DIR)/utilities.o $(BUILD_DIR)/server.o $(BUILD_DIR)/route.o $(BUILD_DIR)/template_parser.o
+	$(CC) $(CF) $(BUILD_DIR)/my_server.o $(BUILD_DIR)/main.o $(BUILD_DIR)/handlers.o $(BUILD_DIR)/response.o $(BUILD_DIR)/request.o $(BUILD_DIR)/utilities.o $(BUILD_DIR)/server.o $(BUILD_DIR)/route.o $(BUILD_DIR)/template_parser.o  -o myserver.out
 
+.PHONY: clean
 clean:
-			rm *.o
-			rm a.out
+	rm -rf $(BUILD_DIR) $(TEMPLATE_DIR) *.o *.out &> /dev/null
