@@ -16,9 +16,9 @@
 class Manager {
 public:
     Manager();
-    void add_publisher(std::string email, std::string username, std::string password, int age);
-    void add_customer(std::string email, std::string username, std::string password, int age);
-    void login(std::string username, std::string password);
+    int add_publisher(std::string email, std::string username, std::string password, int age);
+    int add_customer(std::string email, std::string username, std::string password, int age);
+    int login(std::string username, std::string password);
     void add_film(std::string name, int year, int length, int price, std::string summary, std::string director);
     void edit_film(int film_id, std::string name, int year, int length, int price, std::string summary, std::string director);
     void delete_film(int film_id);

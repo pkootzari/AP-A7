@@ -51,7 +51,7 @@ void Print_films(vector<Film*> input) {
 }
 
 
-void Manager::add_publisher(string email, string username, string password, int age) {
+int Manager::add_publisher(string email, string username, string password, int age) {
     if(cur_user != NULL)
         throw BadRequest();
     
@@ -64,9 +64,10 @@ void Manager::add_publisher(string email, string username, string password, int 
     int pass = hash_str(password.c_str());
     users.push_back( new Publisher(id, email, username, pass, age) );
     cur_user = users[users.size() - 1];
+    return id_user - 1;
 }
 
-void Manager::add_customer(string email, string username, string password, int age) {
+int Manager::add_customer(string email, string username, string password, int age) {
     if(cur_user != NULL)
         throw BadRequest();
     
@@ -79,12 +80,10 @@ void Manager::add_customer(string email, string username, string password, int a
     int pass = hash_str(password.c_str());
     users.push_back( new Customer(id, email, username, pass, age) );
     cur_user = users[users.size() - 1];
+    return id_user - 1;
 }
 
-void Manager::login(string username, string password) {
-    if(cur_user != NULL)
-        throw BadRequest();
-
+int Manager::login(string username, string password) {
     User* temp;
      for(int i = 0; i < users.size(); i++) {
         unsigned pass = hash_str(password.c_str()); 
@@ -92,11 +91,10 @@ void Manager::login(string username, string password) {
         if(temp != NULL)
             break;
     }
-    if(temp != NULL) {
-        cur_user = temp;
-    }
+    if(temp != NULL)
+        return temp->get_id();
     else 
-        throw BadRequest();
+        return -1;
 }
 
 void Manager::add_film(string name, int year, int length, int price, string summary, string director) {   
