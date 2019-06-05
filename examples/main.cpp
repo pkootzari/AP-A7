@@ -15,14 +15,26 @@ int main(int argc, char **argv) {
     server.get("/error", new ShowPage("static/error.html"));
     server.get("/login", new ShowPage("static/login.html"));
     server.post("/login", new LoginHnadler(manager));
-    server.post("/home_page", new ShowPage("static/home_page.html"));
-    server.get("/home_page", new ShowPage("static/home_page.html"));
+    server.get("/home_page", new HomePageHandler(manager));
+    server.get("/publisher_homepage", new PublisherHomePage(manager));
+    server.get("/customer_homepage", new CustomerHomePage(manager));
+    // server.get("/publisher_homepage/profile", new PublisherProfile(manager));
+    // server.get("/customer_homepage/profile", new CustomerProfile(manager));
+    // server.get("/publisher_homepage/add_film", new AddFilm(manager));
+    // server.get("/publisher_homepage/buy_film", new PublisherBuy(manager));
+    // server.get("/customer_homepage/buy_film", new CustomerBuy(manager));
+    // server.get("/publisher_homepage/add_credit", new PublisherAddCredit(manager));
+    // server.get("/customer_homepage/add_credit", new CustomerAddCredit(manager));
+    // server.get("/publisher_homepage/search_film", new PublisherSearchFilm(manager));
+    // server.get("customer_homepage/search_film", new CustomerSearchFilm(manager));
+    // server.get("/see_film_detail", new FilmDetail(manager));
+    server.get("/logout", new Logout(manager));
     
     // server.get("/login", new ShowPage("static/logincss.html"));
     // server.post("/login", new LoginHandler());
     // server.get("/up", new ShowPage("static/upload_form.html"));
     // server.post("/up", new UploadHandler());
-    // server.get("/rand", new RandomNumberHandler());S
+    // server.get("/rand", new RandomNumberHandler());
     // server.get("/home.png", new ShowImage("static/home.png"));
     // server.get("/", new ShowPage("static/home.html"));
     // server.get("/colors", new ColorHandler("template/colors.html"));

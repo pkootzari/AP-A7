@@ -5,6 +5,7 @@
 #include <cstdlib> // for rand and srand
 #include <ctime>   // for time
 #include <iostream>
+#include <sstream>
 #include "manager.h"
 #include "user.h"
 #include "publisher.h"
@@ -21,6 +22,46 @@ private:
 class SignupHandler : public RequestHandler {
 public:
   SignupHandler(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class HomePageHandler : public RequestHandler {
+public: 
+  HomePageHandler(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class PublisherHomePage : public RequestHandler {
+public:
+  PublisherHomePage(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class CustomerHomePage : public RequestHandler {
+public:
+  CustomerHomePage(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class PublisherProfile : public RequestHandler {
+public:
+  PublisherProfile(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class Logout : public RequestHandler {
+public:
+  Logout(Manager* _manager);
   Response *callback(Request *);
 private:
   Manager* manager;

@@ -1,25 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Signup Page</title>
+  <title>User HomePage</title>
   <meta charset="utf-8">
 </head>
 <body>
-  <!-- <h1>AP HTTP</h1>
-  <div>
-      <h2>Signup</h2>
-    <form action="/home_page" method="post">
-      <input name="username" type="text" placeholder="Username" /> <br>
-      <input name="password" type="password" placeholder="Password" /> <br>
-      <input name="password" type="password" placeholder="Confrim Password" /> <br>
-      <input name="eamil" type="email" placeholder="email" /> <br>
-      <input type="number" name="quantity" min="1" /> <br>
-      <input type="radio" name="part" value="Publisher" > Publisher<br>
-      <input type="radio" name="part" value="Customer" checked> Customer<br>
-      <button type="submit" >Signup</button>
-    </form>
-    Already have an account? <a href="/login">login here</a>
-  </div> -->
-  you succesfully signed up!
+  <ul>
+    <li><a href="/customer_homepage/profile">Profile</a></li>
+    <li><a href="/customer_homepage/buy_film">Buy Film</a></li>
+    <li><a href="/">Logout</a></li>
+    <!-- <li><a href="about.asp">About</a></li> -->
+  </ul>
+  <form action="/csuotmer_homepage/search_film" method="post">
+    Director : <input name="director" type="text" placeholder="Enter Director Name" /> <br>
+    <button type="submit" >Search</button>
+  </form>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Price</th> 
+      <th>Production Year</th>
+      <th>Length</th>
+      <th>Rate</th>
+      <th>Director</th>
+    </tr>
+    <tr>
+      <td>Jill</td>
+      <td>Smith</td> 
+      <td>50</td>
+      <td>
+        <form action="/see_film_detail" method="post">
+          <input name="film_id" type="number" hidden>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>Eve</td>
+      <td>Jackson</td> 
+      <td>94</td>
+    </tr>
+
+  </table>
+
 </body>
 </html>
