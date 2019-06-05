@@ -26,7 +26,7 @@ public:
     // void get_published_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
     // void follow_publisher(int user_id);
     // void see_followers();
-    // void post_money(int amount);
+    void post_money(int amount, int user_id);
     // void search_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);
     void buy_film(int film_id, int user_id);
     // void see_purchased_films(std::string name, int min_year, int max_year, int min_rate, int price,  std::string director);

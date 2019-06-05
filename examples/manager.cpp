@@ -194,20 +194,10 @@ void Manager::add_film(string name, int year, int length, int price, string summ
 //     }
 // }
 
-// void Manager::post_money(int amount) {
-//     if(cur_user == NULL)
-//         throw PermissionDenied();
-//     if(cur_user->get_id() == 1)
-//         throw PermissionDenied();
-//     if(amount != -1)
-//         cur_user->post_money(amount);
-//     else {
-//         if(cur_user->get_type() == "publisher")
-//             cur_user->get_money();
-//         else
-//             throw PermissionDenied();
-//     }
-// }
+void Manager::post_money(int amount, int user_id) {
+    User* cur_user = find_user(user_id);
+    cur_user->post_money(amount);
+}
 
 // void Manager::search_films(string name, int min_year, int max_year, int min_rate, int price,  string director) {
 //     if(cur_user == NULL)

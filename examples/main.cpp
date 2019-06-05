@@ -25,8 +25,10 @@ int main(int argc, char **argv) {
     server.post("/publisher_homepage/add_film", new AddFilm(manager));
     server.post("/publisher_homepage/buy_film", new PublisherBuyFilm(manager));
     server.post("/customer_homepage/buy_film", new CustomerBuyFilm(manager));
-    // server.get("/publisher_homepage/add_credit", new PublisherAddCredit(manager));
-    // server.get("/customer_homepage/add_credit", new CustomerAddCredit(manager));
+    server.get("/publisher_homepage/add_credit", new ShowPage("static/add_credit_publisher.html"));
+    server.get("/customer_homepage/add_credit", new ShowPage("static/add_credit_customer.html"));
+    server.post("/publisher_homepage/add_credit", new PublisherAddCredit(manager));
+    server.post("/customer_homepage/add_credit", new CustomerAddCredit(manager));
     // server.get("/publisher_homepage/search_film", new PublisherSearchFilm(manager));
     // server.get("customer_homepage/search_film", new CustomerSearchFilm(manager));
     // server.get("/see_film_detail", new FilmDetail(manager));

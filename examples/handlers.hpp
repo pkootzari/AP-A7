@@ -91,6 +91,22 @@ private:
   Manager* manager;
 };
 
+class PublisherAddCredit : public RequestHandler {
+public:
+  PublisherAddCredit(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class CustomerAddCredit : public RequestHandler {
+public:
+  CustomerAddCredit(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
 class Logout : public RequestHandler {
 public:
   Logout(Manager* _manager);
