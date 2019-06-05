@@ -67,6 +67,14 @@ private:
   Manager* manager;
 };
 
+class AddFilm : public RequestHandler {
+public:
+  AddFilm(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
 class Logout : public RequestHandler {
 public:
   Logout(Manager* _manager);

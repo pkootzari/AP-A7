@@ -85,20 +85,14 @@ int Manager::login(string username, string password) {
         return -1;
 }
 
-// void Manager::add_film(string name, int year, int length, int price, string summary, string director) {   
-//         if(cur_user->get_type() == "publisher") {
-//             int id = films.size() + 1;
-//             Film* new_film = new Film(id, name, year, length, summary, director, price); 
-//             cur_user->add_film(new_film);
-//             films.push_back(new_film);
-//             recommandator->add_film();
-//         }
-//         else 
-//             throw PermissionDenied();
-//     }
-//     else
-//         throw PermissionDenied();
-// }
+void Manager::add_film(string name, int year, int length, int price, string summary, string director, int user_id) {   
+    User* cur_user = find_user(user_id);
+    int id = films.size() + 1;
+    Film* new_film = new Film(id, name, year, length, summary, director, price); 
+    cur_user->add_film(new_film);
+    films.push_back(new_film);
+    recommandator->add_film();
+}
 
 // void Manager::edit_film(int film_id, string name, int year, int length, int price, string summary, string director) {
 //     if(cur_user == NULL)

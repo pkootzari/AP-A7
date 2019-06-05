@@ -34,7 +34,7 @@ Response* SignupHandler::callback(Request* req) {
       session_id = manager->add_customer(email, username, password, age);
     else
       session_id = manager->add_publisher(email, username, password, age);
-    res = Response::redirect("/home_page");
+    res = Response::redirect("/publisher_homepage");
     res->setSessionId(to_string(session_id));
   }
   catch(exception& ex) {
@@ -58,7 +58,7 @@ Response* HomePageHandler::callback(Request* req) {
   }
   return res;
 }
-
+ 
 PublisherHomePage::PublisherHomePage(Manager* _manager) : manager(_manager) {}
 Response* PublisherHomePage::callback(Request* req) {
   Response *res = new Response;
@@ -126,7 +126,7 @@ Response* PublisherHomePage::callback(Request* req) {
     body << "      <th>Rate</th>" << endl;
     body << "      <th>Director</th>" << endl;
     body << "    </tr>" << endl;
-    for(int i = 0; i < films.size(); i++) {
+    for(int i = 0; i < purchasable_films.size(); i++) {
       body << "    <tr>" << endl;
       body << "      <td>" << purchasable_films[i]->get_name() << "</td>" << endl;
       body << "      <td>" << purchasable_films[i]->get_price() << "</td> " << endl;
@@ -240,7 +240,7 @@ Response* PublisherProfile::callback(Request* req) {
     body << "<!DOCTYPE html>" << endl;
     body << "<html lang=\"en\">" << endl;
     body << "<head>" << endl;
-    body << "  <title>User HomePage</title>" << endl;
+    body << "  <title>User Profile</title>" << endl;
     body << "  <meta charset=\"utf-8\">" << endl;
     body << "</head>" << endl;
     body << "<body>" << endl;
@@ -295,7 +295,7 @@ Response* CustomerProfile::callback(Request* req) {
   Response* res = new Response;
   if(req->getSessionId() == "SID")
     res = Response::redirect("/error");
-  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "customer")
+  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "publisher")
     res = Response::redirect("/error");
   else {
     res->setHeader("Content-Type", "text/html");
@@ -304,7 +304,7 @@ Response* CustomerProfile::callback(Request* req) {
     body << "<!DOCTYPE html>" << endl;
     body << "<html lang=\"en\">" << endl;
     body << "<head>" << endl;
-    body << "  <title>User HomePage</title>" << endl;
+    body << "  <title>User Profile</title>" << endl;
     body << "  <meta charset=\"utf-8\">" << endl;
     body << "</head>" << endl;
     body << "<body>" << endl;
@@ -354,10 +354,29 @@ Response* CustomerProfile::callback(Request* req) {
   return res;
 }
 
+AddFilm::AddFilm(Manager* _manager) : manager(_manager) {} 
+Response* AddFilm::callback(Request* req) {
+  Response* res = new Response;
+  if(req->getSessionId() == "SID")
+    res = Response::redirect("/error");
+  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "customer")
+    res = Response::redirect("/error");
+  else {
+    string name = req->getBodyParam("name");
+    int length = stoi(req->getBodyParam("length"));
+    int price = stoi(req->getBodyParam("price"));
+    int year = stoi(req->getBodyParam("production_year"));
+    string director = req->getBodyParam("director");
+    string summary = req->getBodyParam("summary");
+    manager->add_film(name, year, length, price, summary, director, stoi(req->getSessionId()));
+    res = Response::redirect("/home_page");
+  }
+  return res;
+}
+
 Logout::Logout(Manager* _manager) : manager(_manager) {}
 Response* Logout::callback(Request* req) {
   Response* res = new Response;
-  res->setSessionId("SID");
   res = Response::redirect("/login");
   res->setSessionId("SID");
   return res; 

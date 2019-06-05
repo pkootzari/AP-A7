@@ -6,6 +6,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
+  Manager* manager = new Manager();
   try {
     Manager* manager = new Manager();
     MyServer server(argc > 1 ? atoi(argv[1]) : 5000);
@@ -20,7 +21,8 @@ int main(int argc, char **argv) {
     server.get("/customer_homepage", new CustomerHomePage(manager));
     server.get("/publisher_homepage/profile", new PublisherProfile(manager));
     server.get("/customer_homepage/profile", new CustomerProfile(manager));
-    // server.get("/publisher_homepage/add_film", new AddFilm(manager));
+    server.get("/publisher_homepage/add_film", new ShowPage("static/add_film.html"));
+    server.post("/publisher_homepage/add_film", new AddFilm(manager));
     // server.get("/publisher_homepage/buy_film", new PublisherBuy(manager));
     // server.get("/customer_homepage/buy_film", new CustomerBuy(manager));
     // server.get("/publisher_homepage/add_credit", new PublisherAddCredit(manager));
@@ -45,4 +47,5 @@ int main(int argc, char **argv) {
   } catch (Server::Exception e) {
     cerr << e.getMessage() << endl;
   }
+  manager->free();
 }
