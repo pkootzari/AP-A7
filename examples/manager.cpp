@@ -220,40 +220,20 @@ void Manager::add_film(string name, int year, int length, int price, string summ
 //             cout << i + 1 << ". " << search_result[i];
 // }
 
-// void Manager::buy_film(int film_id) {
-//     if(cur_user == NULL)
-//         throw PermissionDenied();
-//     if(cur_user->get_id() == 1)
-//         throw PermissionDenied();
-//     string content = "";
-//     bool if_found = false;
-//     Film* bought_film;
-//     for(int i = 0; i < films.size(); i++)
-//         if(films[i]->get_id() == film_id) {
-//             bought_film = films[i];
-//             if_found = true;
-//             break;
-//         }
-//     if(!if_found)
-//         throw NotFound();
-//     if(cur_user->if_film_purchased(film_id) == NULL) {
-//         cur_user->add_to_purchased(bought_film, recommandator);
-//         cur_user->reduce_money(bought_film->get_price());
-//         content += "User "; content += cur_user->get_username(); content += " with id "; content += to_string(cur_user->get_id());
-//         content += " buy your film "; content += bought_film->get_name(); content += " with id "; content += to_string(bought_film->get_id());
-//         content += ".";
-//         for(int i = 0; i < users.size(); i++) { 
-//             if(users[i]->get_type() == "publisher") {
-//                 int result = users[i]->film_bought(film_id); 
-//                 if(result) {
-//                     users[0]->post_money(result);
-//                     users[i]->add_notif(content);
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-// }
+void Manager::buy_film(int film_id, int user_id) {
+    User* cur_user = find_user(user_id);
+    Film* bought_film;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id) {
+            bought_film = films[i];
+            break;
+        }
+    cur_user->add_to_purchased(bought_film, recommandator);
+    cur_user->reduce_money(bought_film->get_price());
+    for(int i = 0; i < users.size(); i++)
+        if(users[i]->get_type() == "publisher")
+            int result = users[i]->film_bought(film_id); 
+}
 
 // void Manager::see_purchased_films(string name, int min_year, int max_year, int min_rate, int price, string director) {
 //     if(cur_user == NULL)
@@ -492,6 +472,18 @@ void Manager::add_film(string name, int year, int length, int price, string summ
 //     cout << cur_user->see_money() << endl;
 // }
 
+bool Manager::if_is_purchasable(int film_id, int user_id) {
+    User* user = find_user(user_id);
+    Film* film;
+    for(int i = 0; i < films.size(); i++)
+        if(films[i]->get_id() == film_id)
+            film = films[i];
+    if(user->see_money() >= film->get_price())
+        return true;
+    else
+        return false;
+}
+
 User* Manager::find_user(int id) {
     for(int i = 0; i < users.size(); i++)
         if(users[i]->get_id() == id)
@@ -524,6 +516,14 @@ vector<Film*> Manager::see_purchaeable_films(int user_id) {
         if(films[i]->get_price() <= user->see_money())
             return_value.push_back(films[i]);
     return return_value;
+}
+
+bool Manager::if_purchased(Film* film, int user_id) {
+    User* user = find_user(user_id);
+    if(user->if_film_purchased(film->get_id()))
+        return true;
+    else
+        return false;
 }
 
 void Manager::free() {

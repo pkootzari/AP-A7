@@ -23,8 +23,8 @@ int main(int argc, char **argv) {
     server.get("/customer_homepage/profile", new CustomerProfile(manager));
     server.get("/publisher_homepage/add_film", new ShowPage("static/add_film.html"));
     server.post("/publisher_homepage/add_film", new AddFilm(manager));
-    // server.get("/publisher_homepage/buy_film", new PublisherBuy(manager));
-    // server.get("/customer_homepage/buy_film", new CustomerBuy(manager));
+    server.post("/publisher_homepage/buy_film", new PublisherBuyFilm(manager));
+    server.post("/customer_homepage/buy_film", new CustomerBuyFilm(manager));
     // server.get("/publisher_homepage/add_credit", new PublisherAddCredit(manager));
     // server.get("/customer_homepage/add_credit", new CustomerAddCredit(manager));
     // server.get("/publisher_homepage/search_film", new PublisherSearchFilm(manager));

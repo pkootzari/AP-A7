@@ -79,7 +79,7 @@ int Publisher::film_bought(int film_id) {
     int return_value = 0;
     for(int i = 0; i < published.size(); i++)
         if(published[i]->get_id() == film_id) {
-            return_value = published[i]->get_price() - calculate_money(published[i]);
+            return_value = 1;
             withdrawable_money += calculate_money(published[i]);
             break;
         }

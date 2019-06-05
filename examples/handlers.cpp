@@ -34,7 +34,7 @@ Response* SignupHandler::callback(Request* req) {
       session_id = manager->add_customer(email, username, password, age);
     else
       session_id = manager->add_publisher(email, username, password, age);
-    res = Response::redirect("/publisher_homepage");
+    res = Response::redirect("/home_page");
     res->setSessionId(to_string(session_id));
   }
   catch(exception& ex) {
@@ -116,7 +116,7 @@ Response* PublisherHomePage::callback(Request* req) {
     }
     body << "  </table>" << endl;
 
-    body << "  Parchasable Films : <br>" << endl;
+    body << "  Purchasable Films : <br>" << endl;
     body << "  <table>" << endl;
     body << "    <tr>" << endl;
     body << "      <th>Name</th>" << endl;
@@ -127,26 +127,28 @@ Response* PublisherHomePage::callback(Request* req) {
     body << "      <th>Director</th>" << endl;
     body << "    </tr>" << endl;
     for(int i = 0; i < purchasable_films.size(); i++) {
-      body << "    <tr>" << endl;
-      body << "      <td>" << purchasable_films[i]->get_name() << "</td>" << endl;
-      body << "      <td>" << purchasable_films[i]->get_price() << "</td> " << endl;
-      body << "      <td>" << purchasable_films[i]->get_year() << " </td>" << endl;
-      body << "      <td>" << purchasable_films[i]->get_length() << "</td>" << endl;
-      body << "      <td>" << purchasable_films[i]->get_rate() << "</td>" << endl;
-      body << "      <td>" << purchasable_films[i]->get_director() << "</td>" << endl;
-      body << "      <td>" << endl;
-      body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidden>" << endl;
-      body << "          <button type=\"submit\" >See Details</button>" << endl;
-      body << "        </form>" << endl;
-      body << "      </td>" << endl;
-      body << "      <td>" << endl;
-      body << "        <form action=\"/publisher_homepage/buy_film\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidden>" << endl;
-      body << "          <button type=\"submit\" >Buy</button>" << endl;
-      body << "        </form>" << endl;
-      body << "      </td>" << endl;
-      body << "    </tr>" << endl;
+      if(!manager->if_purchased(films[i], stoi(req->getSessionId()))) {
+        body << "    <tr>" << endl;
+        body << "      <td>" << purchasable_films[i]->get_name() << "</td>" << endl;
+        body << "      <td>" << purchasable_films[i]->get_price() << "</td> " << endl;
+        body << "      <td>" << purchasable_films[i]->get_year() << " </td>" << endl;
+        body << "      <td>" << purchasable_films[i]->get_length() << "</td>" << endl;
+        body << "      <td>" << purchasable_films[i]->get_rate() << "</td>" << endl;
+        body << "      <td>" << purchasable_films[i]->get_director() << "</td>" << endl;
+        body << "      <td>" << endl;
+        body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
+        body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidden>" << endl;
+        body << "          <button type=\"submit\" >See Details</button>" << endl;
+        body << "        </form>" << endl;
+        body << "      </td>" << endl;
+        body << "      <td>" << endl;
+        body << "        <form action=\"/publisher_homepage/buy_film\" method=\"post\">" << endl;
+        body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidden>" << endl;
+        body << "          <button type=\"submit\" >Buy</button>" << endl;
+        body << "        </form>" << endl;
+        body << "      </td>" << endl;
+        body << "    </tr>" << endl;
+      }
     }
     body << "  </table>" << endl;
 
@@ -185,6 +187,7 @@ Response* CustomerHomePage::callback(Request *req) {
     body << "    <button type=\"submit\" >Search</button>" << endl;
     body << "  </form>" << endl;
 
+    body << "  Purchasable Films : <br>" << endl;
     body << "  <table>" << endl;
     body << "    <tr>" << endl;
     body << "      <th>Name</th>" << endl;
@@ -195,27 +198,29 @@ Response* CustomerHomePage::callback(Request *req) {
     body << "      <th>Director</th>" << endl;
     body << "    </tr>" << endl;
     for(int i = 0; i < films.size(); i++) {
-      body << "    <tr>" << endl;
-      body << "      <td>" << films[i]->get_name() << "</td>" << endl;
-      body << "      <td>" << films[i]->get_price() << "</td> " << endl;
-      body << "      <td>" << films[i]->get_year() << " </td>" << endl;
-      body << "      <td>" << films[i]->get_length() << "</td>" << endl;
-      body << "      <td>" << films[i]->get_rate() << "</td>" << endl;
-      body << "      <td>" << films[i]->get_director() << "</td>" << endl;
-      body << "      <td>" << endl;
-      body << "      <td>" << endl;
-      body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
-      body << "          <button type=\"submit\" >See Details</button>" << endl;
-      body << "        </form>" << endl;
-      body << "      </td>" << endl;
-      body << "      <td>" << endl;
-      body << "        <form action=\"/customer_homepage/buy_film\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
-      body << "          <button type=\"submit\" >Buy</button>" << endl;
-      body << "        </form>" << endl;
-      body << "      </td>" << endl;
-      body << "    </tr>" << endl;
+      if(!manager->if_purchased(films[i], stoi(req->getSessionId()))) {
+        body << "    <tr>" << endl;
+        body << "      <td>" << films[i]->get_name() << "</td>" << endl;
+        body << "      <td>" << films[i]->get_price() << "</td> " << endl;
+        body << "      <td>" << films[i]->get_year() << " </td>" << endl;
+        body << "      <td>" << films[i]->get_length() << "</td>" << endl;
+        body << "      <td>" << films[i]->get_rate() << "</td>" << endl;
+        body << "      <td>" << films[i]->get_director() << "</td>" << endl;
+        body << "      <td>" << endl;
+        body << "      <td>" << endl;
+        body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
+        body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+        body << "          <button type=\"submit\" >See Details</button>" << endl;
+        body << "        </form>" << endl;
+        body << "      </td>" << endl;
+        body << "      <td>" << endl;
+        body << "        <form action=\"/customer_homepage/buy_film\" method=\"post\">" << endl;
+        body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+        body << "          <button type=\"submit\" >Buy</button>" << endl;
+        body << "        </form>" << endl;
+        body << "      </td>" << endl;
+        body << "    </tr>" << endl;
+      }
     }
     body << "  </table>" << endl;
     
@@ -249,6 +254,7 @@ Response* PublisherProfile::callback(Request* req) {
     body << "    <li><a href=\"/logout\">Logout</a></li>" << endl;
     body << "  </ul>" << endl;
 
+    body << "  Purchased Films : <br>" << endl;
     body << "  <table>" << endl;
     body << "    <tr>" << endl;
     body << "      <th>Name</th>" << endl;
@@ -313,6 +319,7 @@ Response* CustomerProfile::callback(Request* req) {
     body << "    <li><a href=\"/logout\">Logout</a></li>" << endl;
     body << "  </ul>" << endl;
 
+    body << "  Parchased Films : <br>" << endl;
     body << "  <table>" << endl;
     body << "    <tr>" << endl;
     body << "      <th>Name</th>" << endl;
@@ -370,6 +377,34 @@ Response* AddFilm::callback(Request* req) {
     string summary = req->getBodyParam("summary");
     manager->add_film(name, year, length, price, summary, director, stoi(req->getSessionId()));
     res = Response::redirect("/home_page");
+  }
+  return res;
+}
+
+PublisherBuyFilm::PublisherBuyFilm(Manager* _manager) : manager(_manager) {}
+Response* PublisherBuyFilm::callback(Request* req) {
+  Response* res = new Response;
+  if(req->getSessionId() == "SID")
+    res = Response::redirect("/error");
+  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "customer")
+    res = Response::redirect("/error");
+  else {
+    manager->buy_film(stoi(req->getBodyParam("film_id")), stoi(req->getSessionId()));
+    res = Response::redirect("/publisher_homepage/profile");
+  }
+  return res;
+}
+
+CustomerBuyFilm::CustomerBuyFilm(Manager* _manager) : manager(_manager) {}
+Response* CustomerBuyFilm::callback(Request* req) {
+  Response* res = new Response;
+  if(req->getSessionId() == "SID")
+    res = Response::redirect("/error");
+  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "publisher")
+    res = Response::redirect("/error");
+  else {
+    manager->buy_film(stoi(req->getBodyParam("film_id")), stoi(req->getSessionId()));
+    res = Response::redirect("/customer_homepage/profile");
   }
   return res;
 }

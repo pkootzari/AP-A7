@@ -75,6 +75,22 @@ private:
   Manager* manager;
 };
 
+class PublisherBuyFilm : public RequestHandler {
+public:
+  PublisherBuyFilm(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
+class CustomerBuyFilm : public RequestHandler {
+public:
+  CustomerBuyFilm(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
 class Logout : public RequestHandler {
 public:
   Logout(Manager* _manager);
