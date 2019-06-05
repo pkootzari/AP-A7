@@ -59,6 +59,14 @@ private:
   Manager* manager;
 };
 
+class CustomerProfile : public RequestHandler {
+public:
+  CustomerProfile(Manager* _manager);
+  Response *callback(Request *);
+private:
+  Manager* manager;
+};
+
 class Logout : public RequestHandler {
 public:
   Logout(Manager* _manager);

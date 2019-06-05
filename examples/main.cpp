@@ -18,8 +18,8 @@ int main(int argc, char **argv) {
     server.get("/home_page", new HomePageHandler(manager));
     server.get("/publisher_homepage", new PublisherHomePage(manager));
     server.get("/customer_homepage", new CustomerHomePage(manager));
-    // server.get("/publisher_homepage/profile", new PublisherProfile(manager));
-    // server.get("/customer_homepage/profile", new CustomerProfile(manager));
+    server.get("/publisher_homepage/profile", new PublisherProfile(manager));
+    server.get("/customer_homepage/profile", new CustomerProfile(manager));
     // server.get("/publisher_homepage/add_film", new AddFilm(manager));
     // server.get("/publisher_homepage/buy_film", new PublisherBuy(manager));
     // server.get("/customer_homepage/buy_film", new CustomerBuy(manager));
@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
     // server.get("/publisher_homepage/search_film", new PublisherSearchFilm(manager));
     // server.get("customer_homepage/search_film", new CustomerSearchFilm(manager));
     // server.get("/see_film_detail", new FilmDetail(manager));
+    // server.get("/rate_comment_film". new FilmRate(manager));
     server.get("/logout", new Logout(manager));
     
     // server.get("/login", new ShowPage("static/logincss.html"));

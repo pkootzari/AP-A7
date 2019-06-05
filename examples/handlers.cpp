@@ -109,6 +109,7 @@ Response* PublisherHomePage::callback(Request* req) {
       body << "      <td>" << endl;
       body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
       body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >See Details</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "    </tr>" << endl;
@@ -136,11 +137,13 @@ Response* PublisherHomePage::callback(Request* req) {
       body << "      <td>" << endl;
       body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
       body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >See Details</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/publisher_homepage/buy_film\" method=\"post\">" << endl;
       body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >Buy</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "    </tr>" << endl;
@@ -203,11 +206,141 @@ Response* CustomerHomePage::callback(Request *req) {
       body << "      <td>" << endl;
       body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
       body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >See Details</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/customer_homepage/buy_film\" method=\"post\">" << endl;
       body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >Buy</button>" << endl;
+      body << "        </form>" << endl;
+      body << "      </td>" << endl;
+      body << "    </tr>" << endl;
+    }
+    body << "  </table>" << endl;
+    
+    body << "</body>" << endl;
+    body << "</html>" << endl;
+    res->setBody(body.str());
+  }
+  return res;
+}
+
+PublisherProfile::PublisherProfile(Manager* _manager) : manager(_manager) {}
+Response* PublisherProfile::callback(Request* req) {
+  Response* res = new Response;
+  if(req->getSessionId() == "SID")
+    res = Response::redirect("/error");
+  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "customer")
+    res = Response::redirect("/error");
+  else {
+    res->setHeader("Content-Type", "text/html");
+    vector<Film*> films = manager->get_purchased(stoi(req->getSessionId()));
+    stringstream body;
+    body << "<!DOCTYPE html>" << endl;
+    body << "<html lang=\"en\">" << endl;
+    body << "<head>" << endl;
+    body << "  <title>User HomePage</title>" << endl;
+    body << "  <meta charset=\"utf-8\">" << endl;
+    body << "</head>" << endl;
+    body << "<body>" << endl;
+    body << "  <ul>" << endl;
+    body << "    <li><a href=\"/publisher_homepage\">Home Page</a></li>" << endl;
+    body << "    <li><a href=\"/logout\">Logout</a></li>" << endl;
+    body << "  </ul>" << endl;
+
+    body << "  <table>" << endl;
+    body << "    <tr>" << endl;
+    body << "      <th>Name</th>" << endl;
+    body << "      <th>Price</th> " << endl;
+    body << "      <th>Production Year</th>" << endl;
+    body << "      <th>Length</th>" << endl;
+    body << "      <th>Rate</th>" << endl;
+    body << "      <th>Director</th>" << endl;
+    body << "    </tr>" << endl;
+    for(int i = 0; i < films.size(); i++) {
+      body << "    <tr>" << endl;
+      body << "      <td>" << films[i]->get_name() << "</td>" << endl;
+      body << "      <td>" << films[i]->get_price() << "</td> " << endl;
+      body << "      <td>" << films[i]->get_year() << " </td>" << endl;
+      body << "      <td>" << films[i]->get_length() << "</td>" << endl;
+      body << "      <td>" << films[i]->get_rate() << "</td>" << endl;
+      body << "      <td>" << films[i]->get_director() << "</td>" << endl;
+      body << "      <td>" << endl;
+      body << "      <td>" << endl;
+      body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
+      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >See Details</button>" << endl;
+      body << "        </form>" << endl;
+      body << "      </td>" << endl;
+      body << "      <td>" << endl;
+      body << "        <form action=\"/rate_comment_film\" method=\"post\">" << endl;
+      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >Rate and Comment</button>" << endl;
+      body << "        </form>" << endl;
+      body << "      </td>" << endl;
+      body << "    </tr>" << endl;
+    }
+    body << "  </table>" << endl;
+    
+    body << "</body>" << endl;
+    body << "</html>" << endl;
+    res->setBody(body.str());
+  }
+  return res;
+}
+
+CustomerProfile::CustomerProfile(Manager* _manager) : manager(_manager) {}
+Response* CustomerProfile::callback(Request* req) {
+  Response* res = new Response;
+  if(req->getSessionId() == "SID")
+    res = Response::redirect("/error");
+  else if(manager->find_user(stoi(req->getSessionId()))->get_type() == "customer")
+    res = Response::redirect("/error");
+  else {
+    res->setHeader("Content-Type", "text/html");
+    vector<Film*> films = manager->get_purchased(stoi(req->getSessionId()));
+    stringstream body;
+    body << "<!DOCTYPE html>" << endl;
+    body << "<html lang=\"en\">" << endl;
+    body << "<head>" << endl;
+    body << "  <title>User HomePage</title>" << endl;
+    body << "  <meta charset=\"utf-8\">" << endl;
+    body << "</head>" << endl;
+    body << "<body>" << endl;
+    body << "  <ul>" << endl;
+    body << "    <li><a href=\"/customer_homepage/profile\">Home Page</a></li>" << endl;
+    body << "    <li><a href=\"/logout\">Logout</a></li>" << endl;
+    body << "  </ul>" << endl;
+
+    body << "  <table>" << endl;
+    body << "    <tr>" << endl;
+    body << "      <th>Name</th>" << endl;
+    body << "      <th>Price</th> " << endl;
+    body << "      <th>Production Year</th>" << endl;
+    body << "      <th>Length</th>" << endl;
+    body << "      <th>Rate</th>" << endl;
+    body << "      <th>Director</th>" << endl;
+    body << "    </tr>" << endl;
+    for(int i = 0; i < films.size(); i++) {
+      body << "    <tr>" << endl;
+      body << "      <td>" << films[i]->get_name() << "</td>" << endl;
+      body << "      <td>" << films[i]->get_price() << "</td> " << endl;
+      body << "      <td>" << films[i]->get_year() << " </td>" << endl;
+      body << "      <td>" << films[i]->get_length() << "</td>" << endl;
+      body << "      <td>" << films[i]->get_rate() << "</td>" << endl;
+      body << "      <td>" << films[i]->get_director() << "</td>" << endl;
+      body << "      <td>" << endl;
+      body << "      <td>" << endl;
+      body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
+      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >See Details</button>" << endl;
+      body << "        </form>" << endl;
+      body << "      </td>" << endl;
+      body << "      <td>" << endl;
+      body << "        <form action=\"/rate_comment_film\" method=\"post\">" << endl;
+      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidden>" << endl;
+      body << "          <button type=\"submit\" >Rate and Comment</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "    </tr>" << endl;
