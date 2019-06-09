@@ -108,7 +108,7 @@ Response* PublisherHomePage::callback(Request* req) {
       body << "      <td>" << films[i]->get_director() << "</td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+      body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
       body << "          <button type=\"submit\" >See Details</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
@@ -137,13 +137,13 @@ Response* PublisherHomePage::callback(Request* req) {
         body << "      <td>" << purchasable_films[i]->get_director() << "</td>" << endl;
         body << "      <td>" << endl;
         body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-        body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidennnnnn>" << endl;
+        body << "          <input name=\"film_id\" type=\"text\" value=\" " << purchasable_films[i]->get_id() << "\" hiden>" << endl;
         body << "          <button type=\"submit\" >See Details</button>" << endl;
         body << "        </form>" << endl;
         body << "      </td>" << endl;
         body << "      <td>" << endl;
         body << "        <form action=\"/publisher_homepage/buy_film\" method=\"post\">" << endl;
-        body << "          <input name=\"film_id\" type=\"number\" value=\" " << purchasable_films[i]->get_id() << "\" hidennnnnn>" << endl;
+        body << "          <input name=\"film_id\" type=\"text\" value=\" " << purchasable_films[i]->get_id() << "\" hiden>" << endl;
         body << "          <button type=\"submit\" >Buy</button>" << endl;
         body << "        </form>" << endl;
         body << "      </td>" << endl;
@@ -209,13 +209,13 @@ Response* CustomerHomePage::callback(Request *req) {
         body << "      <td>" << endl;
         body << "      <td>" << endl;
         body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-        body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+        body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
         body << "          <button type=\"submit\" >See Details</button>" << endl;
         body << "        </form>" << endl;
         body << "      </td>" << endl;
         body << "      <td>" << endl;
         body << "        <form action=\"/customer_homepage/buy_film\" method=\"post\">" << endl;
-        body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+        body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
         body << "          <button type=\"submit\" >Buy</button>" << endl;
         body << "        </form>" << endl;
         body << "      </td>" << endl;
@@ -275,13 +275,13 @@ Response* PublisherProfile::callback(Request* req) {
       body << "      <td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+      body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
       body << "          <button type=\"submit\" >See Details</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/rate_comment_film\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+      body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
       body << "          <button type=\"submit\" >Rate and Comment</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
@@ -340,13 +340,13 @@ Response* CustomerProfile::callback(Request* req) {
       body << "      <td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/see_film_detail\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+      body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
       body << "          <button type=\"submit\" >See Details</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
       body << "      <td>" << endl;
       body << "        <form action=\"/rate_comment_film\" method=\"post\">" << endl;
-      body << "          <input name=\"film_id\" type=\"number\" value=\" " << films[i]->get_id() << "\" hidennnnnn>" << endl;
+      body << "          <input name=\"film_id\" type=\"text\" value=\" " << films[i]->get_id() << "\" hiden>" << endl;
       body << "          <button type=\"submit\" >Rate and Comment</button>" << endl;
       body << "        </form>" << endl;
       body << "      </td>" << endl;
@@ -444,54 +444,3 @@ Response* Logout::callback(Request* req) {
   res->setSessionId("SID");
   return res; 
 } 
-
-// Response *RandomNumberHandler::callback(Request *req) {
-//   Response *res = new Response;
-//   res->setHeader("Content-Type", "text/html");
-//   string body;
-//   body += "<!DOCTYPE html>";
-//   body += "<html>";
-//   body += "<body style=\"text-align: center;\">";
-//   body += "<h1>AP HTTP</h1>";
-//   body += "<p>";
-//   body += "a random number in [1, 10] is: ";
-//   body += to_string(rand() % 10 + 1);
-//   body += "</p>";
-//   body += "<p>";
-//   body += "SeddionId: ";
-//   body += req->getSessionId();
-//   body += "</p>";
-//   body += "</body>";
-//   body += "</html>";
-//   res->setBody(body);
-//   return res;
-// }
-
-// Response *LoginHandler::callback(Request *req) {
-//   string username = req->getBodyParam("username");
-//   string password = req->getBodyParam("password");
-//   if (username == "root")
-//     throw Server::Exception("Remote root access has been disabled.");
-//   cout << "username: " << username << ",\tpassword: " << password << endl;
-//   Response *res = Response::redirect("/rand");
-//   res->setSessionId("SID");
-//   return res;
-// }
-
-// Response *UploadHandler::callback(Request *req) {
-//   string name = req->getBodyParam("file_name");
-//   string file = req->getBodyParam("file");
-//   cout << name << " (" << file.size() << "B):\n" << file << endl;
-//   Response *res = Response::redirect("/");
-//   return res;
-// }
-
-// ColorHandler::ColorHandler(string filePath) : TemplateHandler(filePath) {}
-
-// map<string, string> ColorHandler::handle(Request *req) {
-//   map<string, string> context;
-//   string newName = "I am " + req->getQueryParam("name");
-//   context["name"] = newName;
-//   context["color"] = req->getQueryParam("color");
-//   return context;
-// }

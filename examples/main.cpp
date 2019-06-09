@@ -32,18 +32,9 @@ int main(int argc, char **argv) {
     // server.get("/publisher_homepage/search_film", new PublisherSearchFilm(manager));
     // server.get("customer_homepage/search_film", new CustomerSearchFilm(manager));
     // server.get("/see_film_detail", new FilmDetail(manager));
-    // server.get("/rate_comment_film". new FilmRate(manager));
+    // server.get("/rate_comment_film", new FilmRatePage(manager));
+    // server.post("/rate_comment_film". new FilmRate(manager));
     server.get("/logout", new Logout(manager));
-    
-    // server.get("/login", new ShowPage("static/logincss.html"));
-    // server.post("/login", new LoginHandler());
-    // server.get("/up", new ShowPage("static/upload_form.html"));
-    // server.post("/up", new UploadHandler());
-    // server.get("/rand", new RandomNumberHandler());
-    // server.get("/home.png", new ShowImage("static/home.png"));
-    // server.get("/", new ShowPage("static/home.html"));
-    // server.get("/colors", new ColorHandler("template/colors.html"));
-    
     
     server.run();
   } catch (Server::Exception e) {
